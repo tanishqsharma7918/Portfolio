@@ -149,9 +149,13 @@ _Location · Start Date – End Date_
 
 ## 🎓 Education
 
-**Degree & Classification**  
-Institution Name, Country | Start Year – Graduation Year  
-- Relevant coursework or modules  
+**MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Sep 2024  
+**Grade:** Merit  
+**Modules:** Data Management Strategies and Technologies, Predictive Modelling, Supply Chain & Logistics
+
+**B.Tech in Computer Science & Engineering** | Guru Gobind Singh Indraprastha University, India | Aug 2018 – Aug 2022  
+**Grade:** Distinction  
+**Modules:** Statistical Methods in Computing, Machine Learning, Algorithms & Data Structures
 
 ---
 
@@ -167,6 +171,6 @@ _Month Year_
 ## 📫 Let’s Connect
 
 Feel free to reach out for collaborations, questions, or opportunities!  
-- 📧 Email: your.email@example.com  
-- 🔗 LinkedIn: your-linkedin-url  
-- 🌐 Website / Portfolio: your-website-url  
+- 📧 Email: tanishq.career@gmail.com
+- 🔗 LinkedIn: https://www.linkedin.com/in/tanishq-sharma-/
+- 🌐 Website / Portfolio: [your-website-url  ](https://tanishqsharma7918.github.io/Portfolio/)
