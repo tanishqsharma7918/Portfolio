@@ -7,15 +7,92 @@
 
 ## 👋 About Me
 
-_A brief summary about yourself, your background, and what you bring to the table._
+Business Analyst and Data Analytics professional with a passion for solving real-world problems through data, technology, and collaboration. With a Master’s in Business Analytics from the University of Birmingham and a background in Computer Science, I bring a strong analytical foundation and a practical, solution-focused mindset. My work spans consulting, public sector initiatives, and operational analytics—each experience strengthening my ability to turn complex challenges into clear, data-driven strategies.
 
----
+I’ve delivered projects that improved reporting accuracy, automated manual processes using SQL and Excel, and built interactive dashboards that support performance tracking and business decision-making. From optimising workflows to enhancing mental health reporting at the NHS, I approach each problem with a mix of curiosity, empathy, and technical skill. I’m fluent with tools like Python, SQL, Power BI, Tableau, and Excel, and I thrive in collaborative, cross-functional environments where clarity and impact are the goals.
+
+Above all, I care about making data useful—not just accurate, but understandable and actionable. I enjoy bridging the gap between people and systems, asking the right questions, and helping teams unlock the value hidden in their data. I’m always eager to learn, grow, and contribute to meaningful projects. If you're passionate about creating thoughtful, data-led solutions—we should connect.
+
 
 ## 💡 Key Skills
 
-- ![Skill/Tool 1](link-to-tool1-image.gif) **Domain / Expertise:** Skill 1 · Skill 2 · Skill 3  
-- ![Skill/Tool 2](link-to-tool2-image.gif) **Tools & Technologies:** Tool 1 · Tool 2 · Tool 3  
-- ![Skill/Tool 3](link-to-tool3-image.gif) **Methodologies:** Method 1 · Method 2 · Method 3  
+
+ <img
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
+  alt="Microsoft Excel"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>Microsoft Excel</strong>
+
+<img
+  src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png"
+  alt="AWS Cloud Practitioner Essentials"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>AWS Cloud Practitioner Essentials</strong>
+
+ <img
+  src="https://scorebeyond.com/wp-content/uploads/2024/01/datacamp-learning-platform-logo.jpg"
+  alt="Data Analyst with Python"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>Data Analyst with Python</strong>
+
+<img
+  src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png"
+  alt="Tableau"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>Tableau</strong>
+
+<img
+  src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png"
+  alt="Power BI"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>Power BI</strong>
+
+
+<!-- Python -->
+<img
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
+  alt="Python"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>Python</strong>
+
+<!-- SQL -->
+<img
+  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s"
+  alt="SQL"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>SQL</strong>
+
+<!-- JIRA & Confluence -->
+<img
+  src="https://mraddon.blog/wp-content/uploads/2020/01/jira-and-confluence.png?w=640"
+  alt="JIRA & Confluence"
+  width="32"
+  height="32"
+  style="vertical-align: middle; margin-right: 8px;"
+/>
+<strong>JIRA &amp; Confluence</strong>
+
 
 ---
 
