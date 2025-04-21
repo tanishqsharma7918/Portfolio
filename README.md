@@ -113,9 +113,9 @@ Birmingham, England, United Kingdom · Jun 2024 – Jul 2024
 **Software Trainee · Entrepreneurship Cell, IIT Kharagpur**  
 Nov 2021 – Jan 2022 · 3 mos  
 
-- Automated log‑file processing by developing Python scripts to ingest, parse, and validate system logs, reducing manual interventions by 40% and achieving an 80% success rate in nightly updates.  
-- Optimized database maintenance through refactoring SQL stored procedures and indexing strategies, improving update performance by 30% and ensuring consistent data integrity across all tables.
-- Standardized support workflows by drafting step‑by‑step maintenance procedures, building error‑handling routines in Python/SQL, and delivering team training—resulting in a 25% decrease in incident resolution time.
+- Automated log‑file processing by developing Python scripts to ingest, parse, and validate system logs, reducing manual interventions by **40%** and achieving an **80%** success rate in nightly updates.  
+- Optimized database maintenance through refactoring SQL stored procedures and indexing strategies, improving update performance by **30%** and ensuring consistent data integrity across all tables.
+- Standardized support workflows by drafting step‑by‑step maintenance procedures, building error‑handling routines in Python and SQL, and delivering team training—resulting in a **25%** decrease in incident resolution time.
 
 ---
 
