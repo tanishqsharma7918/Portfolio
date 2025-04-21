@@ -189,4 +189,4 @@ _Birmingham, UK · Feb 2024_
 Feel free to reach out for collaborations, questions, or opportunities!  
 - 📧 Email: tanishq.career@gmail.com
 - 🔗 LinkedIn: https://www.linkedin.com/in/tanishq-sharma-/
-- 🌐 Website / Portfolio:(https://tanishqsharma7918.github.io/Portfolio/)
+- 🌐 Website / Portfolio: https://tanishqsharma7918.github.io/Portfolio/
