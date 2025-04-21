@@ -1,6 +1,6 @@
 # Your Name
 <img
-  src="{{ site.baseurl }}/docs/IMG_4914%202.jpeg"
+  src="/docs/IMG_4914%202.jpeg"
   alt="Your Name – Profile Picture"
   width="150"
   height="150"
