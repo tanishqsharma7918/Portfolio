@@ -1,7 +1,13 @@
 # Your Name
+<img
+  src="{{ site.baseurl }}/docs/"
+  alt="Your Name – Profile Picture"
+  width="150"
+  height="150"
+  style="object-fit: cover; border-radius: 8px; }
+/>
 
-<!-- Optionally add your profile picture below -->
-![Your Name – Profile Picture](docs/IMG_4914%202.jpeg)
+
 
 **Your Tagline / Role**
 
