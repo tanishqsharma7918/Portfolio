@@ -1,7 +1,7 @@
 # Your Name
 
 <!-- Optionally add your profile picture below -->
-![Your Name – Profile Picture]docs/IMG_4914 2.jpeg
+![Your Name – Profile Picture](docs/IMG_4914%202.jpeg)
 
 **Your Tagline / Role**
 
