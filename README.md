@@ -1,10 +1,10 @@
 # Your Name
 <img
-  src="{{ site.baseurl }}/docs/IMG_4914 2.jpeg
+  src="{{ site.baseurl }}/docs/IMG_4914%202.jpeg"
   alt="Your Name – Profile Picture"
   width="150"
   height="150"
-  style="object-fit: cover; border-radius: 8px; }
+  style="object-fit: cover; border-radius: 8px;"
 />
 
 
