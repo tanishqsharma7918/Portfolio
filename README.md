@@ -1,7 +1,7 @@
 # Portfolio
 
 
-📍 Location | 📧 Email | 🔗 LinkedIn / Website  
+📍 Birmingham, UK | [📧 Email](mailto:tanishq.career@gmail.com) | [🔗 LinkedIn](https://www.linkedin.com/in/tanishq-sharma-/)
 
 ---
 
