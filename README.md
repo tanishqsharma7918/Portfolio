@@ -7,11 +7,9 @@
 
 ## 👋 About Me
 
-Business Analyst and Data Analytics professional with a passion for solving real-world problems through data, technology, and collaboration. With a Master’s in Business Analytics from the University of Birmingham and a background in Computer Science, I bring a strong analytical foundation and a practical, solution-focused mindset. My work spans consulting, public sector initiatives, and operational analytics—each experience strengthening my ability to turn complex challenges into clear, data-driven strategies.
+Business Analyst and Data Analytics professional with a background in Computer Science and a Master’s in Business Analytics from the University of Birmingham. I enjoy understanding how things work, identifying where they don’t, and helping build better systems through data and collaboration. My experience has taken me through roles in consulting, education, hospitality, and healthcare, where I’ve worked closely with teams to solve problems, ask the right questions, and build tools that support decision-making.
 
-I’ve delivered projects that improved reporting accuracy, automated manual processes using SQL and Excel, and built interactive dashboards that support performance tracking and business decision-making. From optimising workflows to enhancing mental health reporting at the NHS, I approach each problem with a mix of curiosity, empathy, and technical skill. I’m fluent with tools like Python, SQL, Power BI, Tableau, and Excel, and I thrive in collaborative, cross-functional environments where clarity and impact are the goals.
-
-Above all, I care about making data useful—not just accurate, but understandable and actionable. I enjoy bridging the gap between people and systems, asking the right questions, and helping teams unlock the value hidden in their data. I’m always eager to learn, grow, and contribute to meaningful projects. If you're passionate about creating thoughtful, data-led solutions—we should connect.
+I’m comfortable working with Python, SQL, Power BI, Tableau, and Excel, but what I really value is using these tools to make work simpler and ideas clearer. I enjoy projects where I can bring structure to complexity, connect with people across functions, and see how small changes can lead to meaningful outcomes. I’m always looking to grow, contribute to thoughtful work, and be part of teams that care about doing things the right way.
 
 
 ## 💡 Key Skills
@@ -98,18 +96,26 @@ Above all, I care about making data useful—not just accurate, but understandab
 
 ## 💼 Experience
 
-**Role 1** · Company Name  
-_Location · Start Date – End Date_  
-- Achievement / responsibility 1  
-- Achievement / responsibility 2  
-- Achievement / responsibility 3  
+**Project Manager · Blackmont Consulting**  
+Cambridge, England, United Kingdom · Jan 2025 – Apr 2025  
 
-**Role 2** · Company Name  
-_Location · Start Date – End Date_  
-- Achievement / responsibility 1  
-- Achievement / responsibility 2  
-- Achievement / responsibility 3  
+- Identified and secured collaboration opportunities with 25 key EdTech companies for Cambridge University’s EdTech Society, driving £3.5K in sponsorships.  
+- Increased membership engagement by **400%** at the University of Cambridge through targeted awareness campaigns, strategic event planning, workshops, and social media outreach.  
+- Led a cross‑functional team of 8 consultants, achieving 100% on‑time deliverables, improving workflows by **50%**, and enhancing accountability through standardized reporting.  
 
+**Strategic Design Consultant · Turner & Townsend**  
+Birmingham, England, United Kingdom · Jun 2024 – Jul 2024  
+
+- Conducted customer data analysis to identify process inefficiencies, supporting data‑driven strategies for business growth and operational improvements.  
+- Partnered with delivery managers and IT teams to resolve **90%** of identified workflow issues within project timelines.  
+- Contributed to feasibility assessments and business case development for internal analytics platforms.
+
+**Software Trainee · Entrepreneurship Cell, IIT Kharagpur**  
+Nov 2021 – Jan 2022 · 3 mos  
+
+- Automated log‑file processing by developing Python scripts to ingest, parse, and validate system logs, reducing manual interventions by 40% and achieving an 80% success rate in nightly updates.  
+- Optimized database maintenance through refactoring SQL stored procedures and indexing strategies, improving update performance by 30% and ensuring consistent data integrity across all tables.  
+- Standardized support workflows by drafting step‑by‑step maintenance procedures, building error‑handling routines in Python/SQL, and delivering team training—resulting in a 25% decrease in incident resolution time.  
 ---
 
 ## 🚀 **Highlighted Projects**
@@ -161,10 +167,20 @@ _Location · Start Date – End Date_
 
 ## 📈 Extracurricular & Leadership
 
-**Role** · Organization  
-_Month Year_  
-- Highlight 1  
-- Highlight 2  
+**Hospitality Operations Assistant · The Grand Hotel Birmingham**  
+_Birmingham, UK · Oct 2024_  
+- Efficiently catered to 300+ customers daily in a fast‑paced environment, optimising event planning and ensuring seamless POS‑ERP coordination for accurate financial reporting and inventory management.  
+- Developed strong stakeholder engagement, teamwork, and communication skills, collaborating with diverse teams to maintain smooth operations, resolve customer queries efficiently, and uphold a professional environment.  
+
+**Event Coordinator · Birmingham MoRun Marathon**  
+_Birmingham, UK · Nov 2024_  
+- Successfully coordinated logistics for the event, managing parking for 900+ vehicles and guiding 1,200+ participants through the racing tracks.  
+- Efficiently handled the refreshment centre, catering to 1,000+ attendees, ensuring smooth operations and a positive experience for all in a high‑pressure, time‑sensitive environment.  
+
+**Head Marshal · Winter Warmer Runs Birmingham**  
+_Birmingham, UK · Feb 2024_  
+- Efficiently managed parking for around 200 cars, facilitated medal and food distribution, motivated runners, and supervised volunteers to ensure smooth event operations.  
+
 
 ---
 
@@ -173,4 +189,4 @@ _Month Year_
 Feel free to reach out for collaborations, questions, or opportunities!  
 - 📧 Email: tanishq.career@gmail.com
 - 🔗 LinkedIn: https://www.linkedin.com/in/tanishq-sharma-/
-- 🌐 Website / Portfolio: [your-website-url  ](https://tanishqsharma7918.github.io/Portfolio/)
+- 🌐 Website / Portfolio:(https://tanishqsharma7918.github.io/Portfolio/)
