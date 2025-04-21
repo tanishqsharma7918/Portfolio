@@ -1,4 +1,4 @@
-# Your Name
+# Tanishq Sharma
 <img
   src="/docs/IMG_4914%202.jpeg"
   alt="Your Name – Profile Picture"
@@ -9,7 +9,7 @@
 
 
 
-**Your Tagline / Role**
+
 
 📍 Location | 📧 Email | 🔗 LinkedIn / Website  
 
