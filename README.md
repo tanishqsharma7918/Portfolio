@@ -1,14 +1,4 @@
-# Tanishq Sharma
-<img
-  src="/docs/IMG_4914%202.jpeg"
-  alt="Your Name – Profile Picture"
-  width="150"
-  height="150"
-  style="object-fit: cover; border-radius: 8px;"
-/>
-
-
-
+# Portfolio
 
 
 📍 Location | 📧 Email | 🔗 LinkedIn / Website  
