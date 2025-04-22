@@ -121,36 +121,100 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ## 🚀 **Highlighted Projects**
 
-> _Spotlight on your most impactful work_  
 
-### **Project Title 1**  
-<!-- Add an image or GIF link for this project -->
-![Project 1 Image/GIF](link-to-project1-image.gif)  
+<div style="text-align:center; margin-bottom: 16px;">
+  <img 
+    src="docs/Winter Rock.png" 
+    alt="Winter Rock Ski Line Analytics" 
+    width="200" 
+    height="200" 
+    style="object-fit: contain;" 
+  />
+</div>
 
-**Duration:** Month Year – Month Year  
-- **Overview:** One‑sentence description of the project’s goal  
+### **Winter Rock Ski Line Analytics**
+
+**Duration:** Feb 2024 – May 2024  
+- **Overview:** Analysed historical ski sales to uncover growth trends, seasonality, and supplier profitability under uncertain demand.  
 - **Tech & Tools:**  
-  - ![Python](link-to-python-gif.gif) Python  
-  - ![SQL](link-to-sql-gif.gif) SQL  
-  - ![Power BI](link-to-powerbi-gif.gif) Power BI  
+  <span style="display:inline-flex; align-items:center; margin-right:12px;">
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
+      alt="Python"
+      width="32"
+      height="32"
+      style="margin-right:6px;" 
+    />
+    Python
+  </span>
+  <span style="display:inline-flex; align-items:center;">
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
+      alt="Advanced Excel"
+      width="32"
+      height="32"
+      style="margin-right:6px;" 
+    />
+    Advanced Excel
+  </span>
+
 - **Key Contributions & Outcomes:**  
-  - Bullet 1: What you built or analyzed  
-  - Bullet 2: Measurable result (e.g., “improved accuracy by 25%”)  
-  - Bullet 3: Stakeholder impact or business value  
+  - Developed a Python‑driven centred moving average pipeline on 2019–2022 sales data, revealing a steady upward trend and pinpointing November–December as peak months.  
+  - Built Excel models to calculate seasonal indices and apply single exponential smoothing (α = 0.5), producing six‑month forecasts with a 3.77% MAE.  
+  - Designed a decision‑tree and Monte Carlo simulation in Excel/Python, determining the USA supplier yields a £32,500 higher expected profit and informing Winter Rock’s supplier selection.  
 
-### **Project Title 2**  
-<!-- Add an image or GIF link for this project -->
-![Project 2 Image/GIF](link-to-project2-image.gif)  
+<div style="text-align:center; margin-bottom:16px;">
+  <img 
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/National_Health_Service_%28England%29_logo.svg/2560px-National_Health_Service_%28England%29_logo.svg.png" 
+    alt="National Health Service (England) Logo" 
+    width="250" 
+    height="200" 
+    style="object-fit: contain;" 
+  />
+</div>
 
-**Duration:** Month Year – Month Year  
-- **Overview:**  
+### **Creating Comprehensive NHS Dashboards: A Combined Approach for Management and General Audience**
+
+**Duration:** Jan 2024 – Jun 2024  
+- **Overview:** Developed two interactive dashboards in Tableau Public—**Hospital Patient Care Activity** for NHS management and **Mental Health in England** for general audiences—by integrating NHS outpatient, inpatient, and mental health data with UK Government and Kaggle sources.  
 - **Tech & Tools:**  
-  - ![Tool A](link-to-toolA-gif.gif) Tool A  
-  - ![Tool B](link-to-toolB-gif.gif) Tool B  
+  <span style="display:inline-flex; align-items:center; margin-right:12px;">
+    <img 
+      src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png"
+      alt="Tableau Public"
+      width="32"
+      height="32"
+      style="margin-right:6px;"
+    />
+    Tableau Public
+  </span>
+  <span style="display:inline-flex; align-items:center; margin-right:12px;">
+    <img 
+      src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png"
+      alt="Power BI"
+      width="32"
+      height="32"
+      style="margin-right:6px;"
+    />
+    Power BI
+  </span>
+  <span style="display:inline-flex; align-items:center;">
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
+      alt="Advanced Excel"
+      width="32"
+      height="32"
+      style="margin-right:6px;"
+    />
+    Advanced Excel
+  </span>
+
 - **Key Contributions & Outcomes:**  
-  -  
-  -  
-  -  
+  - **Data Integration & Preparation:** Cleaned, formatted, and blended NHS datasets with UK Government using Excel,Power BI and Tableau Prep, ensuring high data quality and consistency.  
+  - **Management Dashboard:** Designed interactive bar charts, scatter plots, and box plots to track admissions by specialty, length of stay, and waiting times—empowering NHS directors with actionable performance insights.  
+  - **Public Dashboard:** Created age‑ and gender‑specific prevalence visualizations and highlight tables to communicate mental health trends to a broad audience, improving public awareness and advocacy.  
+  - **Design Excellence:** Applied visualization best practices (clarity, consistency, interactivity) with filters and tooltips, resulting in user‑friendly dashboards published to Tableau Public for easy sharing.  
+
 
 ---
 
