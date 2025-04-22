@@ -188,7 +188,7 @@ Nov 2021 – Jan 2022 · 3 mos
     style="object-fit: contain;" 
   />
 
- ### **Marketing Analytics Customer Segmentation**  
+### **Marketing Analytics Customer Segmentation**  
  **Duration:** Feb 2024 – May 2024  
   - **Overview:** Conducted a full marketing‑analytics workflow on an airline passenger satisfaction dataset—data cleaning, descriptive statistics, econometric modelling, and predictive classification.  
   - **Tech & Tools:**  
