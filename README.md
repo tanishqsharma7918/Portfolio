@@ -1,7 +1,7 @@
 # Portfolio
 
 
-<p>📍 Birmingham, UK | <a href="mailto:tanishq.career@gmail.com">📧 Email</a> | <a href="https://www.linkedin.com/in/tanishq-sharma-/" target="_blank">🔗 LinkedIn</a></p>
+<p>📍 Birmingham, UK | <a href="mailto:tanishq.career@gmail.com">📧 Email</a> | 📞 +44-07918340238 | <a href="https://www.linkedin.com/in/tanishq-sharma-/" target="_blank">🔗 LinkedIn</a></p>
 
 ---
 
@@ -91,6 +91,17 @@ I’m comfortable working with Python, SQL, Power BI, Tableau, and Excel, but wh
 />
 <strong>JIRA &amp; Confluence</strong>
 
+---
+
+## 🎓 Education
+
+**MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Sep 2024  
+**Grade:** Merit  
+**Modules:** Data Management Strategies and Technologies, Predictive Modelling, Supply Chain & Logistics
+
+**B.Tech in Computer Science & Engineering** | Guru Gobind Singh Indraprastha University, India | Aug 2018 – Aug 2022  
+**Grade:** Distinction  
+**Modules:** Statistical Methods in Computing, Machine Learning, Algorithms & Data Structures
 
 ---
 
@@ -130,13 +141,12 @@ Nov 2021 – Jan 2022 · 3 mos
 />
 
   
-  ### **Winter Rock Ski Line Analytics**  
-  <!-- Add an image or GIF link for this project -->
+ ### **Winter Rock Ski Line Analytics**  
+  
   
 
   **Duration:** Feb 2024 – May 2024  
   - **Overview:** Analysed historical ski sales to uncover growth trends, seasonality, and supplier profitability under uncertain demand.
-    
   - **Tech & Tools:**  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Python  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
@@ -153,12 +163,9 @@ Nov 2021 – Jan 2022 · 3 mos
   height="200" 
   style="object-fit: contain;" 
 />
-  ### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
-
-
-  **Duration:** Jan 2024 – Jun 2024  
-  - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.
-    
+ ### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
+ **Duration:** Jan 2024 – Jun 2024  
+   - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.
    - **Tech & Tools:**    
    <img src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png" alt="Tableau Public" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Tableau Public  
    <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" alt="Power BI" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Power BI  
@@ -180,18 +187,18 @@ Nov 2021 – Jan 2022 · 3 mos
     style="object-fit: contain; display: block; margin: 0 auto 16px auto;" 
   />
 
-  ### **Marketing Analytics Customer Segmentation**  
-  **Duration:** Feb 2024 – May 2024  
+ ### **Marketing Analytics Customer Segmentation**  
+ **Duration:** Feb 2024 – May 2024  
   - **Overview:** Conducted a full marketing‑analytics workflow on an airline passenger satisfaction dataset—data cleaning, descriptive statistics, econometric modelling, and predictive classification.  
   - **Tech & Tools:**  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Python  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
-  
   - **Key Contributions & Outcomes:**  
     - Defined a comprehensive data dictionary and performed data cleaning in Excel, delivering descriptive visualizations and summary statistics.  
     - Developed multivariate and interaction regression models in Python (R²≈0.38), interpreting coefficients, marginal effects, and ANOVA statistics.  
     - Built a logistic regression classifier, achieving 77.6% accuracy, 77.6% sensitivity, 77.6% specificity, and AUC = 0.8393, complete with ROC‑curve visualization.  
 
+---
 <img
   src="https://www.logiciels.pro/wp-content/uploads/2025/03/strategy-research-avis-prix-fonctionnalites-alternatives.webp"
   alt="Qualtrics-Driven BI Tool Logo"
@@ -215,19 +222,6 @@ Nov 2021 – Jan 2022 · 3 mos
   - Facilitated stakeholder workshops and feedback sessions, ensuring the final dashboards surpassed client expectations in usability and strategic insight delivery.  
 
 
-</div>
-
----
-
-## 🎓 Education
-
-**MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Sep 2024  
-**Grade:** Merit  
-**Modules:** Data Management Strategies and Technologies, Predictive Modelling, Supply Chain & Logistics
-
-**B.Tech in Computer Science & Engineering** | Guru Gobind Singh Indraprastha University, India | Aug 2018 – Aug 2022  
-**Grade:** Distinction  
-**Modules:** Statistical Methods in Computing, Machine Learning, Algorithms & Data Structures
 
 ---
 
