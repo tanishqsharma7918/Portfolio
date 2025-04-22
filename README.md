@@ -118,19 +118,29 @@ Nov 2021 – Jan 2022 · 3 mos
 - Standardized support workflows by drafting step‑by‑step maintenance procedures, building error‑handling routines in Python and SQL, and delivering team training—resulting in a **25%** decrease in incident resolution time.
 
 ---
+<details>
+  <summary><strong>🚀 Highlighted Projects</strong> – click to expand</summary>
 
-## 🚀 **Highlighted Projects**
+  <div style="
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 16px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    margin-top: 8px;
+    background-color: #fafbfc;
+  ">
+  
 
 
-<div style="text-align:center; margin-bottom: 16px;">
-  <img 
-    src="docs/Winter Rock.png" 
-    alt="Winter Rock Ski Line Analytics" 
-    width="200" 
-    height="200" 
-    style="object-fit: contain;" 
-  />
-</div>
+<div style="
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  ">
 
 ### **Winter Rock Ski Line Analytics**
 
@@ -162,6 +172,7 @@ Nov 2021 – Jan 2022 · 3 mos
   - Developed a Python‑driven centred moving average pipeline on 2019–2022 sales data, revealing a steady upward trend and pinpointing November–December as peak months.  
   - Built Excel models to calculate seasonal indices and apply single exponential smoothing (α = 0.5), producing six‑month forecasts with a 3.77% MAE.  
   - Designed a decision‑tree and Monte Carlo simulation in Excel/Python, determining the USA supplier yields a £32,500 higher expected profit and informing Winter Rock’s supplier selection.  
+---
 
 <div style="text-align:center; margin-bottom:16px;">
   <img 
@@ -215,9 +226,10 @@ Nov 2021 – Jan 2022 · 3 mos
   - **Public Dashboard:** Created age‑ and gender‑specific prevalence visualizations and highlight tables to communicate mental health trends to a broad audience, improving public awareness and advocacy.  
   - **Design Excellence:** Applied visualization best practices (clarity, consistency, interactivity) with filters and tooltips, resulting in user‑friendly dashboards published to Tableau Public for easy sharing.  
 
+  </div>
+</details>
 
 ---
-
 ## 🎓 Education
 
 **MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Sep 2024  
