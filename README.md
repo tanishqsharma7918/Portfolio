@@ -163,7 +163,8 @@ Nov 2021 – Jan 2022 · 3 mos
   height="200" 
   style="object-fit: contain;" 
 />
- ### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
+
+### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
  **Duration:** Jan 2024 – Jun 2024  
    - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.
    - **Tech & Tools:**    
@@ -184,7 +185,7 @@ Nov 2021 – Jan 2022 · 3 mos
     alt="Marketing Analytics Customer Segmentation Logo" 
     width="200" 
     height="200" 
-    style="object-fit: contain; display: block; margin: 0 auto 16px auto;" 
+    style="object-fit: contain;" 
   />
 
  ### **Marketing Analytics Customer Segmentation**  
@@ -204,7 +205,7 @@ Nov 2021 – Jan 2022 · 3 mos
   alt="Qualtrics-Driven BI Tool Logo"
   width="200"
   height="200"
-  style="object-fit: contain; display: block; margin: 0 auto 16px auto;"
+  style="object-fit: contain;"
 />
 
 ### **Qualtrics-Driven BI Tool to Optimise Analytics for Birmingham International Academy**  
