@@ -156,6 +156,7 @@ Nov 2021 – Jan 2022 · 3 mos
    - Designed a decision‑tree and Monte Carlo simulation in Excel/Python, determining the USA supplier yields a £32,500 higher expected profit and informing Winter Rock’s supplier selection.  
 
  ---
+
 <img 
   src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/National_Health_Service_%28England%29_logo.svg/2560px-National_Health_Service_%28England%29_logo.svg.png" 
   alt="National Health Service (England) Logo" 
@@ -190,7 +191,7 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ### **Marketing Analytics Customer Segmentation**  
  **Duration:** Feb 2024 – May 2024  
-  - **Overview:** Conducted a full marketing‑analytics workflow on an airline passenger satisfaction dataset—data cleaning, descriptive statistics, econometric modelling, and predictive classification.  
+  - **Overview:** Conducted a full marketing‑analytics workflow on an airline passenger satisfaction dataset—data analysis, descriptive statistics, econometric modelling, and predictive classification.  
   - **Tech & Tools:**  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Python  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
@@ -222,6 +223,7 @@ Nov 2021 – Jan 2022 · 3 mos
   - Designed dynamic KPI visualisations and adaptive survey routing, yielding a 25% improvement in report accuracy and a 20% increase in actionable feedback uptake by BIA management.  
   - Facilitated stakeholder workshops and feedback sessions, ensuring the final dashboards surpassed client expectations in usability and strategic insight delivery.  
 
+---
 
 
 ---
