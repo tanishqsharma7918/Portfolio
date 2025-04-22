@@ -171,15 +171,6 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ---
 
-<div style="
-  max-height: 600px;
-  overflow-y: auto;
-  padding: 16px;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  background-color: #fafbfc;
-  margin-top: 16px;
-">
 
   <img 
     src="docs/Analytics.png" 
@@ -201,8 +192,28 @@ Nov 2021 – Jan 2022 · 3 mos
     - Developed multivariate and interaction regression models in Python (R²≈0.38), interpreting coefficients, marginal effects, and ANOVA statistics.  
     - Built a logistic regression classifier, achieving 77.6% accuracy, 77.6% sensitivity, 77.6% specificity, and AUC = 0.8393, complete with ROC‑curve visualization.  
 
-</div>
- 
+<img
+  src="https://www.logiciels.pro/wp-content/uploads/2025/03/strategy-research-avis-prix-fonctionnalites-alternatives.webp"
+  alt="Qualtrics-Driven BI Tool Logo"
+  width="200"
+  height="200"
+  style="object-fit: contain; display: block; margin: 0 auto 16px auto;"
+/>
+
+### **Qualtrics-Driven BI Tool to Optimise Analytics for Birmingham International Academy**  
+**Duration:** May 2024 – Sep 2024  
+- **Overview:** Developed and deployed a Qualtrics-driven BI tool, integrating automated data pipelines to enhance visualisation and improve reporting accuracy by 25%, significantly reducing manual errors and processing time.  
+- **Tech & Tools:**  
+   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Y4zti4cVU5tEUQZyDJUY2kbdxWAGwwP7PQ&s" alt="Jisc" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Jisc  
+   <img src="https://www.logiciels.pro/wp-content/uploads/2025/03/strategy-research-avis-prix-fonctionnalites-alternatives.webp;" alt="Qualtrics" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Qualtrics  
+   <img src="https://d13kjxnqnhcmn2.cloudfront.net/AcuCustom/Sitename/DAM/053/asana_Thumb.png" alt="Asana" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Asana  
+- **Key Contributions & Outcomes:**  
+  - Collaborated in a 5‑member team to deliver three BI solutions—Excel dashboard, Jisc survey dashboard, and Qualtrics dashboard—each tailored to distinct stakeholder groups and use cases.  
+  - Automated end‑to‑end data ingestion and transformation pipelines, cutting manual processing time by 30% and boosting data refresh frequency from weekly to daily.  
+  - Designed dynamic KPI visualisations and adaptive survey routing, yielding a 25% improvement in report accuracy and a 20% increase in actionable feedback uptake by BIA management.  
+  - Facilitated stakeholder workshops and feedback sessions, ensuring the final dashboards surpassed client expectations in usability and strategic insight delivery.  
+
 
 </div>
 
