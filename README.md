@@ -135,7 +135,8 @@ Nov 2021 – Jan 2022 · 3 mos
   
 
   **Duration:** Feb 2024 – May 2024  
-  - **Overview:** Analysed historical ski sales to uncover growth trends, seasonality, and supplier profitability under uncertain demand.  
+  - **Overview:** Analysed historical ski sales to uncover growth trends, seasonality, and supplier profitability under uncertain demand.
+    
   - **Tech & Tools:**  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Python  
  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
@@ -153,15 +154,15 @@ Nov 2021 – Jan 2022 · 3 mos
   style="object-fit: contain;" 
 />
   ### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
-  <!-- Add an image or GIF link for this project -->
 
 
   **Duration:** Jan 2024 – Jun 2024  
-  - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.  
-  - **Tech & Tools:**  
- <img src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png" alt="Tableau Public" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Tableau Public  
- <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" alt="Power BI" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Power BI  
- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
+  - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.
+    
+   - **Tech & Tools:**    
+   <img src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png" alt="Tableau Public" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Tableau Public  
+   <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" alt="Power BI" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Power BI  
+   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
   - **Key Contributions & Outcomes:**  
     -  **Data Integration & Preparation:** Cleaned, formatted, and blended NHS datasets with UK Government using Excel,Power BI and Tableau Prep, ensuring high data quality and consistency.  
     - **Management Dashboard:** Designed interactive bar charts, scatter plots, and box plots to track admissions by specialty, length of stay, and waiting times—empowering NHS directors with actionable performance insights.  
@@ -170,7 +171,37 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ---
 
+<div style="
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  margin-top: 16px;
+">
 
+  <img 
+    src="docs/Analytics.png" 
+    alt="Marketing Analytics Customer Segmentation Logo" 
+    width="200" 
+    height="200" 
+    style="object-fit: contain; display: block; margin: 0 auto 16px auto;" 
+  />
+
+  ### **Marketing Analytics Customer Segmentation**  
+  **Duration:** Feb 2024 – May 2024  
+  - **Overview:** Conducted a full marketing‑analytics workflow on an airline passenger satisfaction dataset—data cleaning, descriptive statistics, econometric modelling, and predictive classification.  
+  - **Tech & Tools:**  
+ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Python  
+ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 4px;" /> Advance Excel  
+  
+  - **Key Contributions & Outcomes:**  
+    - Defined a comprehensive data dictionary and performed data cleaning in Excel, delivering descriptive visualizations and summary statistics.  
+    - Developed multivariate and interaction regression models in Python (R²≈0.38), interpreting coefficients, marginal effects, and ANOVA statistics.  
+    - Built a logistic regression classifier, achieving 77.6% accuracy, 77.6% sensitivity, 77.6% specificity, and AUC = 0.8393, complete with ROC‑curve visualization.  
+
+</div>
  
 
 </div>
