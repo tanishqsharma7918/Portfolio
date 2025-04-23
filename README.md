@@ -112,6 +112,7 @@ I’m comfortable working with Python, SQL, Power BI, Tableau, and Excel, but wh
 
 </div>
 
+
 ---
 
 ## 🎓 Education
@@ -177,7 +178,6 @@ Nov 2021 – Jan 2022 · 3 mos
    - Designed a decision‑tree and Monte Carlo simulation in Excel/Python, determining the USA supplier yields a £32,500 higher expected profit and informing Winter Rock’s supplier selection.  
 
  ---
-
 <img 
   src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/National_Health_Service_%28England%29_logo.svg/2560px-National_Health_Service_%28England%29_logo.svg.png" 
   alt="National Health Service (England) Logo" 
@@ -185,7 +185,6 @@ Nov 2021 – Jan 2022 · 3 mos
   height="250" 
   style="object-fit: contain;" 
 />
-
 ### **Developing a Comprehensive NHS Dashboards: A Combined Approach for Management and General Audiences**  
  **Duration:** Jan 2024 – Jun 2024  
    - **Overview:** Built two interactive dashboards—Hospital Patient Care Activity for management and Mental Health in England for the public—by blending NHS and UK Government data sources.
