@@ -249,7 +249,7 @@ Nov 2021 – Jan 2022 · 3 mos
   alt="The Evolution of Scala Logo"
   width="200"
   height="200"
-  style="object-fit: contain; display: block; margin: 0 auto 16px auto;"
+  style="object-fit: contain;"
 />
 
 ### **The Evolution of Scala: A GitHub History Analysis**  
@@ -265,7 +265,7 @@ Nov 2021 – Jan 2022 · 3 mos
   alt="GitHub Repository Analysis"
   width="300"
   height="200"
-  style="object-fit: contain; display: block; margin: 24px auto;"
+  style="object-fit: contain;"
 />
 
 - **Key Contributions & Outcomes:**  
