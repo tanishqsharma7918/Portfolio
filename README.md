@@ -141,7 +141,7 @@ Nov 2021 – Jan 2022 · 3 mos
 />
 
   
- ### **Winter Rock Ski Line Analytics**  
+### **Winter Rock Ski Line Analytics**  
   
   
 
