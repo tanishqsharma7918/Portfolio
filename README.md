@@ -15,81 +15,97 @@ I’m comfortable working with Python, SQL, Power BI, Tableau, and Excel, but wh
 ## 💡 Key Skills
 
 
- <img
-  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
-  alt="Microsoft Excel"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>Microsoft Excel</strong>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px;">
 
-<img
-  src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png"
-  alt="AWS Cloud Practitioner Essentials"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>AWS Cloud Practitioner Essentials</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
+      alt="Microsoft Excel"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>Microsoft Excel</strong>
+  </div>
 
- <img
-  src="https://scorebeyond.com/wp-content/uploads/2024/01/datacamp-learning-platform-logo.jpg"
-  alt="Data Analyst with Python"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>Data Analyst with Python</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png"
+      alt="AWS Cloud Practitioner Essentials"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>AWS Cloud Practitioner Essentials</strong>
+  </div>
 
-<img
-  src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png"
-  alt="Tableau"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>Tableau</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://scorebeyond.com/wp-content/uploads/2024/01/datacamp-learning-platform-logo.jpg"
+      alt="Data Analyst with Python"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>Data Analyst with Python</strong>
+  </div>
 
-<img
-  src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png"
-  alt="Power BI"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>Power BI</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png"
+      alt="Tableau"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>Tableau</strong>
+  </div>
 
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png"
+      alt="Power BI"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>Power BI</strong>
+  </div>
 
-<!-- Python -->
-<img
-  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
-  alt="Python"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>Python</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
+      alt="Python"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>Python</strong>
+  </div>
 
-<!-- SQL -->
-<img
-  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s"
-  alt="SQL"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>SQL</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s"
+      alt="SQL"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>SQL</strong>
+  </div>
 
-<!-- JIRA & Confluence -->
-<img
-  src="https://mraddon.blog/wp-content/uploads/2020/01/jira-and-confluence.png?w=640"
-  alt="JIRA & Confluence"
-  width="32"
-  height="32"
-  style="vertical-align: middle; margin-right: 8px;"
-/>
-<strong>JIRA &amp; Confluence</strong>
+  <div style="flex: 1 0 25%; display: flex; align-items: center;">
+    <img
+      src="https://mraddon.blog/wp-content/uploads/2020/01/jira-and-confluence.png?w=640"
+      alt="JIRA & Confluence"
+      width="32"
+      height="32"
+      style="margin-right: 8px;"
+    />
+    <strong>JIRA & Confluence</strong>
+  </div>
+
+</div>
 
 ---
 
@@ -160,8 +176,8 @@ Nov 2021 – Jan 2022 · 3 mos
 <img 
   src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/National_Health_Service_%28England%29_logo.svg/2560px-National_Health_Service_%28England%29_logo.svg.png" 
   alt="National Health Service (England) Logo" 
-  width="200" 
-  height="200" 
+  width="300" 
+  height="250" 
   style="object-fit: contain;" 
 />
 
