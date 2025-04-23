@@ -245,7 +245,7 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ---
 <img
-  src="docs/Scala.png"
+  src="docs/Github%20image.png"
   alt="The Evolution of Scala Logo"
   width="200"
   height="200"
@@ -259,6 +259,15 @@ Nov 2021 – Jan 2022 · 3 mos
 - **Tech & Tools:**  
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 6px;" /> Python  
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 6px;" /> Advanced Excel  
+
+<img
+  src="docs/image.png"
+  alt="GitHub Repository Analysis"
+  width="300"
+  height="200"
+  style="object-fit: contain; display: block; margin: 24px auto;"
+/>
+
 - **Key Contributions & Outcomes:**  
   - Extracted and cleaned data from Git and GitHub repositories, processing >30,000 commits.  
   - Mapped contributor activity to reveal development trends and highlight key experts in the Scala community.  
