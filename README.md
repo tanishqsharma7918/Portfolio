@@ -243,7 +243,26 @@ Nov 2021 – Jan 2022 · 3 mos
   - Designed dynamic KPI visualisations and adaptive survey routing, yielding a 25% improvement in report accuracy and a 20% increase in actionable feedback uptake by BIA management.  
   - Facilitated stakeholder workshops and feedback sessions, ensuring the final dashboards surpassed client expectations in usability and strategic insight delivery.  
 
+---
+<img
+  src="docs/Scala.png"
+  alt="The Evolution of Scala Logo"
+  width="200"
+  height="200"
+  style="object-fit: contain; display: block; margin: 0 auto 16px auto;"
+/>
 
+### **The Evolution of Scala: A GitHub History Analysis**  
+**Duration:** Feb 2024 – Mar 2024  
+
+- **Overview:** Analysed over 30,000 commits spanning a decade of Scala development by extracting and cleaning data from Git and GitHub repositories, uncovering the contributors who have shaped the language and identifying key community experts.  
+- **Tech & Tools:**  
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="Python" width="20" height="20" style="vertical-align: middle; margin-right: 6px;" /> Python  
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Advanced Excel" width="20" height="20" style="vertical-align: middle; margin-right: 6px;" /> Advanced Excel  
+- **Key Contributions & Outcomes:**  
+  - Extracted and cleaned data from Git and GitHub repositories, processing >30,000 commits.  
+  - Mapped contributor activity to reveal development trends and highlight key experts in the Scala community.  
+  - Created clear visualisations in pandas and matplotlib to communicate insights on commit volume, contributor growth, and expertise distribution.  
 
 
 
