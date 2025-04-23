@@ -226,8 +226,6 @@ Nov 2021 – Jan 2022 · 3 mos
 ---
 
 
----
-
 ## 📈 Extracurricular & Leadership
 
 **Hospitality Operations Assistant · The Grand Hotel Birmingham**  
