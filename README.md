@@ -7,10 +7,7 @@
 
 ## 👋 About Me
 
-Business Analyst and Data Analytics professional with a background in Computer Science and a Master’s in Business Analytics from the University of Birmingham. I enjoy understanding how things work, identifying where they don’t, and helping build better systems through data and collaboration. My experience has taken me through roles in consulting, education, hospitality, and healthcare, where I’ve worked closely with teams to solve problems, ask the right questions, and build tools that support decision-making.
-
-I’m comfortable working with Python, SQL, Power BI, Tableau, and Excel, but what I really value is using these tools to make work simpler and ideas clearer. I enjoy projects where I can bring structure to complexity, connect with people across functions, and see how small changes can lead to meaningful outcomes. I’m always looking to grow, contribute to thoughtful work, and be part of teams that care about doing things the right way.
-
+I’m a Business Analyst and Data Analytics professional with a Computer Science background and an MSc in Business Analytics from the University of Birmingham. I love unpacking complex systems to find where they break down, then partnering with cross-functional teams to build data-driven solutions that make work simpler and insights clearer. From consulting and education to hospitality and healthcare, I’ve used Python, SQL, Power BI, Tableau, and Excel to ask the right questions, automate processes, and deliver decision-support tools that drive meaningful outcomes. I thrive on bringing structure to chaos, learning continuously, and contributing to teams that care about doing things the right way.
 
 ## 💡 Key Skills
 
