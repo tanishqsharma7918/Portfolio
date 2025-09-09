@@ -1,7 +1,7 @@
 # Portfolio
 
 
-<p>📍 Birmingham, UK | <a href="mailto:tanishq.career@gmail.com">📧 Email</a> | 📞 +44-07918340238 | <a href="https://www.linkedin.com/in/tanishq-sharma-/" target="_blank">🔗 LinkedIn</a></p>
+<p>📍 New Delhi, India | <a href="mailto:tanishq.career@gmail.com">📧 Email</a> | 📞 +91-9264436795 | <a href="https://www.linkedin.com/in/tanishq-sharma-/" target="_blank">🔗 LinkedIn</a></p>
 
 ---
 
