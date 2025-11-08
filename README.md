@@ -7,107 +7,70 @@
 
 ## 👋 About Me
 
-I’m a Business Analyst and Data Analytics professional with a Computer Science background and an MSc in Business Analytics from the University of Birmingham. I love unpacking complex systems to find where they break down, then partnering with cross-functional teams to build data-driven solutions that make work simpler and insights clearer. From consulting and education to hospitality and healthcare, I’ve used Python, SQL, Power BI, Tableau, and Excel to ask the right questions, automate processes, and deliver decision-support tools that drive meaningful outcomes. I thrive on bringing structure to chaos, learning continuously, and contributing to teams that care about doing things the right way.
+I’m a data-driven professional with a Computer Science foundation and an MSc in Business Analytics from the University of Birmingham. My experience bridges business analytics and machine learning, from building predictive and anomaly-detection models in SQL, Python, and PySpark, to developing secure LLM and RAG-based systems in production. I’ve delivered data solutions across consulting, healthcare, and technology domains that improve decision quality, automate reporting, and enhance operational intelligence. Passionate about unifying analytics with engineering, I thrive in roles that demand analytical depth, technical precision, and collaboration to transform complex data into actionable insight and scalable impact.
 
 ## 💡 Key Skills
 
 
-<div style="
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 16px;
-">
+<table>
+<tr>
+<td align="center" width="200">
+  <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" width="48" height="48"><br>
+<strong>Excel</strong>
+</td>
+<td align="center" width="200">
+  <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" width="48" height="48"><br>
+  <strong>Power BI</strong>
+</td>
+</tr>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/1200px-Microsoft_Excel_2013-2019_logo.svg.png"
-      alt="Microsoft Excel"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>Microsoft Excel</strong>
-  </div>
+<tr>
+<td align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="48" height="48"><br>
+  <strong>Python</strong>
+</td>
+<td align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s" width="48" height="48"><br>
+  <strong>SQL</strong>
+</td>
+</tr>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png"
-      alt="AWS Cloud Practitioner Essentials"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>AWS Cloud Practitioner Essentials</strong>
-  </div>
+<tr>
+<td align="center">
+  <img src="https://cdn-icons-png.flaticon.com/512/1183/1183672.png" width="48" height="48"><br>
+  <strong>Machine Learning</strong>
+</td>
+<td align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" width="48" height="48"><br>
+  <strong>PyTorch</strong>
+</td>
+</tr>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://scorebeyond.com/wp-content/uploads/2024/01/datacamp-learning-platform-logo.jpg"
-      alt="Data Analyst with Python"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>Data Analyst with Python</strong>
-  </div>
+<tr>
+<td align="center">
+  <img src="https://cdn.worldvectorlogo.com/logos/openai-2.svg" width="48" height="48"><br>
+  <strong>OpenAI</strong>
+</td>
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/126733545?s=200&v=4" width="48" height="48"><br>
+  <strong>LangChain</strong>
+</td>
+</tr>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://logos-world.net/wp-content/uploads/2021/10/Tableau-Emblem.png"
-      alt="Tableau"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>Tableau</strong>
-  </div>
+<tr>
+<td align="center">
+  <img src="https://cdn-icons-png.flaticon.com/512/9031/9031836.png" width="48" height="48"><br>
+  <strong>LLMs</strong>
+</td>
+<td align="center">
+  <img src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png" width="48" height="48"><br>
+  <strong>AWS Cloud Practitioner</strong>
+</td>
+</tr>
+</table>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png"
-      alt="Power BI"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>Power BI</strong>
-  </div>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
-      alt="Python"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>Python</strong>
-  </div>
 
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s"
-      alt="SQL"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>SQL</strong>
-  </div>
-
-  <div style="display: flex; align-items: center;">
-    <img
-      src="https://mraddon.blog/wp-content/uploads/2020/01/jira-and-confluence.png?w=640"
-      alt="JIRA & Confluence"
-      width="32"
-      height="32"
-      style="margin-right: 8px;"
-    />
-    <strong>JIRA &amp; Confluence</strong>
-  </div>
-
-</div>
 
 
 ---
