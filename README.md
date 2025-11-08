@@ -124,9 +124,20 @@ Nov 2021 – Jan 2022 · 3 mos
 
 ## 🚀 Highlighted Projects
 
+<p align="left" style="margin: 0; padding: 0;">
+  <a href="https://github.com/tanishqsharma7918/RAG-MCP-chatbot">
+    <img 
+      src="https://github.com/tanishqsharma7918/RAG-MCP-chatbot/blob/main/rag-mcp-app/Demo_AI_Chatbot.gif?raw=true" 
+      alt="RAG-MCP Chatbot Demo" 
+      width="420" 
+      style="border-radius: 8px; margin-top: 8px;"
+    />
+  </a>
+</p>
+
+
 **RAG-MCP Chatbot — Contextual AI Assistant for ML Queries**
 
-**Duration:** Oct 2025 – Nov 2025  
 
 **Overview:**  
 Developed an interactive **Streamlit-based AI chatbot** using **Retrieval-Augmented Generation (RAG)** and **LangGraph agents** to answer **machine learning and data engineering** queries contextually and reliably.
@@ -149,9 +160,6 @@ Developed an interactive **Streamlit-based AI chatbot** using **Retrieval-Augmen
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="OpenAI" width="36" height="36"/>
   </a>
   &nbsp;&nbsp;
-  <a href="https://python.langgraph.dev/">
-    <img src="[https://raw.githubusercontent.com/tanishqsharma7918/Portfolio/main/docs/langgraph-logo.png](https://www.zartis.com/wp-content/uploads/2024/08/LangGraph-ai-logo.png)" alt="LangGraph" width="100" height="32"/>
-  </a>
   &nbsp;&nbsp;
   <a href="https://faiss.ai/">
     <img src="https://daxg39y63pxwu.cloudfront.net/images/blog/faiss-vector-database/FAISS_Vector_Database.webp" alt="FAISS" width="90" height="32"/>
