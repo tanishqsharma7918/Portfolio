@@ -114,7 +114,7 @@ I’m a Business Analyst and Data Analytics professional with a Computer Science
 
 ## 🎓 Education
 
-**MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Sep 2024  
+**MSc in Business Analytics** | University of Birmingham, UK | Sep 2023 – Dec 2024  
 **Grade:** Merit  
 **Modules:** Data Management Strategies and Technologies, Predictive Modelling, Supply Chain & Logistics
 
