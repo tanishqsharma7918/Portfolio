@@ -123,6 +123,67 @@ Nov 2021 – Jan 2022 · 3 mos
 ---
 
 ## 🚀 Highlighted Projects
+<p align="left" style="margin: 0; padding: 0;">
+  <a href="https://github.com/tanishqsharma7918/AI-Daily-Digest">
+    <img
+      src="https://github.com/user-attachments/assets/319c9474-3863-446f-a13c-e174ba031a3f"
+      alt="AI Daily Digest Screenshot"
+      width="320"
+      height = "300"
+      style="border-radius: 8px; margin-top: 8px;"
+    />
+  </a>
+</p>
+
+
+**AI Daily Digest — Multi-Agent Newsletter Generator**
+
+
+**Overview:**  
+Developed a fully automated **AI-powered daily news digest system** leveraging **multi-agent orchestration** to fetch, summarize, and deliver the latest AI and tech headlines as elegant HTML newsletters. Designed to mimic human research workflows — from gathering credible sources to crafting polished summaries.
+
+✨ **Key Features:**  
+- 🕵️‍♂️ **Multi-Source RSS Hunter:** Queries **8 verified RSS feeds** (OpenAI, Google, TechCrunch, etc.) to retrieve the top 3 recent articles from each.  
+- 📚 **Resilient Web Scraper:** Uses adaptive **User-Agent rotation** and error-handling to bypass 403 restrictions and extract article text safely.  
+- 🧠 **AI Summarization:** Employs **GPT-4o-mini** with LangChain prompt templates to synthesize concise, 5-point summaries in clean HTML.  
+- 💌 **Automated Email Composer:** Injects AI summaries into a **mobile-friendly HTML template** and sends via **SendGrid API**.  
+- ⚙️ **Smart Agent Workflow:** Modeled after four personas — *Hunter*, *Librarian*, *Editor*, and *Postman* — using lightweight **LangGraph-style coordination**.  
+
+🛠️ **Tech Stack:**  
+<p align="left">
+
+<a href="https://www.python.org/">
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="36" height="36" alt="Python"/>
+</a>&nbsp;&nbsp;
+
+<a href="https://openai.com/">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" width="36" height="36" alt="OpenAI"/>
+</a>&nbsp;&nbsp;
+
+<a href="https://www.langchain.com/">
+<img src="https://avatars.githubusercontent.com/u/126733545?s=200&v=4" width="36" height="36" alt="LangChain"/>
+</a>&nbsp;&nbsp;
+
+<a href="https://faiss.ai/">
+<img src="https://daxg39y63pxwu.cloudfront.net/images/blog/faiss-vector-database/FAISS_Vector_Database.webp" width="90" height="32" alt="FAISS"/>
+</a>&nbsp;&nbsp;
+
+<a href="https://sendgrid.com/">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/SendGrid_2016_Logo.png" width="100" height="28" alt="SendGrid"/>
+</a>
+
+</p>
+
+**Key Contributions & Outcomes:**  
+- Built a **multi-agent pipeline** using modular Python classes inspired by LangGraph’s node-based architecture.  
+- Automated **data ingestion and summarization** across 8+ high-quality AI/Tech feeds, producing 200+ daily summaries.  
+- Implemented **resilient scraping logic** (feedparser + BeautifulSoup + requests) to handle blocked sources gracefully.  
+- Deployed **email automation via SendGrid**, achieving reliable delivery and 100% mobile-responsive rendering.  
+- Designed with **environmental variable–based secrets management**, ensuring secure credential handling in CI/CD.  
+
+📂 **Repository:** [tanishqsharma7918/AI-Daily-Digest](https://github.com/tanishqsharma7918/AI-Daily-Digest)
+
+<hr style="border: 0.5px solid #ccc; margin: 16px 0;">
 
 <p align="left" style="margin: 0; padding: 0;">
   <a href="https://github.com/tanishqsharma7918/RAG-MCP-chatbot">
@@ -175,7 +236,7 @@ Developed an interactive **Streamlit-based AI chatbot** using **Retrieval-Augmen
 - Delivered a **scalable foundation** for enterprise-grade retrieval systems and educational chat assistants.
 
 📂 **Repository:** [tanishqsharma7918/RAG-MCP-chatbot](https://github.com/tanishqsharma7918/RAG-MCP-chatbot)
-
+<hr style="border: 0.5px solid #ccc; margin: 16px 0;">
 <img 
   src="docs/Winter Rock.png" 
   alt="Winter Rock Ski Logo" 
