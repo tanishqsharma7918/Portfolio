@@ -62,9 +62,6 @@ I’m a data-driven professional with a Computer Science foundation and an MSc i
 <td align="center" width="100">
   <img src="https://raw.githubusercontent.com/tanishqsharma7918/Portfolio/main/docs/2056569.jpeg" width="48" height="48" alt="Looker Studio Logo"><br>
   <strong>Looker Studio</strong>
-</td>
-
-</td>
     </td>
     <td align="center" width="100">
       <img src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png" width="48" height="48"><br>
