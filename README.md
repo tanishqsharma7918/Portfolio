@@ -11,9 +11,6 @@ I’m a data-driven professional with a Computer Science foundation and an MSc i
 
 ## 💡 Key Skills
 
-
-
-
 <table align="center">
   <tr>
     <td align="center" width="100">
