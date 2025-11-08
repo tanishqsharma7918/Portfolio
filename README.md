@@ -363,10 +363,6 @@ Developed an interactive **Streamlit-based AI chatbot** using **Retrieval-Augmen
 
 ## 📈 Extracurricular & Leadership
 
-**Hospitality Operations Assistant · The Grand Hotel Birmingham**  
-_Birmingham, UK · Oct 2024_  
-- Efficiently catered to 300+ customers daily in a fast‑paced environment, optimising event planning and ensuring seamless POS‑ERP coordination for accurate financial reporting and inventory management.  
-- Developed strong stakeholder engagement, teamwork, and communication skills, collaborating with diverse teams to maintain smooth operations, resolve customer queries efficiently, and uphold a professional environment.  
 
 **Event Coordinator · Birmingham MoRun Marathon**  
 _Birmingham, UK · Nov 2024_  
