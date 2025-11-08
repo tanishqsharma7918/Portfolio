@@ -12,62 +12,75 @@ I’m a data-driven professional with a Computer Science foundation and an MSc i
 ## 💡 Key Skills
 
 
-<table>
-<tr>
-<td align="center" width="200">
-  <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" width="48" height="48"><br>
-<strong>Excel</strong>
-</td>
-<td align="center" width="200">
-  <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" width="48" height="48"><br>
-  <strong>Power BI</strong>
-</td>
-</tr>
 
-<tr>
-<td align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="48" height="48"><br>
-  <strong>Python</strong>
-</td>
-<td align="center">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s" width="48" height="48"><br>
-  <strong>SQL</strong>
-</td>
-</tr>
 
-<tr>
-<td align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/1183/1183672.png" width="48" height="48"><br>
-  <strong>Machine Learning</strong>
+<table align="center">
+  <tr>
+    <td align="center" width="100">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" width="48" height="48"><br>
+      <strong>Excel</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png" width="48" height="48"><br>
+      <strong>Power BI</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="48" height="48"><br>
+      <strong>Python</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfHAL9lwC3v52oaow4glc74V_u068ns3h2tg&s" width="48" height="48"><br>
+      <strong>SQL</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://cdn-icons-png.flaticon.com/512/1183/1183672.png" width="48" height="48"><br>
+      <strong>Machine Learning</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" width="48" height="48"><br>
+      <strong>PyTorch</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://cdn.worldvectorlogo.com/logos/openai-2.svg" width="48" height="48"><br>
+      <strong>OpenAI</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="100">
+      <img src="https://avatars.githubusercontent.com/u/126733545?s=200&v=4" width="48" height="48"><br>
+      <strong>LangChain</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://daxg39y63pxwu.cloudfront.net/images/blog/faiss-vector-database/FAISS_Vector_Database.webp" width="48" height="48"><br>
+      <strong>FAISS</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://cdn-icons-png.flaticon.com/512/9031/9031836.png" width="48" height="48"><br>
+      <strong>LLMs</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" width="48" height="48"><br>
+      <strong>Tableau</strong>
+    </td>
+   <td align="center" width="100">
+  <img src="https://cdn.worldvectorlogo.com/logos/google-bigquery-icon-2020.png" width="48" height="48"><br>
+  <strong>Google BigQuery</strong>
 </td>
-<td align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" width="48" height="48"><br>
-  <strong>PyTorch</strong>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-  <img src="https://cdn.worldvectorlogo.com/logos/openai-2.svg" width="48" height="48"><br>
-  <strong>OpenAI</strong>
-</td>
-<td align="center">
-  <img src="https://avatars.githubusercontent.com/u/126733545?s=200&v=4" width="48" height="48"><br>
-  <strong>LangChain</strong>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/9031/9031836.png" width="48" height="48"><br>
-  <strong>LLMs</strong>
-</td>
-<td align="center">
-  <img src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png" width="48" height="48"><br>
-  <strong>AWS Cloud Practitioner</strong>
-</td>
-</tr>
+    </td>
+    <td align="center" width="100">
+      <img src="https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Cloud-Practitioner_badge.634f8a21af2e0e956ed8905a72366146ba22b74c.png" width="48" height="48"><br>
+      <strong>AWS Cloud</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732190.png" width="48" height="48"><br>
+      <strong>GitHub</strong>
+    </td>
+  </tr>
 </table>
+
+
+
+
 
 
 
