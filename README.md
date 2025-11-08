@@ -89,12 +89,22 @@ I’m a data-driven professional with a Computer Science foundation and an MSc i
 
 ## 💼 Experience
 
-**Project Manager · Blackmont Consulting**  
+**AI/ML Engineering Analyst Intern · Victoria Solutions**  
+United Kingdom · Jul 2025 – Aug 2025
+
+- Built production **XGBoost churn prediction microservice** processing 15K+ daily predictions with **94.2% accuracy** for a telecom client; deployed using **FastAPI + Docker** achieving **42 ms P95 latency**.
+- Engineered **MLOps pipeline** with automated **CI/CD**, reducing deployment time from **6 hours to 18 minutes**; implemented **data drift monitoring** via KS-test (α = 0.05) ensuring model reliability.
+- Automated analysis of **80K customer support tickets** using **spaCy NLP + LDA topic modeling**, cutting manual review from **240 hours → 24 hours (90% efficiency gain)** and surfacing **7 actionable churn drivers**.
+- Designed **MongoDB query optimization** strategy lowering average retrieval latency from **340 ms → 68 ms** across **2M+ records** through compound indexing and aggregation pipelines.
+- Implemented secure **API authentication (JWT + rate-limiting 100 req/min)** to protect endpoints from unauthorized access and potential adversarial attacks.
+
+**Data Analyst Inter · Blackmont Consulting**  
 Cambridge, England, United Kingdom · Jan 2025 – Apr 2025  
 
-- Identified and secured collaboration opportunities with 25 key EdTech companies for Cambridge University’s EdTech Society, driving £3.5K in sponsorships.  
-- Increased membership engagement by **400%** at the University of Cambridge through targeted awareness campaigns, strategic event planning, workshops, and social media outreach.  
-- Led a cross‑functional team of 8 consultants, achieving 100% on‑time deliverables, improving workflows by **50%**, and enhancing accountability through standardized reporting.  
+- Led an **8-member analytics team** to develop reporting frameworks and visual storytelling dashboards for a **global education client**. 
+- Coordinated **data extraction, transformation, and visualization** across **Excel, Power BI, and Tableau**.  
+- Produced **functional specifications** and **visual requirement documents** supporting client presentations and executive reviews.  
+- Diagnosed **data inconsistencies** and optimized dashboard performance, improving **reporting accuracy by 25%**.  
 
 **Strategic Design Consultant · Turner & Townsend**  
 Birmingham, England, United Kingdom · Jun 2024 – Jul 2024  
