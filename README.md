@@ -62,9 +62,11 @@ I’m a data-driven professional with a Computer Science foundation and an MSc i
       <img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" width="48" height="48"><br>
       <strong>Tableau</strong>
     </td>
-   <td align="center" width="100">
-  <img src="https://cdn.worldvectorlogo.com/logos/google-bigquery-icon-2020.png" width="48" height="48"><br>
-  <strong>Google BigQuery</strong>
+<td align="center" width="100">
+  <img src="https://raw.githubusercontent.com/tanishqsharma7918/Portfolio/main/docs/2056569.jpeg" width="48" height="48" alt="Looker Studio Logo"><br>
+  <strong>Looker Studio</strong>
+</td>
+
 </td>
     </td>
     <td align="center" width="100">
