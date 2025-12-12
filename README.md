@@ -134,8 +134,9 @@ Nov 2021 – Jan 2022 · 3 mos
 ## 🚀 Highlighted Projects
 
 <p align="center">
-  <img src="Demo.gif" alt="animated" width="600" />
+  <img src="docs/Demo.gif" alt="Demo" width="600" />
 </p>
+
 
 **Competitor Analysis Engine — AI-Powered Market Intelligence Platform**
 
