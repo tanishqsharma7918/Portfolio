@@ -195,12 +195,13 @@ Implements Microsoft Fluent + Apple Typography hybrid with frosted-glass cards, 
 ---
 
 ## 📂 Repository
-**GitHub:** https://github.com/tanishqsharma7918/Competitor-Analysis-Engine
+[GitHub Repository](https://github.com/tanishqsharma7918/Competitor-Analysis-Engine)
 
 ---
 
 ## 🌐 Live Demo
-**Streamlit App:** https://competitor-analysis-engine.streamlit.app/
+[Live Streamlit App](https://competitor-analysis-engine.streamlit.app/)
+
 
 ---
 
@@ -229,25 +230,6 @@ Implements Microsoft Fluent + Apple Typography hybrid with frosted-glass cards, 
 
 ---
 
-## 🏗️ Architecture Highlights
-User Input → Live Web Search (DuckDuckGo 30 results)
-↓
-Multi-Step LLM Orchestration (GPT-4o × 4 stages)
-├→ Well-Known Competitors (5-7)
-├→ Niche Players (3-5)
-├→ Startups (3-5)
-└→ Open-Source (4-7)
-↓
-Feature Extraction + Categorization
-↓
-Visual Analytics (Plotly × 4 charts)
-↓
-Export Pipeline (Excel + PowerPoint)
-↓
-Streamlit UI (Fluent + Apple Typography)
-
-
----
 
 ## 🔐 Security & Best Practices
 
