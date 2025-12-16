@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-import VantaBackground from './VantaBackground';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
 
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -33,13 +34,85 @@ const Hero = () => {
         return () => observer.disconnect();
     }, []);
 
+    // Initialize tsparticles
+    const particlesInit = useCallback(async (engine) => {
+        await loadSlim(engine);
+    }, []);
+
+    // CHAOTIC SWARM - Bird-like movement with triangles
+    const particlesOptions = useMemo(() => ({
+        fullScreen: { enable: false },
+        background: { color: { value: "transparent" } },
+        fpsLimit: 120,
+        particles: {
+            // COLOR: Teal in Dark Mode, Navy in Light Mode
+            color: {
+                value: isDarkMode ? "#64ffda" : "#0a192f",
+            },
+            // SHAPE: Triangle looks more like a 'wing' or 'ship' than a circle
+            shape: {
+                type: "triangle",
+            },
+            opacity: {
+                value: { min: 0.3, max: 1 },
+                animation: { enable: true, speed: 1, sync: false }
+            },
+            size: {
+                value: { min: 2, max: 4 }, // Larger to be visible
+            },
+            // MOVEMENT: The critical part for 'Bird' feel
+            move: {
+                enable: true,
+                speed: 4.5, // FAST (Like birds flying)
+                direction: "none", // Chaotic
+                random: true,
+                straight: false,
+                outModes: "out",
+                attract: {
+                    enable: true,
+                    rotateX: 600,
+                    rotateY: 1200
+                }
+            },
+            number: {
+                value: 100, // Flock size
+                density: { enable: true, area: 800 },
+            },
+        },
+        // INTERACTION: Flocking behavior on mouse
+        interactivity: {
+            events: {
+                onHover: {
+                    enable: true,
+                    mode: "attract", // Particles swarm to mouse like birds
+                },
+            },
+            modes: {
+                attract: {
+                    distance: 200,
+                    duration: 0.4,
+                    easing: "ease-out-quad",
+                    factor: 3,
+                    maxSpeed: 50,
+                    speed: 1
+                },
+            },
+        },
+        detectRetina: true,
+    }), [isDarkMode]);
+
     return (
         <section 
             id="home" 
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
-            {/* LAYER 1: VANTA BIRDS BACKGROUND (3D Animated) */}
-            <VantaBackground />
+            {/* LAYER 1: CHAOTIC SWARM (Bird-like Triangle Particles) */}
+            <Particles
+                id="tsparticles"
+                init={particlesInit}
+                options={particlesOptions}
+                className="absolute inset-0 h-full w-full z-0"
+            />
 
             {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
             <div className="absolute inset-0 z-[1] pointer-events-none 
