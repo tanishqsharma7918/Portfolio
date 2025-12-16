@@ -44,92 +44,104 @@ const Navbar = () => {
     ];
 
     return (
-        <header
-            className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-                scrolled ? "bg-navy/90 backdrop-blur-sm shadow-lg py-4" : "bg-transparent py-6"
-            }`}
-        >
-            <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                {/* 1. Logo/Name - Highlighted in Teal */}
-                <Link
-                    to="home"
-                    smooth={true}
-                    className="text-green font-bold text-xl tracking-wide cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => setActiveSection("home")}
-                >
-                    Tanishq Sharma
-                </Link>
-
-                {/* 2. Navigation Links - Desktop */}
-                <nav className="hidden md:flex items-center gap-2">
-                    {navLinks.map((link, index) => (
+        <>
+            {/* FLOATING GLASSMORPHISM NAVBAR - Desktop */}
+            <header className="hidden md:block fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl bg-[#0a192f]/70 backdrop-blur-md rounded-full border border-white/10 px-2 py-2 shadow-xl">
+                <ul className="flex items-center justify-between w-full px-4">
+                    {/* Logo on the left */}
+                    <li className="font-bold text-[#64ffda] text-lg mr-auto">
                         <Link
-                            key={link.name}
-                            to={link.href}
+                            to="home"
                             smooth={true}
-                            offset={-100}
-                            spy={true}
-                            onClick={() => setActiveSection(link.href)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-                                activeSection === link.href
-                                    ? "bg-lightNavy text-green" // THE ACTIVE PILL HIGHLIGHT
-                                    : "text-slate hover:text-green"
-                            }`}
+                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                            onClick={() => setActiveSection("home")}
                         >
-                            <span className="text-green mr-1.5">0{index + 1}.</span>
-                            {link.name}
+                            Tanishq Sharma
                         </Link>
-                    ))}
-                </nav>
+                    </li>
 
-                {/* 3. Mobile Toggle */}
-                <button
-                    className="md:hidden text-green"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-label="Toggle menu"
-                >
-                    {isMobileMenuOpen ? (
-                        // X icon
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    ) : (
-                        // Menu icon
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    )}
-                </button>
-            </div>
-
-            {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden bg-navy/95 backdrop-blur-sm border-t border-lightNavy">
-                    <nav className="flex flex-col items-center gap-4 py-6">
-                        {navLinks.map((link, index) => (
+                    {/* Navigation Links - Individual Pills */}
+                    {navLinks.map((link) => (
+                        <li key={link.name}>
                             <Link
-                                key={link.name}
                                 to={link.href}
                                 smooth={true}
                                 offset={-100}
-                                onClick={() => {
-                                    setActiveSection(link.href);
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                spy={true}
+                                onClick={() => setActiveSection(link.href)}
+                                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block ${
                                     activeSection === link.href
-                                        ? "bg-lightNavy text-green"
-                                        : "text-slate hover:text-green"
+                                        ? "bg-[#112240] text-[#64ffda]" // ACTIVE PILL: Dark background + Teal text
+                                        : "text-[#8892b0] hover:text-[#64ffda]" // INACTIVE: Gray text, teal on hover
                                 }`}
                             >
-                                <span className="text-green mr-1.5">0{index + 1}.</span>
                                 {link.name}
                             </Link>
-                        ))}
-                    </nav>
+                        </li>
+                    ))}
+                </ul>
+            </header>
+
+            {/* MOBILE NAVBAR */}
+            <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#0a192f]/90 backdrop-blur-md border-b border-white/10 px-4 py-3">
+                <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <Link
+                        to="home"
+                        smooth={true}
+                        className="text-lg font-bold text-[#64ffda] cursor-pointer"
+                        onClick={() => setActiveSection("home")}
+                    >
+                        Tanishq Sharma
+                    </Link>
+
+                    {/* Mobile Toggle */}
+                    <button
+                        className="text-[#64ffda]"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isMobileMenuOpen ? (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        )}
+                    </button>
                 </div>
-            )}
-        </header>
+
+                {/* Mobile Menu */}
+                {isMobileMenuOpen && (
+                    <div className="border-t border-white/10 mt-3">
+                        <ul className="flex flex-col space-y-2 py-4">
+                            {navLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        to={link.href}
+                                        smooth={true}
+                                        offset={-100}
+                                        onClick={() => {
+                                            setActiveSection(link.href);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block ${
+                                            activeSection === link.href
+                                                ? "bg-[#112240] text-[#64ffda]"
+                                                : "text-[#8892b0] hover:text-[#64ffda]"
+                                        }`}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </nav>
+        </>
     );
 };
 
