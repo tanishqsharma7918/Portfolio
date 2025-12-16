@@ -109,8 +109,6 @@ const Navbar = () => {
                                             }
                                         `}
                                     >
-                                        {/* Numbering: Fade it out slightly */}
-                                        <span className="text-navy/50 dark:text-green/80 mr-1.5 font-mono text-xs">0{index + 1}.</span>
                                         {link.name}
                                     </Link>
                                 </li>
@@ -177,7 +175,6 @@ const Navbar = () => {
                                             }
                                         `}
                                     >
-                                        <span className="text-navy/50 dark:text-green/80 mr-2 font-mono text-xs">0{index + 1}.</span>
                                         {link.name}
                                     </Link>
                                 </li>
