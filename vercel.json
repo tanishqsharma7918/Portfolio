@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd Portfolio-upgrade && npm install && npm run build",
+  "outputDirectory": "Portfolio-upgrade/dist",
+  "framework": null,
+  "installCommand": "cd Portfolio-upgrade && npm install"
+}
