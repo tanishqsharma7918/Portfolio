@@ -1,10 +1,8 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-
-// Dynamically import VantaBackground (prevents SSR issues)
-const VantaBackground = lazy(() => import('./VantaBackground'));
+import VantaBackground from './VantaBackground';
 
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -41,13 +39,7 @@ const Hero = () => {
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
             {/* LAYER 1: VANTA BIRDS BACKGROUND (3D Animated) */}
-            <Suspense fallback={
-                <div className="absolute inset-0 h-full w-full z-0 bg-navy/50 flex items-center justify-center">
-                    <div className="animate-pulse text-green text-lg">Loading 3D Background...</div>
-                </div>
-            }>
-                <VantaBackground />
-            </Suspense>
+            <VantaBackground />
 
             {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
             <div className="absolute inset-0 z-[1] pointer-events-none 
