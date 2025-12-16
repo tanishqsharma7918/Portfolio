@@ -1,22 +1,113 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-import Starfield from './Starfield';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
 
 const Hero = () => {
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    
     const roles = [
         'MSc Business Analytics',
         'AI Engineer',
         'Data Strategist'
     ];
 
+    // Detect dark mode
+    useEffect(() => {
+        const checkDarkMode = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setIsDarkMode(isDark);
+        };
+        
+        checkDarkMode();
+        
+        // Watch for dark mode changes
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        
+        return () => observer.disconnect();
+    }, []);
+
+    // Initialize tsparticles
+    const particlesInit = useCallback(async (engine) => {
+        await loadSlim(engine);
+    }, []);
+
+    // Particles configuration
+    const particlesOptions = useMemo(() => ({
+        background: {
+            color: {
+                value: 'transparent',
+            },
+        },
+        fpsLimit: 60,
+        particles: {
+            number: {
+                value: 100,
+                density: {
+                    enable: true,
+                    value_area: 800,
+                },
+            },
+            color: {
+                value: isDarkMode ? '#ffffff' : '#64748b', // White in dark mode, slate-gray in light mode
+            },
+            shape: {
+                type: 'circle',
+            },
+            opacity: {
+                value: { min: 0.3, max: 0.8 }, // Random opacity for twinkling
+                animation: {
+                    enable: true,
+                    speed: 0.5,
+                    minimumValue: 0.3,
+                    sync: false,
+                },
+            },
+            size: {
+                value: { min: 1, max: 3 }, // Random sizes 1px to 3px
+            },
+            move: {
+                enable: true,
+                speed: 0.6, // Slow, gentle flow
+                direction: 'right',
+                random: true,
+                straight: false,
+                outModes: {
+                    default: 'out',
+                },
+            },
+        },
+        detectRetina: true,
+    }), [isDarkMode]);
+
     return (
-        <section id="home" className="min-h-screen flex items-center justify-center relative">
-            {/* Starfield Background */}
-            <Starfield />
+        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+            {/* Layer 1: Flowing Starfield (Deep Space) */}
+            <div className="absolute inset-0 -z-10">
+                <Particles
+                    id="tsparticles"
+                    init={particlesInit}
+                    options={particlesOptions}
+                />
+            </div>
             
-            <div className="text-center z-10 px-4 max-w-5xl mx-auto">
+            {/* Layer 2: Nebula Glow (Behind the Name) */}
+            <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] -z-[1]"
+                style={{
+                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
+                    filter: 'blur(100px)',
+                    opacity: 0.4,
+                }}
+            />
+            
+            <div className="text-center z-10 px-4 max-w-5xl mx-auto relative">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
