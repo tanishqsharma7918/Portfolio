@@ -8,13 +8,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Nikhila Koneru Color Palette - Navy & Teal
-        navy: "#0a192f",      // Main background
-        lightNavy: "#112240", // Card/active background
-        green: "#64ffda",     // Signature teal accent
-        slate: "#8892b0",     // Secondary text
-        lightSlate: "#ccd6f6",// Primary text
-        // Legacy colors (keep for compatibility)
+        // Exact Reference Colors - Nikhila Koneru Palette
+        navy: "#0a192f",        // Main deep background
+        "light-navy": "#112240", // Home highlight pill background
+        teal: "#64ffda",        // Exact accent color for text/hover
+        slate: "#8892b0",       // Muted text for unselected links
+        lightSlate: "#ccd6f6",  // Primary text
+        // Legacy aliases (backward compatibility)
+        lightNavy: "#112240",
+        green: "#64ffda",
         glass: "rgba(255, 255, 255, 0.25)",
         glassDark: "rgba(0, 0, 0, 0.25)",
       },
