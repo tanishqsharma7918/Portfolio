@@ -79,7 +79,7 @@ const Navbar = () => {
                     className="absolute right-6 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all hover:-translate-y-1 hover:scale-110 duration-200"
                     aria-label="Toggle Theme"
                 >
-                    {isDark ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-gray-700" />}
+                    {isDark ? <Moon size={20} className="text-gray-700" /> : <Sun size={20} className="text-yellow-400" />}
                 </button>
 
                 {/* Mobile Toggle */}
@@ -88,7 +88,7 @@ const Navbar = () => {
                         onClick={toggleTheme}
                         className="p-2 rounded-full hover:bg-white/10 transition-colors"
                     >
-                        {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                        {isDark ? <Moon size={20} /> : <Sun size={20} />}
                     </button>
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

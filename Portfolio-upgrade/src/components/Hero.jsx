@@ -39,51 +39,56 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // Professional Starfield Configuration - Smooth 60fps with parallax depth
+    // DENSE FLOWING STARFIELD - High density with parallax depth
     const particlesOptions = useMemo(() => ({
         background: {
-            color: { value: "transparent" }, // Let CSS handle background
+            color: { value: "transparent" },
         },
-        fpsLimit: 60, // Smooth, buttery 60fps animation
+        fpsLimit: 60,
         particles: {
             number: {
-                value: 100, // Medium density for balance
+                value: 250, // DRAMATICALLY INCREASED for dense starfield
                 density: {
                     enable: true,
-                    value_area: 800, // Responsive to viewport
+                    value_area: 600, // DECREASED for higher density
                 },
             },
             color: {
-                value: isDarkMode ? "#ffffff" : "#0a192f", // White stars (dark) / Navy stars (light)
+                value: isDarkMode 
+                    ? ["#ffffff", "#64ffda", "#a8dadc"] // White + teal + cyan mix
+                    : ["#0a192f", "#1a365d", "#2d3748"], // Navy variations
             },
             shape: {
-                type: "circle", // Star-like dots
+                type: "circle",
             },
             opacity: {
-                value: 0.5, // Base 50% opacity
-                random: true, // Random 30-70% for depth
+                value: 0.6,
+                random: true, // 0.2 to 0.9 range
                 animation: {
                     enable: true,
-                    speed: 0.5, // Gentle twinkling
-                    opacity_min: 0.3, // Minimum 30%
-                    sync: false, // Independent animations
+                    speed: 0.8, // INCREASED twinkling speed
+                    opacity_min: 0.2, // Wider range (0.2 to 0.9)
+                    sync: false,
                 },
             },
             size: {
-                value: 2, // Base 2px
-                random: true, // Mix of 1px, 2px, 3px
+                value: 2.5, // Increased base size
+                random: true, // 1px to 4px variety
                 animation: {
-                    enable: false, // No size pulsing
+                    enable: true, // Add subtle size pulsing
+                    speed: 2,
+                    size_min: 0.8,
+                    sync: false,
                 },
             },
             move: {
                 enable: true,
-                speed: 1, // Very slow (1-3 pixels per second) - gentle drift
-                direction: "none", // Random omnidirectional movement
-                random: true, // Natural floating
-                straight: false, // Curved paths for organic feel
+                speed: 2.5, // INCREASED from 1 to 2.5 (2.5x faster)
+                direction: "none", // Omnidirectional flow
+                random: true, // Speed variation
+                straight: false, // Curved, organic paths
                 outModes: {
-                    default: "out", // Seamless infinite loop
+                    default: "out",
                 },
                 bounce: false,
                 attract: {
@@ -94,16 +99,29 @@ const Hero = () => {
         interactivity: {
             detect_on: "canvas",
             events: {
-                onhover: { enable: false }, // No hover interaction
-                onclick: { enable: false }, // No click interaction
-                resize: true, // Responsive to viewport changes
+                onhover: {
+                    enable: true,
+                    mode: "bubble", // Subtle interaction
+                },
+                onclick: {
+                    enable: false,
+                },
+                resize: true,
+            },
+            modes: {
+                bubble: {
+                    distance: 150,
+                    size: 4,
+                    duration: 2,
+                    opacity: 0.8,
+                },
             },
         },
-        detectRetina: true, // Crisp on retina displays
+        detectRetina: true,
         motion: {
-            disable: false, // Respects prefers-reduced-motion
+            disable: false,
             reduce: {
-                factor: 4, // Slow down for accessibility
+                factor: 4,
                 value: true,
             },
         },
