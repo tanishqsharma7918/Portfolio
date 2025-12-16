@@ -22,20 +22,17 @@ const VantaBackground = () => {
         if (typeof window === 'undefined') return;
 
         // Dynamically import Vanta and THREE
-        let vantaLibrary = null;
-        let THREE = null;
-
         const loadVanta = async () => {
             try {
                 // Import THREE.js first
-                THREE = await import('three');
+                const THREE = await import('three');
                 
                 // Import Vanta Birds
-                vantaLibrary = await import('vanta/dist/vanta.birds.min');
+                const VANTA = await import('vanta/dist/vanta.birds.min');
 
                 // Initialize Vanta effect if component is still mounted
                 if (vantaRef.current && !vantaEffect) {
-                    const effect = vantaLibrary.default({
+                    const effect = VANTA.default({
                         el: vantaRef.current,
                         THREE: THREE,
                         mouseControls: true,
@@ -66,13 +63,18 @@ const VantaBackground = () => {
                     });
                     
                     setVantaEffect(effect);
+                    console.log('✅ Vanta Birds loaded successfully!');
                 }
             } catch (error) {
                 console.error('❌ Vanta Birds failed to load:', error);
+                console.error('Error details:', error.message);
             }
         };
 
-        loadVanta();
+        // Add small delay to ensure DOM is ready
+        setTimeout(() => {
+            loadVanta();
+        }, 100);
 
         // CLEANUP: Destroy Vanta effect on unmount
         return () => {
