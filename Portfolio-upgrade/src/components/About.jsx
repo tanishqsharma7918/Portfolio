@@ -15,9 +15,9 @@ const About = () => {
                 >
                     {/* Left: Image Placeholder */}
                     <div className="relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative h-[400px] w-full glass-card flex items-center justify-center overflow-hidden">
-                            <User size={100} className="text-purple-300 opacity-50" />
+                            <User size={100} className="text-cyan-400 opacity-50" />
                             {/* Note: User should replace this with actual image <img src="" /> */}
                             <div className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-500">Profile Image Placeholder</div>
                         </div>
@@ -25,13 +25,17 @@ const About = () => {
 
                     {/* Right: Content */}
                     <div>
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6">About Me</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                            <span className="text-gradient">About Me</span>
+                        </h2>
                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                            I am a Business Analytics graduate skilled in <span className="text-purple-600 font-semibold">Python, Machine Learning, Data Pipelines, and Automation</span>.
-                            I enjoy building data-driven apps and dashboards that transform complex information into actionable insights.
+                            Data-driven professional with a Computer Science foundation and an <span className="text-cyan-600 dark:text-cyan-400 font-semibold">MSc in Business Analytics from the University of Birmingham</span>.
                         </p>
                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                            With a background in Computer Science and a Master's from the University of Birmingham, I bridge the gap between technical engineering and business strategy.
+                            My experience bridges business analytics and machine learning, from building predictive and anomaly-detection models in <span className="text-purple-600 dark:text-purple-400 font-semibold">SQL, Python, and PySpark</span>, to developing secure <span className="text-cyan-600 dark:text-cyan-400 font-semibold">LLM and RAG-based systems</span> in production.
+                        </p>
+                        <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                            I've delivered data solutions across consulting, healthcare, and technology domains that improve decision quality, automate reporting, and enhance operational intelligence.
                         </p>
 
                         <div className="grid grid-cols-2 gap-4">
@@ -48,8 +52,8 @@ const About = () => {
 };
 
 const SkillCard = ({ icon, title, skills }) => (
-    <div className="p-4 glass rounded-xl hover:bg-white/40 transition-colors">
-        <div className="text-purple-500 mb-2">{icon}</div>
+    <div className="p-4 glass rounded-xl hover:bg-white/50 dark:hover:bg-white/10 transition-colors border border-white/20">
+        <div className="text-cyan-500 dark:text-cyan-400 mb-2">{icon}</div>
         <h3 className="font-bold mb-1">{title}</h3>
         <p className="text-xs text-gray-500 dark:text-gray-400">{skills}</p>
     </div>

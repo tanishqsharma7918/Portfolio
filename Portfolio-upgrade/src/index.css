@@ -4,11 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+    @apply bg-white text-slate-900 transition-colors duration-300;
   }
   
   html.dark body {
-    @apply bg-slate-950 text-slate-50;
+    @apply text-slate-50;
+    background-color: #020617;
   }
 }
 
@@ -31,7 +32,7 @@
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-400 to-purple-500;
   }
 
   .text-gradient-blue {
@@ -68,4 +69,13 @@
 @keyframes float {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-20px) scale(1.1); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }

@@ -5,39 +5,57 @@ import { ExternalLink, Github, Code, Folder } from 'lucide-react';
 const projects = [
     {
         title: 'Competitor Analysis Engine',
-        description: 'AI-powered competitor analysis platform automating market research workflows using multi-step LLM orchestration.',
+        description: 'AI-powered market intelligence platform that transforms 3-5 days of manual research into actionable insights within 5-10 minutes using GPT-4o.',
         features: ['Multi-Step Discovery', 'Live Web Research', 'Strategic Insights', 'Export to PPT/Excel'],
-        tech: ['Python', 'Streamlit', 'OpenAI', 'DuckDuckGo'],
+        tech: ['Python', 'Streamlit', 'GPT-4o', 'Plotly'],
         github: 'https://github.com/tanishqsharma7918/Competitor-Analysis-Engine',
         demo: 'https://competitor-analysis-engine.streamlit.app/',
         color: 'from-purple-500 to-indigo-500'
     },
     {
-        title: 'Market News Dashboard',
-        description: 'Automated AI-powered daily news digest system utilizing multi-agent orchestration to deliver tech headlines.',
+        title: 'AI Daily Digest',
+        description: 'Multi-agent newsletter generator that automates fetching, summarizing, and delivering the latest AI and tech headlines as elegant HTML newsletters.',
         features: ['Multi-Source RSS Hunter', 'AI Summarization', 'Email Automation', 'LangGraph Agents'],
-        tech: ['Python', 'LangChain', 'OpenAI', 'SendGrid'],
+        tech: ['Python', 'LangChain', 'GPT-4o', 'SendGrid'],
         github: 'https://github.com/tanishqsharma7918/AI-Daily-Digest',
         demo: null,
         color: 'from-blue-500 to-cyan-500'
     },
     {
-        title: 'GitHub Automated Resume Builder',
-        description: 'A tool to automatically generate professional resumes based on GitHub profile activity and repositories.',
-        features: ['GitHub API Integration', 'Resume Parsing', 'PDF Generation', 'Custom Templates'],
-        tech: ['Node.js', 'React', 'Puppeteer', 'GitHub Actions'],
-        github: 'https://github.com/tanishqsharma7918',
+        title: 'RAG-MCP Chatbot',
+        description: 'Contextual AI Assistant for ML queries using Retrieval-Augmented Generation and LangGraph agents for dynamic document retrieval.',
+        features: ['RAG Architecture', 'FAISS Vector Store', 'Context Memory', 'Real-time Interaction'],
+        tech: ['Python', 'Streamlit', 'LangChain', 'FAISS'],
+        github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot',
         demo: null,
         color: 'from-emerald-500 to-teal-500'
     },
     {
-        title: 'Python Automation Scripts',
-        description: 'A comprehensive collection of utility scripts for automating daily tasks, file management, and data processing.',
-        features: ['File Organization', 'Data Scraping', 'Auto-Reporting', 'System Maintenance'],
-        tech: ['Python', 'Bash', 'Cron', 'Pandas'],
+        title: 'Winter Rock Ski Analytics',
+        description: 'Analysed historical ski sales to uncover growth trends and seasonality. Developed forecasting models with single exponential smoothing achieving 3.77% MAE.',
+        features: ['Time Series Analysis', 'Moving Averages', 'Monte Carlo Simulation', 'Decision Trees'],
+        tech: ['Python', 'Excel', 'Pandas', 'NumPy'],
         github: 'https://github.com/tanishqsharma7918',
         demo: null,
         color: 'from-orange-500 to-red-500'
+    },
+    {
+        title: 'NHS Healthcare Dashboards',
+        description: 'Built interactive dashboards for Hospital Patient Care Activity and Mental Health trends using NHS and UK Government data sources.',
+        features: ['Data Integration', 'Interactive Visualizations', 'Performance Tracking', 'Public Awareness'],
+        tech: ['Tableau', 'Power BI', 'Excel', 'SQL'],
+        github: 'https://github.com/tanishqsharma7918',
+        demo: null,
+        color: 'from-pink-500 to-rose-500'
+    },
+    {
+        title: 'Marketing Analytics Segmentation',
+        description: 'Full marketing analytics workflow on airline passenger satisfaction with econometric modelling and predictive classification achieving 77.6% accuracy.',
+        features: ['Regression Modeling', 'Logistic Classification', 'ROC-AUC Analysis', 'Feature Engineering'],
+        tech: ['Python', 'Scikit-learn', 'Pandas', 'Excel'],
+        github: 'https://github.com/tanishqsharma7918',
+        demo: null,
+        color: 'from-violet-500 to-purple-500'
     }
 ];
 
@@ -52,7 +70,9 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">Featured Projects</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                        <span className="text-gradient">Featured Projects</span>
+                    </h2>
                     <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                         A selection of my recent work showcasing data engineering, AI agents, and full-stack development.
                     </p>
@@ -85,13 +105,13 @@ const ProjectCard = ({ project, index }) => {
                 <Folder size={48} className="text-gray-400 opacity-50" />
             </div>
 
-            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-500 transition-colors">{project.title}</h3>
+            <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-500 transition-colors">{project.title}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 flex-grow">{project.description}</p>
 
             <ul className="mb-6 space-y-1">
                 {project.features.slice(0, 3).map((feature, i) => (
                     <li key={i} className="text-xs text-gray-500 dark:text-gray-400 flex items-center">
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mr-2" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mr-2" />
                         {feature}
                     </li>
                 ))}
@@ -99,7 +119,7 @@ const ProjectCard = ({ project, index }) => {
 
             <div className="flex flex-wrap gap-2 mb-6">
                 {project.tech.map((tag, i) => (
-                    <span key={i} className="px-3 py-1 text-xs rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20">
+                    <span key={i} className="px-3 py-1 text-xs rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 border border-cyan-500/20">
                         {tag}
                     </span>
                 ))}
@@ -110,7 +130,7 @@ const ProjectCard = ({ project, index }) => {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm font-medium hover:text-purple-500 transition-colors"
+                    className="flex items-center gap-2 text-sm font-medium hover:text-cyan-500 transition-colors"
                 >
                     <Github size={18} /> Code
                 </a>
@@ -119,7 +139,7 @@ const ProjectCard = ({ project, index }) => {
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm font-medium hover:text-purple-500 transition-colors"
+                        className="flex items-center gap-2 text-sm font-medium hover:text-cyan-500 transition-colors"
                     >
                         <ExternalLink size={18} /> Demo
                     </a>
