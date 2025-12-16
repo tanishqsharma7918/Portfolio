@@ -16,11 +16,11 @@ const About = () => {
                     {/* Left: Profile Photo */}
                     <div className="relative group flex justify-center items-center">
                         <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="relative h-[400px] w-full glass-card flex items-center justify-center overflow-hidden">
+                        <div className="relative h-[500px] w-[380px] mx-auto glass-card flex items-center justify-center overflow-hidden p-6">
                             <img 
                                 src="/profile.jpg" 
                                 alt="Tanishq Sharma" 
-                                className="rounded-2xl border-4 border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.3)] object-cover max-h-[360px] max-w-[280px] hover:scale-105 transition-transform duration-300"
+                                className="rounded-2xl border-4 border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.3)] object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                             />
                         </div>
                     </div>
