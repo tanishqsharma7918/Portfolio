@@ -81,7 +81,7 @@ const Hero = () => {
     }), [isDarkMode]);
 
     return (
-        <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <section id="home" className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-[#030014] dark:bg-[#030014]">
             {/* Layer 1: Flowing Starfield (Deep Space) - Seamless on solid background */}
             <div className="absolute inset-0" style={{ zIndex: 0 }}>
                 <Particles
@@ -102,35 +102,37 @@ const Hero = () => {
                 }}
             />
             
-            <div className="text-center px-4 max-w-5xl mx-auto relative" style={{ zIndex: 10 }}>
+            {/* Content Wrapper - Perfectly Centered */}
+            <div className="z-10 flex flex-col items-center gap-6 px-4 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
+                    className="flex flex-col items-center gap-6"
                 >
-                    <h2 className="text-xl md:text-2xl font-light mb-6 text-slate-500 dark:text-slate-400">
+                    <h2 className="text-xl md:text-2xl font-light text-slate-500 dark:text-slate-400">
                         Hello, I'm
                     </h2>
                     
                     {/* Name - Matching Nikhila's size */}
-                    <h1 className="text-7xl md:text-8xl font-extrabold mb-6 tracking-tight leading-none">
+                    <h1 className="text-7xl md:text-8xl font-extrabold tracking-tight leading-none">
                         <span className="bg-gradient-to-r from-teal-200 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
                             Tanishq Sharma
                         </span>
                     </h1>
 
                     {/* CONSTANT Subheading - Master's Degree (STATIC, NOT TYPING) */}
-                    <div className="text-xl md:text-2xl text-slate-400 dark:text-slate-300 mt-4 mb-3 font-medium">
+                    <div className="text-xl md:text-2xl text-slate-400 dark:text-slate-300 font-medium">
                         MSc in Business Analytics from <span className="text-emerald-400">University of Birmingham</span>
                     </div>
 
                     {/* DYNAMIC Typewriter - Job Roles (TYPING) */}
-                    <div className="text-2xl md:text-3xl font-bold mt-2 mb-12">
+                    <div className="text-2xl md:text-3xl font-bold">
                         <TypewriterEffect roles={roles} />
                     </div>
 
                     {/* Refined CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
                         <Link to="projects" smooth={true} offset={-70} duration={500}>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}

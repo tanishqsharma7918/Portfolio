@@ -17,9 +17,11 @@ function App() {
       <SocialSidebar />
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-6 pb-12 space-y-32">
-        <Hero />
+      {/* Hero Section - Full Width, Perfectly Centered */}
+      <Hero />
 
+      {/* Other Sections - Constrained Container */}
+      <main className="max-w-7xl mx-auto px-6 pb-12 space-y-32">
         <About />
         <Skills />
         <Experience />

@@ -6,6 +6,8 @@
   /* Seamless Deep Space Background - SOLID COLOR ONLY */
   body {
     @apply bg-white text-slate-900 transition-colors duration-300;
+    margin: 0;
+    padding: 0;
   }
   
   html.dark body {
@@ -16,10 +18,18 @@
   /* Ensure no scrollbar background issues */
   html {
     @apply bg-white;
+    margin: 0;
+    padding: 0;
   }
   
   html.dark {
     background-color: #030014; /* Solid hex color - NO gradients, NO grids, NO images */
+  }
+  
+  /* Remove default margins/padding from main */
+  main {
+    margin: 0;
+    padding: 0;
   }
 }
 
