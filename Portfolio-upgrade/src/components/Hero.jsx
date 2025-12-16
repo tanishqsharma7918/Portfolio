@@ -39,28 +39,28 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // EXACT PARTICLE CONFIGURATION - Bright stars with twinkling
+    // DENSE DYNAMIC STARFIELD - Increased density and speed
     const particlesOptions = useMemo(() => ({
         fullScreen: { enable: false },
-        background: { color: { value: "transparent" } }, // Important!
+        background: { color: { value: "transparent" } },
         fpsLimit: 120,
         particles: {
             color: { value: "#ffffff" },
-            links: { enable: false }, // No connecting lines
+            links: { enable: false },
             move: {
                 enable: true,
-                speed: 0.6, // Slow, elegant drift
+                speed: 1.5, // INCREASED speed for more dynamic feel
                 direction: "none",
                 random: true,
                 straight: false,
                 outModes: "out",
             },
             number: {
-                value: 120,
-                density: { enable: true, area: 800 },
+                value: 200, // INCREASED density from 120 to 200
+                density: { enable: true, area: 600 }, // DECREASED area for tighter packing
             },
             opacity: {
-                value: { min: 0.1, max: 1 }, // Twinkling effect (some bright, some dim)
+                value: { min: 0.1, max: 1 },
                 animation: {
                     enable: true,
                     speed: 1,
@@ -69,7 +69,7 @@ const Hero = () => {
             },
             shape: { type: "circle" },
             size: {
-                value: { min: 1, max: 3 }, // Varied star sizes
+                value: { min: 1, max: 3 },
             },
         },
     }), []);

@@ -57,7 +57,7 @@ const Navbar = () => {
     return (
         <>
             {/* FLOATING GLASS PILL NAVBAR - Desktop */}
-            <header className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-3xl">
+            <header className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-5xl">
                 {/* The Glass Container */}
                 <nav className="flex items-center gap-1 bg-[#0a192f]/85 backdrop-blur-md border border-[#64ffda]/10 px-2 py-2 rounded-full shadow-2xl">
                     
