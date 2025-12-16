@@ -59,7 +59,7 @@ const Hero = () => {
                 outModes: "out", // Stars flow off screen smoothly
             },
             number: {
-                value: 300, // HIGH DENSITY - Dense starfield
+                value: 250, // Optimized density - Balanced starfield
                 density: { enable: true, area: 800 },
             },
             // OPACITY: Varying opacity creates "Distance"
