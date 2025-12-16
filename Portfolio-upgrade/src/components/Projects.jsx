@@ -95,7 +95,15 @@ const ProjectCard = ({ project, index }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="glass-card p-6 flex flex-col h-full hover:scale-[1.02] transition-transform duration-300 relative overflow-hidden group"
+            whileHover={{ 
+                y: -12,
+                transition: { 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 15 
+                }
+            }}
+            className="glass-card p-6 flex flex-col h-full relative overflow-hidden group cursor-pointer"
         >
             {/* Gradient Blob Background for Card */}
             <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />

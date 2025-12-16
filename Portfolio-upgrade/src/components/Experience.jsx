@@ -56,7 +56,15 @@ const Experience = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="glass-card p-6 md:p-8 relative overflow-hidden group hover:bg-white/50 dark:hover:bg-black/50 transition-colors"
+                            whileHover={{ 
+                                y: -8,
+                                transition: { 
+                                    type: "spring", 
+                                    stiffness: 300, 
+                                    damping: 15 
+                                }
+                            }}
+                            className="glass-card p-6 md:p-8 relative overflow-hidden group hover:bg-white/50 dark:hover:bg-black/50 transition-colors cursor-pointer"
                         >
                             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                                 <div>
