@@ -77,24 +77,20 @@ const Hero = () => {
     return (
         <section 
             id="home" 
-            className="h-screen w-full relative overflow-hidden"
+            className="relative h-screen w-full bg-[#0a192f] overflow-hidden"
         >
-            {/* Layer 1 (Back): Dark Navy Background */}
-            <div className="absolute inset-0 bg-[#0a192f]" />
+            {/* LAYER 1: STARS - CRITICAL: Must have absolute inset-0 h-full w-full */}
+            <Particles
+                id="tsparticles-hero"
+                init={particlesInit}
+                options={particlesOptions}
+                className="absolute inset-0 h-full w-full z-0"
+            />
             
-            {/* Layer 2 (Middle): Particles Component */}
-            <div className="absolute inset-0">
-                <Particles
-                    id="tsparticles-hero"
-                    init={particlesInit}
-                    options={particlesOptions}
-                />
-            </div>
+            {/* LAYER 2: ATMOSPHERE GLOW (Standard Colors) */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-teal-500/20 z-[1] pointer-events-none" />
             
-            {/* Layer 3 (Overlay): Atmospheric Gradient Glow - THE SECRET LAYER */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-teal-500/20" />
-            
-            {/* Layer 4 (Front): Hero Content - Must be relative z-10 for clickability */}
+            {/* LAYER 3: CONTENT */}
             <div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-6 px-4 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
