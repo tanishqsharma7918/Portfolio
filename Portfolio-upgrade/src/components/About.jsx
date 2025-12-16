@@ -33,11 +33,11 @@ const About = () => {
                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                             Data-driven professional with a Computer Science foundation and an <span className="text-cyan-600 dark:text-cyan-400 font-semibold">MSc in Business Analytics from the University of Birmingham</span>.
                         </p>
-                        <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                            My experience bridges business analytics and machine learning, from building predictive and anomaly-detection models in <span className="text-purple-600 dark:text-purple-400 font-semibold">SQL, Python, and PySpark</span>, to developing secure <span className="text-cyan-600 dark:text-cyan-400 font-semibold">LLM and RAG-based systems</span> in production.
+                        <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                            I work across the analytics and machine learning stack—transforming and modeling data with <span className="text-purple-600 dark:text-purple-400 font-semibold">SQL, Python, and PySpark</span>, building predictive and anomaly-detection models, and developing secure, production-ready <span className="text-cyan-600 dark:text-cyan-400 font-semibold">LLM and RAG-based systems</span>.
                         </p>
                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                            I've delivered data solutions across consulting, healthcare, and technology domains that improve decision quality, automate reporting, and enhance operational intelligence.
+                            I have delivered scalable data solutions across <span className="text-emerald-600 dark:text-emerald-400 font-semibold">consulting, healthcare, and technology</span>, enabling trusted metrics, automating intelligence workflows, and supporting data-driven decision-making in production.
                         </p>
 
                         <div className="grid grid-cols-2 gap-4">
