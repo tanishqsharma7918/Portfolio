@@ -13,13 +13,15 @@ const About = () => {
                     transition={{ duration: 0.6 }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
                 >
-                    {/* Left: Image Placeholder */}
-                    <div className="relative group">
+                    {/* Left: Profile Photo */}
+                    <div className="relative group flex justify-center items-center">
                         <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="relative h-[400px] w-full glass-card flex items-center justify-center overflow-hidden">
-                            <User size={100} className="text-cyan-400 opacity-50" />
-                            {/* Note: User should replace this with actual image <img src="" /> */}
-                            <div className="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-500">Profile Image Placeholder</div>
+                        <div className="relative h-[400px] w-full glass-card flex items-center justify-center overflow-hidden p-8">
+                            <img 
+                                src="/profile.jpg" 
+                                alt="Tanishq Sharma" 
+                                className="rounded-2xl border-4 border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.3)] object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                            />
                         </div>
                     </div>
 
