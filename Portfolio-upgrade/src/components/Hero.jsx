@@ -77,65 +77,80 @@ const Hero = () => {
     return (
         <section 
             id="home" 
-            className="relative h-screen w-full bg-[#0a192f] overflow-hidden"
+            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
-            {/* LAYER 1: STARS - CRITICAL: Must have absolute inset-0 h-full w-full */}
-            <Particles
-                id="tsparticles-hero"
-                init={particlesInit}
-                options={particlesOptions}
-                className="absolute inset-0 h-full w-full z-0"
+            {/* LAYER 1: STARS (Only visible in Dark Mode) */}
+            <div className="absolute inset-0 z-0 opacity-0 dark:opacity-100 transition-opacity duration-500">
+                <Particles
+                    id="tsparticles"
+                    init={particlesInit}
+                    options={particlesOptions}
+                    className="absolute inset-0 h-full w-full"
+                />
+            </div>
+
+            {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
+            <div className="absolute inset-0 z-[1] pointer-events-none 
+                bg-gradient-to-br from-indigo-50/50 via-transparent to-teal-50/50 
+                dark:from-indigo-500/20 dark:via-transparent dark:to-teal-500/20 
+                transition-all duration-500" 
             />
-            
-            {/* LAYER 2: ATMOSPHERE GLOW (Standard Colors) */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-teal-500/20 z-[1] pointer-events-none" />
-            
+
             {/* LAYER 3: CONTENT */}
-            <div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-6 px-4 text-center">
+            <div className="relative z-10 container mx-auto px-4 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    <h2 className="text-xl md:text-2xl font-light text-navy dark:text-slate-400">
+                    {/* 1. 'Hello, I'm' - Fixed Visibility */}
+                    <p className="text-navy dark:text-green font-mono text-lg mb-2">
                         Hello, I'm
-                    </h2>
-                    
-                    {/* Name - Shimmering Gradient Animation (Nikhila Effect) */}
+                    </p>
+
+                    {/* 2. Main Name Title (Animated Gradient - Theme Aware) */}
                     <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
-                        <span className="animate-gradient-x bg-gradient-to-r from-[#64ffda] via-[#bd34fe] to-[#64ffda] bg-[length:200%_auto] bg-clip-text text-transparent">
+                        <span className="animate-gradient-x bg-gradient-to-r from-navy via-purple-600 to-navy dark:from-[#64ffda] dark:via-[#bd34fe] dark:to-[#64ffda] bg-[length:200%_auto] bg-clip-text text-transparent">
                             Tanishq Sharma
                         </span>
                     </h1>
 
-                    {/* CONSTANT Subheading - Master's Degree (STATIC, NOT TYPING) */}
-                    <div className="text-xl md:text-2xl text-navy dark:text-slate-400 font-medium">
-                        MSc in Business Analytics from <span className="text-teal dark:text-emerald-400">University of Birmingham</span>
-                    </div>
+                    {/* 3. Subheading - Fixed Visibility */}
+                    <h2 className="text-xl md:text-2xl font-light mb-6 text-navy dark:text-slate-400 max-w-2xl mx-auto">
+                        MSc in Business Analytics from <span className="text-purple-600 dark:text-green font-semibold">University of Birmingham</span>
+                    </h2>
 
-                    {/* DYNAMIC Typewriter - Job Roles (TYPING) */}
-                    <div className="text-2xl md:text-3xl font-bold">
+                    {/* 4. Typing Effect - Theme Aware */}
+                    <div className="text-2xl md:text-3xl font-bold mb-8">
                         <TypewriterEffect roles={roles} />
                     </div>
 
-                    {/* Refined CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
+                    {/* 5. Buttons - Fixed Visibility */}
+                    <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-4">
+                        {/* Primary Button (Filled) */}
                         <Link to="projects" smooth={true} offset={-70} duration={500}>
                             <motion.button
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 rounded-full bg-gradient-to-r from-teal-400 via-cyan-400 to-cyan-500 text-white font-semibold shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all flex items-center gap-2 text-lg"
+                                className="px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg
+                                    bg-navy text-white hover:bg-light-navy
+                                    dark:bg-green dark:text-navy dark:hover:bg-[#5de6c4]
+                                    flex items-center gap-2"
                             >
                                 View Projects <ArrowRight size={20} />
                             </motion.button>
                         </Link>
 
+                        {/* Secondary Button (Outline) - THE FIX IS HERE */}
                         <Link to="contact" smooth={true} offset={-70} duration={500}>
                             <motion.button
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 rounded-full bg-white/5 border border-navy dark:border-green text-navy dark:text-green backdrop-blur-sm font-semibold hover:bg-navy/10 dark:hover:bg-white/10 hover:border-navy/50 dark:hover:border-white/20 transition-all flex items-center gap-2 text-lg"
+                                className="px-8 py-3 rounded-full font-medium transition-all duration-300 border
+                                    border-navy text-navy hover:bg-navy/5
+                                    dark:border-green dark:text-green dark:hover:bg-green/10
+                                    flex items-center gap-2"
                             >
                                 Get In Touch <Mail size={20} />
                             </motion.button>
@@ -188,10 +203,10 @@ const TypewriterEffect = ({ roles }) => {
 
     return (
         <div className="flex items-center justify-center min-h-[3rem]">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-navy dark:from-emerald-400 dark:to-cyan-500">
                 {displayedText}
             </span>
-            <span className="animate-pulse text-emerald-400 ml-1">|</span>
+            <span className="animate-pulse text-navy dark:text-emerald-400 ml-1">|</span>
         </div>
     );
 };
