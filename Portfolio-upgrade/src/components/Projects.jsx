@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Folder } from 'lucide-react';
+import SpotlightCard from './SpotlightCard';
 
 const projects = [
     {
@@ -103,10 +104,11 @@ const ProjectCard = ({ project, index }) => {
                     damping: 15 
                 }
             }}
-            className="glass-card p-6 flex flex-col h-full relative overflow-hidden group cursor-pointer"
+            className="h-full"
         >
-            {/* Gradient Blob Background for Card */}
-            <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
+            <SpotlightCard className="flex flex-col h-full group cursor-pointer p-6">
+                {/* Gradient Blob Background for Card */}
+                <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
 
             <div className="mb-6 rounded-xl bg-gray-100 dark:bg-gray-800 h-48 flex items-center justify-center overflow-hidden border border-white/10 relative">
                 {/* Placeholder for Screenshot */}
@@ -153,6 +155,7 @@ const ProjectCard = ({ project, index }) => {
                     </a>
                 )}
             </div>
+            </SpotlightCard>
         </motion.div>
     );
 };
