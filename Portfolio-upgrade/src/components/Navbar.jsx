@@ -57,12 +57,12 @@ const Navbar = () => {
     return (
         <>
             {/* FLOATING GLASS PILL NAVBAR - Desktop */}
-            <header className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-5xl">
-                {/* The Glass Container */}
-                <nav className="flex items-center gap-1 bg-[#0a192f]/85 backdrop-blur-md border border-[#64ffda]/10 px-2 py-2 rounded-full shadow-2xl">
+            <header className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl">
+                {/* The Glass Container - Now with justify-between for proper spacing */}
+                <nav className="flex items-center justify-between gap-4 bg-[#0a192f]/85 backdrop-blur-md border border-[#64ffda]/10 px-6 py-3 rounded-full shadow-2xl">
                     
                     {/* Logo Section - Glowing Teal with Hover Effect */}
-                    <div className="pl-4 pr-6 font-bold text-lg tracking-tight">
+                    <div className="font-bold text-lg tracking-tight whitespace-nowrap">
                         <Link
                             to="home"
                             smooth={true}
@@ -74,7 +74,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Links */}
-                    <ul className="flex items-center gap-1">
+                    <ul className="flex items-center gap-2">
                         {navLinks.map((link) => (
                             <li key={link.name}>
                                 <Link
@@ -83,10 +83,10 @@ const Navbar = () => {
                                     offset={-100}
                                     onClick={() => setActive(link.name)}
                                     className={`
-                                        px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block
+                                        px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block whitespace-nowrap
                                         ${
                                             active === link.name
-                                                ? "bg-[#112240] text-[#64ffda] shadow-lg translate-y-0" // The Active 'Pill'
+                                                ? "bg-[#112240] text-[#64ffda] shadow-lg shadow-[#64ffda]/20" // The Active 'Pill' with glow
                                                 : "text-[#8892b0] hover:text-[#64ffda] hover:bg-[#112240]/50" // The Inactive State
                                         }
                                     `}
@@ -98,10 +98,10 @@ const Navbar = () => {
                     </ul>
 
                     {/* Dark Mode Toggle */}
-                    <div className="pl-2 pr-2 border-l border-[#64ffda]/10 ml-2">
+                    <div className="pl-4 pr-2 border-l border-[#64ffda]/10">
                         <button 
                             onClick={toggleTheme}
-                            className="p-2 text-[#64ffda] hover:bg-[#112240] rounded-full transition-all duration-300"
+                            className="p-2.5 text-[#64ffda] hover:bg-[#112240] rounded-full transition-all duration-300"
                             aria-label="Toggle theme"
                         >
                             {isDark ? <Moon size={18} /> : <Sun size={18} />}
