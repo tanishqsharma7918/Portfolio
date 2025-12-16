@@ -39,38 +39,43 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // THEME-AWARE STARFIELD - Dynamic particles for both light and dark modes
+    // ENERGETIC & CHAOTIC STARFIELD - Fast, dynamic particles with theme awareness
     const particlesOptions = useMemo(() => ({
         fullScreen: { enable: false },
         background: { color: { value: "transparent" } },
         fpsLimit: 120,
         particles: {
-            // DYNAMIC COLOR: Teal in Dark Mode, Navy in Light Mode
-            color: { 
+            // COLOR: Teal in Dark Mode, Navy in Light Mode
+            color: {
                 value: isDarkMode ? "#64ffda" : "#0a192f",
             },
-            links: { enable: false },
+            links: { enable: false }, // Keep disconnected for "Star" look
             move: {
                 enable: true,
-                speed: 0.6,
-                direction: "none",
-                random: true,
-                straight: false,
-                outModes: "out",
+                speed: 2, // INCREASED SPEED for energetic movement
+                direction: "none", // Omnidirectional
+                random: true, // Chaotic movement
+                straight: false, // Organic curves
+                outModes: "out", // Particles fly off screen (don't bounce)
+                attract: {
+                    enable: false,
+                    rotateX: 600,
+                    rotateY: 1200
+                }
             },
             number: {
-                value: 100,
+                value: 120, // Slightly more stars for the chaotic effect
                 density: { enable: true, area: 800 },
             },
-            // DYNAMIC OPACITY: Bright in Dark Mode, Very subtle in Light Mode
+            // OPACITY: Flashing/Twinkling effect
             opacity: {
                 value: { 
                     min: 0.1, 
-                    max: isDarkMode ? 1.0 : 0.3 // Max opacity is much lower in light mode
+                    max: isDarkMode ? 1.0 : 0.5 
                 },
                 animation: {
                     enable: true,
-                    speed: isDarkMode ? 1 : 0.5, // Slower twinkle in light mode
+                    speed: 3, // Fast twinkling
                     sync: false,
                 },
             },
@@ -79,8 +84,25 @@ const Hero = () => {
                 value: { min: 1, max: 3 },
             },
         },
+        // MOUSE INTERACTION: Particles flee from mouse
+        interactivity: {
+            events: {
+                onHover: {
+                    enable: true,
+                    mode: "bubble", // Particles grow on hover
+                },
+                resize: true,
+            },
+            modes: {
+                bubble: {
+                    distance: 200,
+                    size: 6,
+                    duration: 2,
+                    opacity: 1,
+                },
+            },
+        },
         detectRetina: true,
-    // CRITICAL: Add 'isDarkMode' to the dependency array so it updates on theme switch
     }), [isDarkMode]);
 
     return (
