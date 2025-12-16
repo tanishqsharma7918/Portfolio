@@ -41,88 +41,100 @@ const Navbar = () => {
     ];
 
     return (
-        <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-                isScrolled 
-                    ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg py-3' 
-                    : 'bg-transparent py-5'
-            }`}
-        >
-            <div className="max-w-7xl mx-auto px-6 flex justify-center items-center relative">
-                {/* Logo - Positioned Left */}
-                <Link
-                    to="home"
-                    smooth={true}
-                    className="absolute left-6 cursor-pointer font-bold text-xl tracking-wide text-gray-900 dark:text-white hover:opacity-80 transition-all hover:-translate-y-1 duration-200"
-                >
-                    Tanishq Sharma
-                </Link>
-
-                {/* Desktop Nav - Centered */}
-                <div className="hidden md:flex items-center space-x-8">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            to={link.to}
-                            smooth={true}
-                            offset={-70}
-                            className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-all hover:-translate-y-1 hover:scale-105 duration-200"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                </div>
-
-                {/* Theme Toggle - Positioned Right */}
-                <button
-                    onClick={toggleTheme}
-                    className="absolute right-6 p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all hover:-translate-y-1 hover:scale-110 duration-200"
-                    aria-label="Toggle Theme"
-                >
-                    {isDark ? <Moon size={20} className="text-gray-700" /> : <Sun size={20} className="text-yellow-400" />}
-                </button>
-
-                {/* Mobile Toggle */}
-                <div className="md:hidden flex items-center space-x-4">
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors"
+        <>
+            {/* FLOATING PILL-SHAPED NAVBAR - Desktop */}
+            <header className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl bg-opacity-30 backdrop-blur-md bg-[#0a192f] border border-white/10 rounded-full px-6 py-3 shadow-lg">
+                <nav className="flex items-center justify-between">
+                    {/* Logo/Name */}
+                    <Link
+                        to="home"
+                        smooth={true}
+                        className="text-xl font-bold text-[#64ffda] cursor-pointer hover:opacity-80 transition-opacity"
                     >
-                        {isDark ? <Moon size={20} /> : <Sun size={20} />}
-                    </button>
-                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                </div>
-            </div>
+                        Tanishq Sharma
+                    </Link>
 
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="md:hidden overflow-hidden glass border-t border-white/20"
-                    >
-                        <div className="flex flex-col space-y-4 p-6 items-center">
-                            {navLinks.map((link) => (
+                    {/* Navigation Links */}
+                    <ul className="flex items-center gap-8 text-sm font-medium text-gray-300">
+                        {navLinks.map((link) => (
+                            <li key={link.name}>
                                 <Link
-                                    key={link.name}
                                     to={link.to}
                                     smooth={true}
-                                    offset={-70}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="cursor-pointer text-lg font-medium hover:text-purple-500 transition-colors"
+                                    offset={-100}
+                                    className="hover:text-[#64ffda] transition-colors cursor-pointer"
                                 >
                                     {link.name}
                                 </Link>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </nav>
+                            </li>
+                        ))}
+                    </ul>
+
+                    {/* Dark Mode Toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+                        aria-label="Toggle Theme"
+                    >
+                        {isDark ? <Moon size={18} className="text-gray-300" /> : <Sun size={18} className="text-yellow-400" />}
+                    </button>
+                </nav>
+            </header>
+
+            {/* MOBILE NAVBAR - Full Width (Fallback) */}
+            <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#0a192f]/90 backdrop-blur-md border-b border-white/10 px-4 py-3">
+                <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <Link
+                        to="home"
+                        smooth={true}
+                        className="text-lg font-bold text-[#64ffda] cursor-pointer"
+                    >
+                        Tanishq Sharma
+                    </Link>
+
+                    {/* Mobile Controls */}
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        >
+                            {isDark ? <Moon size={18} /> : <Sun size={18} />}
+                        </button>
+                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            {isMobileMenuOpen ? <X size={24} className="text-gray-300" /> : <Menu size={24} className="text-gray-300" />}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Menu */}
+                <AnimatePresence>
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden border-t border-white/10 mt-3"
+                        >
+                            <div className="flex flex-col space-y-4 py-4">
+                                {navLinks.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        to={link.to}
+                                        smooth={true}
+                                        offset={-70}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="cursor-pointer text-base font-medium text-gray-300 hover:text-[#64ffda] transition-colors"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </nav>
+        </>
     );
 };
 
