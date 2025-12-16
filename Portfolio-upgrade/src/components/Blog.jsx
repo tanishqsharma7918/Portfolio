@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen } from 'lucide-react';
+import MouseTrackerCard from './MouseTrackerCard';
+import LevitatingCard from './LevitatingCard';
 
 const blogs = [
     {
@@ -49,8 +51,10 @@ const Blog = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="glass-card p-6 hover:bg-white/50 dark:hover:bg-black/50 transition-colors group cursor-pointer"
+                            className="h-full"
                         >
+                            <LevitatingCard>
+                                <MouseTrackerCard className="group cursor-pointer h-full flex flex-col">
                             <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                                 <span>{blog.date}</span>
                                 <span>{blog.readTime}</span>
@@ -67,6 +71,8 @@ const Blog = () => {
                                 </div>
                                 <ArrowRight size={16} className="text-purple-500 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all" />
                             </div>
+                                </MouseTrackerCard>
+                            </LevitatingCard>
                         </motion.div>
                     ))}
                 </div>

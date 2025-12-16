@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar } from 'lucide-react';
 import MouseTrackerCard from './MouseTrackerCard';
+import LevitatingCard from './LevitatingCard';
 
 const experiences = [
     {
@@ -57,16 +58,9 @@ const Experience = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ 
-                                y: -8,
-                                transition: { 
-                                    type: "spring", 
-                                    stiffness: 300, 
-                                    damping: 15 
-                                }
-                            }}
                         >
-                            <MouseTrackerCard className="group cursor-pointer">
+                            <LevitatingCard>
+                                <MouseTrackerCard className="group cursor-pointer">
                             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                                 <div>
                                     <h3 className="text-xl font-bold text-gradient-blue">{exp.role}</h3>
@@ -90,7 +84,8 @@ const Experience = () => {
                                     </span>
                                 ))}
                             </div>
-                            </MouseTrackerCard>
+                                </MouseTrackerCard>
+                            </LevitatingCard>
                         </motion.div>
                     ))}
                 </div>

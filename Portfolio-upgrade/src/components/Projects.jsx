@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Folder } from 'lucide-react';
 import MouseTrackerCard from './MouseTrackerCard';
+import LevitatingCard from './LevitatingCard';
 
 const projects = [
     {
@@ -96,17 +97,10 @@ const ProjectCard = ({ project, index }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ 
-                y: -12,
-                transition: { 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 15 
-                }
-            }}
             className="h-full"
         >
-            <MouseTrackerCard className="flex flex-col h-full group cursor-pointer p-6">
+            <LevitatingCard>
+                <MouseTrackerCard className="flex flex-col h-full group cursor-pointer p-6">
                 {/* Gradient Blob Background for Card */}
                 <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
 
@@ -155,7 +149,8 @@ const ProjectCard = ({ project, index }) => {
                     </a>
                 )}
             </div>
-            </MouseTrackerCard>
+                </MouseTrackerCard>
+            </LevitatingCard>
         </motion.div>
     );
 };
