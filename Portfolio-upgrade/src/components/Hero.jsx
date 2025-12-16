@@ -39,67 +39,45 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // ENERGETIC & CHAOTIC STARFIELD - Fast, dynamic particles with theme awareness
+    // HYPER-SPACE STARFIELD - Dense, Fast, 3D Parallax Effect
     const particlesOptions = useMemo(() => ({
         fullScreen: { enable: false },
         background: { color: { value: "transparent" } },
         fpsLimit: 120,
         particles: {
-            // COLOR: Teal in Dark Mode, Navy in Light Mode
+            // COLOR: Teal/White in Dark Mode, Navy in Light Mode
             color: {
-                value: isDarkMode ? "#64ffda" : "#0a192f",
+                value: isDarkMode ? ["#ffffff", "#64ffda"] : ["#0a192f", "#112240"],
             },
-            links: { enable: false }, // Keep disconnected for "Star" look
+            links: { enable: false }, // No lines, just stars
             move: {
                 enable: true,
-                speed: 2, // INCREASED SPEED for energetic movement
-                direction: "none", // Omnidirectional
-                random: true, // Chaotic movement
-                straight: false, // Organic curves
-                outModes: "out", // Particles fly off screen (don't bounce)
-                attract: {
-                    enable: false,
-                    rotateX: 600,
-                    rotateY: 1200
-                }
+                speed: 3, // FAST speed for hyperspace feel
+                direction: "none", // Chaos direction
+                random: true,
+                straight: false,
+                outModes: "out", // Stars flow off screen smoothly
             },
             number: {
-                value: 120, // Slightly more stars for the chaotic effect
+                value: 300, // HIGH DENSITY - Dense starfield
                 density: { enable: true, area: 800 },
             },
-            // OPACITY: Flashing/Twinkling effect
+            // OPACITY: Varying opacity creates "Distance"
             opacity: {
                 value: { 
                     min: 0.1, 
-                    max: isDarkMode ? 1.0 : 0.5 
+                    max: isDarkMode ? 1.0 : 0.4 
                 },
                 animation: {
                     enable: true,
-                    speed: 3, // Fast twinkling
+                    speed: 3,
                     sync: false,
                 },
             },
             shape: { type: "circle" },
+            // SIZE: Wide range creates 3D Parallax (Small = Far, Big = Close)
             size: {
-                value: { min: 1, max: 3 },
-            },
-        },
-        // MOUSE INTERACTION: Particles flee from mouse
-        interactivity: {
-            events: {
-                onHover: {
-                    enable: true,
-                    mode: "bubble", // Particles grow on hover
-                },
-                resize: true,
-            },
-            modes: {
-                bubble: {
-                    distance: 200,
-                    size: 6,
-                    duration: 2,
-                    opacity: 1,
-                },
+                value: { min: 0.5, max: 3 }, 
             },
         },
         detectRetina: true,
