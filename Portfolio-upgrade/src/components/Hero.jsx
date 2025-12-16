@@ -98,18 +98,20 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    <h2 className="text-xl md:text-2xl font-light text-slate-500 dark:text-slate-400">
+                    <h2 className="text-xl md:text-2xl font-light text-navy dark:text-slate-400">
                         Hello, I'm
                     </h2>
                     
-                    {/* Name - Bright Visible Teal with Glow */}
-                    <h1 className="text-7xl md:text-8xl font-extrabold tracking-tight leading-none text-[#64ffda] drop-shadow-[0_0_25px_rgba(100,255,218,0.6)]">
-                        Tanishq Sharma
+                    {/* Name - Shimmering Gradient Animation (Nikhila Effect) */}
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
+                        <span className="animate-gradient-x bg-gradient-to-r from-[#64ffda] via-[#bd34fe] to-[#64ffda] bg-[length:200%_auto] bg-clip-text text-transparent">
+                            Tanishq Sharma
+                        </span>
                     </h1>
 
                     {/* CONSTANT Subheading - Master's Degree (STATIC, NOT TYPING) */}
-                    <div className="text-xl md:text-2xl text-slate-400 dark:text-slate-300 font-medium">
-                        MSc in Business Analytics from <span className="text-emerald-400">University of Birmingham</span>
+                    <div className="text-xl md:text-2xl text-navy dark:text-slate-400 font-medium">
+                        MSc in Business Analytics from <span className="text-teal dark:text-emerald-400">University of Birmingham</span>
                     </div>
 
                     {/* DYNAMIC Typewriter - Job Roles (TYPING) */}
@@ -133,7 +135,7 @@ const Hero = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm font-semibold hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-2 text-lg text-slate-300"
+                                className="px-8 py-4 rounded-full bg-white/5 border border-navy dark:border-green text-navy dark:text-green backdrop-blur-sm font-semibold hover:bg-navy/10 dark:hover:bg-white/10 hover:border-navy/50 dark:hover:border-white/20 transition-all flex items-center gap-2 text-lg"
                             >
                                 Get In Touch <Mail size={20} />
                             </motion.button>

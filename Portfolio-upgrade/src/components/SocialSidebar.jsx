@@ -37,7 +37,7 @@ const SocialSidebar = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
                     whileHover={{ scale: 1.2, x: 5 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`p-3 rounded-full glass backdrop-blur-md transition-all ${social.color} group`}
+                    className={`p-3 rounded-full glass backdrop-blur-md transition-all text-navy dark:text-lightSlate ${social.color} group`}
                     aria-label={social.name}
                 >
                     <div className="transform group-hover:rotate-12 transition-transform">
