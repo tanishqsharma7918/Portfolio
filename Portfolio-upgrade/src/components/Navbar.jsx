@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(false);
+    const [isDark, setIsDark] = useState(true); // Default to dark mode
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,18 +14,21 @@ const Navbar = () => {
         };
         window.addEventListener('scroll', handleScroll);
 
-        // Check system preference on mount
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        }
+        // Initialize dark mode on mount
+        document.documentElement.classList.add('dark');
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const toggleTheme = () => {
-        setIsDark(!isDark);
-        document.documentElement.classList.toggle('dark');
+        const newIsDark = !isDark;
+        setIsDark(newIsDark);
+        
+        if (newIsDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     };
 
     const navLinks = [

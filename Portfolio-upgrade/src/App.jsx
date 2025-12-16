@@ -11,8 +11,8 @@ import SocialSidebar from './components/SocialSidebar';
 
 function App() {
   return (
-    <div className="relative min-h-screen overflow-hidden selection:bg-cyan-500 selection:text-white bg-[#030014]">
-      {/* Solid Deep Space Void: #030014 - ZERO patterns, ZERO grids, ZERO images */}
+    <div className="relative min-h-screen overflow-hidden selection:bg-cyan-500 selection:text-white bg-white dark:bg-[#030014] transition-colors duration-300">
+      {/* Light Mode: White background | Dark Mode: Deep Space Void (#030014) */}
 
       <SocialSidebar />
       <Navbar />
