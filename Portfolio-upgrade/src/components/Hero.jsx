@@ -117,7 +117,7 @@ const Hero = () => {
                     </h1>
 
                     {/* 3. Subheading - Fixed Visibility */}
-                    <h2 className="text-xl md:text-2xl font-light mb-6 text-navy dark:text-slate-400 max-w-2xl mx-auto">
+                    <h2 className="text-xl md:text-2xl font-light mb-6 text-navy dark:text-lightSlate max-w-2xl mx-auto">
                         MSc in Business Analytics from <span className="text-purple-600 dark:text-green font-semibold">University of Birmingham</span>
                     </h2>
 
