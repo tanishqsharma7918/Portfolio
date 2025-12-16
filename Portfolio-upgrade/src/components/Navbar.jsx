@@ -70,30 +70,29 @@ const Navbar = () => {
             {/* --- DESKTOP NAVBAR --- */}
             <header className={`hidden md:block fixed left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl transition-all duration-300 ${scrolled ? 'top-4' : 'top-6'}`}>
                 
-                {/* GLASS CONTAINER: White in Light Mode / Navy in Dark Mode */}
-                <nav className="flex items-center justify-between 
+                {/* GLASS CONTAINER */}
+                <nav className="relative flex items-center justify-between 
                     bg-white/80 dark:bg-navy/85 
                     backdrop-blur-md 
                     border border-navy/10 dark:border-green/10 
-                    px-6 py-3 rounded-full shadow-xl transition-colors duration-300"
+                    px-6 py-3 rounded-full shadow-xl transition-colors duration-300 h-16"
                 >
-                    
-                    {/* LOGO: Navy in Light / Teal in Dark */}
+                    {/* 1. LEFT: Logo */}
                     <Link
                         to="home"
                         smooth={true}
                         className="cursor-pointer font-bold text-xl tracking-tight 
                             text-navy dark:text-green 
-                            hover:text-green transition-colors duration-300"
+                            hover:text-green transition-colors duration-300 z-20"
                         onClick={() => setActive("Home")}
                     >
                         Tanishq Sharma
                     </Link>
 
-                    {/* LINKS + TOGGLE */}
-                    <div className="flex items-center gap-6">
+                    {/* 2. CENTER: Navigation Links (Absolute Centering) */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block z-10">
                         <ul className="flex items-center gap-1">
-                            {navLinks.map((link, index) => (
+                            {navLinks.map((link) => (
                                 <li key={link.name}>
                                     <Link
                                         to={link.href}
@@ -101,11 +100,11 @@ const Navbar = () => {
                                         offset={-100}
                                         onClick={() => setActive(link.name)}
                                         className={`
-                                            px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block
+                                            px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer inline-block
                                             ${
                                                 active === link.name
-                                                    ? "bg-navy/5 text-navy dark:bg-light-navy dark:text-green shadow-sm translate-y-0" // ACTIVE: Subtle Gray in Light / Dark Pill in Dark
-                                                    : "text-slate-600 dark:text-slate hover:text-navy dark:hover:text-green hover:bg-navy/5 dark:hover:bg-light-navy/50" // INACTIVE
+                                                    ? "bg-navy/5 text-navy dark:bg-light-navy dark:text-green shadow-sm" 
+                                                    : "text-slate-600 dark:text-slate hover:text-navy dark:hover:text-green"
                                             }
                                         `}
                                     >
@@ -114,19 +113,19 @@ const Navbar = () => {
                                 </li>
                             ))}
                         </ul>
+                    </div>
 
-                        {/* THEME TOGGLE */}
-                        <div className="pl-4 border-l border-navy/10 dark:border-green/20">
-                            <button 
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full transition-all duration-300
-                                    text-navy hover:bg-navy/10 
-                                    dark:text-green dark:hover:bg-light-navy"
-                                aria-label="Toggle theme"
-                            >
-                                {isDark ? <Moon size={18} /> : <Sun size={18} />}
-                            </button>
-                        </div>
+                    {/* 3. RIGHT: Theme Toggle */}
+                    <div className="pl-4 border-l border-navy/10 dark:border-green/20 z-20">
+                        <button 
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full transition-all duration-300
+                                text-navy hover:bg-navy/10 
+                                dark:text-green dark:hover:bg-light-navy"
+                            aria-label="Toggle theme"
+                        >
+                            {isDark ? <Moon size={18} /> : <Sun size={18} />}
+                        </button>
                     </div>
                 </nav>
             </header>
