@@ -39,75 +39,66 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // SUBTLE ATMOSPHERIC PARTICLES - Sparse, elegant whisper
+    // DEEP SPACE STARFIELD - Exact configuration for depth and atmosphere
     const particlesOptions = useMemo(() => ({
         background: {
-            color: { value: "transparent" },
+            color: { value: "transparent" }, // Transparent so CSS gradient shows through
         },
-        fpsLimit: 60,
-        particles: {
-            number: {
-                value: 60, // LOW density - sparse, evenly scattered
-                density: {
+        fpsLimit: 120,
+        interactivity: {
+            events: {
+                onHover: {
                     enable: true,
-                    value_area: 1000, // INCREASED for sparse distribution
+                    mode: "bubble", // Stars grow slightly when hovered
+                },
+                resize: true,
+            },
+            modes: {
+                bubble: {
+                    distance: 200,
+                    size: 4,
+                    duration: 2,
+                    opacity: 1,
                 },
             },
-            color: {
-                value: isDarkMode ? "#ffffff" : "#0a192f", // Simple white/navy
+        },
+        particles: {
+            color: { value: "#ffffff" },
+            links: {
+                enable: false, // IMPORTANT: No lines between stars
+            },
+            move: {
+                enable: true,
+                direction: "none",
+                outModes: { default: "out" },
+                random: true,
+                speed: 0.3, // Very slow, drift effect
+                straight: false,
+            },
+            number: {
+                density: {
+                    enable: true,
+                    area: 800,
+                },
+                value: 120, // Solid density without being messy
+            },
+            opacity: {
+                value: { min: 0.3, max: 0.8 }, // Random opacity for depth
+                animation: {
+                    enable: true,
+                    speed: 0.5,
+                    sync: false,
+                },
             },
             shape: {
                 type: "circle",
             },
-            opacity: {
-                value: 0.3, // Low opacity - barely noticeable
-                random: true,
-                animation: {
-                    enable: true,
-                    speed: 0.3, // Very slow, subtle twinkling
-                    opacity_min: 0.1,
-                    sync: false,
-                },
-            },
             size: {
-                value: 1.5, // Small particles
-                random: true,
-                animation: {
-                    enable: false, // No size pulsing - keep it minimal
-                },
-            },
-            move: {
-                enable: true,
-                speed: 0.5, // VERY slow drift - almost static
-                direction: "none",
-                random: true,
-                straight: false,
-                outModes: {
-                    default: "out",
-                },
-                bounce: false,
-                attract: {
-                    enable: false,
-                },
-            },
-        },
-        interactivity: {
-            detect_on: "canvas",
-            events: {
-                onhover: { enable: false }, // No interaction
-                onclick: { enable: false },
-                resize: true,
+                value: { min: 1, max: 3 }, // Random sizes
             },
         },
         detectRetina: true,
-        motion: {
-            disable: false,
-            reduce: {
-                factor: 4,
-                value: true,
-            },
-        },
-    }), [isDarkMode]);
+    }), []);
 
     return (
         <section 
@@ -115,7 +106,7 @@ const Hero = () => {
             className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300"
             style={{
                 background: isDarkMode 
-                    ? 'linear-gradient(to bottom, #0a192f, #1a2332)' // Dark navy gradient
+                    ? 'linear-gradient(to bottom, #0a192f, #000000)' // Deep space: navy to pure black
                     : 'linear-gradient(to bottom, #f8f9fa, #e9ecef)'  // Light gray gradient
             }}
         >
