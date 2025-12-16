@@ -39,79 +39,51 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // DEEP SPACE STARFIELD - Exact configuration for depth and atmosphere
+    // EXACT PARTICLE CONFIGURATION - Bright stars with twinkling
     const particlesOptions = useMemo(() => ({
-        background: {
-            color: { value: "transparent" }, // Transparent so CSS gradient shows through
-        },
+        fullScreen: { enable: false },
+        background: { color: { value: "transparent" } }, // Important!
         fpsLimit: 120,
-        interactivity: {
-            events: {
-                onHover: {
-                    enable: true,
-                    mode: "bubble", // Stars grow slightly when hovered
-                },
-                resize: true,
-            },
-            modes: {
-                bubble: {
-                    distance: 200,
-                    size: 4,
-                    duration: 2,
-                    opacity: 1,
-                },
-            },
-        },
         particles: {
             color: { value: "#ffffff" },
-            links: {
-                enable: false, // IMPORTANT: No lines between stars
-            },
+            links: { enable: false }, // No connecting lines
             move: {
                 enable: true,
+                speed: 0.6, // Slow, elegant drift
                 direction: "none",
-                outModes: { default: "out" },
                 random: true,
-                speed: 0.3, // Very slow, drift effect
                 straight: false,
+                outModes: "out",
             },
             number: {
-                density: {
-                    enable: true,
-                    area: 800,
-                },
-                value: 120, // Solid density without being messy
+                value: 120,
+                density: { enable: true, area: 800 },
             },
             opacity: {
-                value: { min: 0.3, max: 0.8 }, // Random opacity for depth
+                value: { min: 0.1, max: 1 }, // Twinkling effect (some bright, some dim)
                 animation: {
                     enable: true,
-                    speed: 0.5,
+                    speed: 1,
                     sync: false,
                 },
             },
-            shape: {
-                type: "circle",
-            },
+            shape: { type: "circle" },
             size: {
-                value: { min: 1, max: 3 }, // Random sizes
+                value: { min: 1, max: 3 }, // Varied star sizes
             },
         },
-        detectRetina: true,
     }), []);
 
     return (
         <section 
             id="home" 
-            className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300"
-            style={{
-                background: isDarkMode 
-                    ? 'linear-gradient(to bottom, #0a192f, #000000)' // Deep space: navy to pure black
-                    : 'linear-gradient(to bottom, #f8f9fa, #e9ecef)'  // Light gray gradient
-            }}
+            className="h-screen w-full relative overflow-hidden"
         >
-            {/* SUBTLE Atmospheric Particles - Contained within hero section ONLY */}
-            <div className="absolute inset-0" style={{ zIndex: 0 }}>
+            {/* Layer 1 (Back): Dark Navy Background */}
+            <div className="absolute inset-0 bg-[#0a192f]" />
+            
+            {/* Layer 2 (Middle): Particles Component */}
+            <div className="absolute inset-0">
                 <Particles
                     id="tsparticles-hero"
                     init={particlesInit}
@@ -119,19 +91,11 @@ const Hero = () => {
                 />
             </div>
             
-            {/* Subtle Nebula Glow (Behind the Name) */}
-            <div 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
-                style={{
-                    zIndex: 1,
-                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)',
-                    filter: 'blur(80px)',
-                    opacity: 0.3,
-                }}
-            />
+            {/* Layer 3 (Overlay): Atmospheric Gradient Glow - THE SECRET LAYER */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-teal-500/20" />
             
-            {/* Content Wrapper - Perfectly Centered */}
-            <div className="z-10 flex flex-col items-center gap-6 px-4 text-center">
+            {/* Layer 4 (Front): Hero Content - Must be relative z-10 for clickability */}
+            <div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-6 px-4 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
