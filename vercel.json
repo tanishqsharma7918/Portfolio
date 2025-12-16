@@ -1,7 +1,6 @@
 {
-  "buildCommand": "cd Portfolio-upgrade && npm run build",
+  "buildCommand": "npm run build",
+  "devCommand": "cd Portfolio-upgrade && npm run dev",
   "outputDirectory": "Portfolio-upgrade/dist",
-  "installCommand": "cd Portfolio-upgrade && npm install",
-  "framework": null,
-  "ignoreCommand": "echo 'No jekyll here'"
+  "installCommand": "npm install --prefix Portfolio-upgrade"
 }
