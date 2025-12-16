@@ -8,11 +8,11 @@ import { loadSlim } from 'tsparticles-slim';
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
     
-    // Updated roles sequence to match reference
+    // Dynamic job roles for typewriter (NOT the degree)
     const roles = [
         'AI/ML Engineer',
         'Data Analyst',
-        'Master\'s in Business Analytics'
+        'Problem Solver'
     ];
 
     // Detect dark mode
@@ -51,18 +51,18 @@ const Hero = () => {
             },
             move: {
                 enable: true,
-                direction: "none",      // Random drifting
+                direction: "right",     // Energetic flight to the right (warp effect)
                 outModes: { default: "out" }, // Particles flow off-screen seamlessly
-                random: true,
-                speed: 1.2,             // Faster visible movement (matching reference video)
+                random: false,
+                speed: 3,               // FAST SPEED - Make them fly! (warp effect)
                 straight: false,
             },
             number: {
                 density: {
                     enable: true,
-                    area: 1200,           // High area = Lower density (creates "Deep Space" feel)
+                    area: 800,            // Denser distribution for energetic feel
                 },
-                value: 80,              // Keep count low. Too many stars ruins the depth.
+                value: 160,             // Higher count for warp effect
             },
             opacity: {
                 animation: {
@@ -112,15 +112,20 @@ const Hero = () => {
                         Hello, I'm
                     </h2>
                     
-                    {/* Refined elegant name - Lighter, tighter, more refined */}
-                    <h1 className="text-6xl md:text-8xl font-extrabold mb-8 tracking-tight leading-none">
+                    {/* Name - Matching Nikhila's size */}
+                    <h1 className="text-7xl md:text-8xl font-extrabold mb-6 tracking-tight leading-none">
                         <span className="bg-gradient-to-r from-teal-200 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
                             Tanishq Sharma
                         </span>
                     </h1>
 
-                    {/* Typewriter Effect with accent color */}
-                    <div className="h-12 mb-12 flex items-center justify-center">
+                    {/* CONSTANT Subheading - Master's Degree (STATIC, NOT TYPING) */}
+                    <div className="text-xl md:text-2xl text-slate-400 dark:text-slate-300 mt-4 mb-3 font-medium">
+                        MSc in Business Analytics from <span className="text-emerald-400">University of Birmingham</span>
+                    </div>
+
+                    {/* DYNAMIC Typewriter - Job Roles (TYPING) */}
+                    <div className="text-2xl md:text-3xl font-bold mt-2 mb-12">
                         <TypewriterEffect roles={roles} />
                     </div>
 
@@ -192,12 +197,11 @@ const TypewriterEffect = ({ roles }) => {
     }, [displayedText, isDeleting, currentRoleIndex, roles]);
 
     return (
-        <div className="flex items-center justify-center gap-2 min-h-[2rem]">
-            <span className="text-lg md:text-xl text-gray-500 dark:text-gray-400">I am a</span>
-            <span className="text-xl md:text-2xl font-medium text-teal-500 dark:text-teal-400">
+        <div className="flex items-center justify-center min-h-[3rem]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">
                 {displayedText}
             </span>
-            <span className="animate-pulse text-teal-500">|</span>
+            <span className="animate-pulse text-emerald-400 ml-1">|</span>
         </div>
     );
 };
