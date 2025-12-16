@@ -102,11 +102,9 @@ const Hero = () => {
                         Hello, I'm
                     </h2>
                     
-                    {/* Name - Matching Nikhila's size */}
-                    <h1 className="text-7xl md:text-8xl font-extrabold tracking-tight leading-none">
-                        <span className="bg-gradient-to-r from-teal-200 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                            Tanishq Sharma
-                        </span>
+                    {/* Name - Bright Visible Teal with Glow */}
+                    <h1 className="text-7xl md:text-8xl font-extrabold tracking-tight leading-none text-[#64ffda] drop-shadow-[0_0_25px_rgba(100,255,218,0.6)]">
+                        Tanishq Sharma
                     </h1>
 
                     {/* CONSTANT Subheading - Master's Degree (STATIC, NOT TYPING) */}
