@@ -39,49 +39,86 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // Particles configuration - Exact physics to match reference
+    // Professional Starfield Configuration - Smooth 60fps with parallax depth
     const particlesOptions = useMemo(() => ({
         background: {
-            color: { value: "transparent" }, // Crucial: No background color here, let CSS handle it
+            color: { value: "transparent" }, // Let CSS handle background
         },
-        fpsLimit: 120,
+        fpsLimit: 60, // Smooth, buttery 60fps animation
         particles: {
-            color: { 
-                value: isDarkMode ? "#ffffff" : "#64748b" // White in dark mode, slate-gray in light mode
+            number: {
+                value: 100, // Medium density for balance
+                density: {
+                    enable: true,
+                    value_area: 800, // Responsive to viewport
+                },
+            },
+            color: {
+                value: isDarkMode ? "#ffffff" : "#0a192f", // White stars (dark) / Navy stars (light)
+            },
+            shape: {
+                type: "circle", // Star-like dots
+            },
+            opacity: {
+                value: 0.5, // Base 50% opacity
+                random: true, // Random 30-70% for depth
+                animation: {
+                    enable: true,
+                    speed: 0.5, // Gentle twinkling
+                    opacity_min: 0.3, // Minimum 30%
+                    sync: false, // Independent animations
+                },
+            },
+            size: {
+                value: 2, // Base 2px
+                random: true, // Mix of 1px, 2px, 3px
+                animation: {
+                    enable: false, // No size pulsing
+                },
             },
             move: {
                 enable: true,
-                direction: "right",     // Energetic flight to the right (warp effect)
-                outModes: { default: "out" }, // Particles flow off-screen seamlessly
-                random: false,
-                speed: 3,               // FAST SPEED - Make them fly! (warp effect)
-                straight: false,
-            },
-            number: {
-                density: {
-                    enable: true,
-                    area: 800,            // Denser distribution for energetic feel
+                speed: 1, // Very slow (1-3 pixels per second) - gentle drift
+                direction: "none", // Random omnidirectional movement
+                random: true, // Natural floating
+                straight: false, // Curved paths for organic feel
+                outModes: {
+                    default: "out", // Seamless infinite loop
                 },
-                value: 160,             // Higher count for warp effect
-            },
-            opacity: {
-                animation: {
-                    enable: true,
-                    speed: 0.5,           // Slow twinkling
-                    sync: false,
+                bounce: false,
+                attract: {
+                    enable: false,
                 },
-                value: { min: 0.1, max: 0.6 }, // Varying opacity creates "Distance/3D" effect
-            },
-            shape: { type: "circle" },
-            size: {
-                value: { min: 1, max: 3 }, // Tiny dots, not big blobs
             },
         },
-        detectRetina: true,
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: false }, // No hover interaction
+                onclick: { enable: false }, // No click interaction
+                resize: true, // Responsive to viewport changes
+            },
+        },
+        detectRetina: true, // Crisp on retina displays
+        motion: {
+            disable: false, // Respects prefers-reduced-motion
+            reduce: {
+                factor: 4, // Slow down for accessibility
+                value: true,
+            },
+        },
     }), [isDarkMode]);
 
     return (
-        <section id="home" className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-white dark:bg-[#030014] transition-colors duration-300">
+        <section 
+            id="home" 
+            className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300"
+            style={{
+                background: isDarkMode 
+                    ? 'linear-gradient(to bottom, #0a192f, #020c1b)' // Dark navy to deep black
+                    : 'linear-gradient(to bottom, #f8f9fa, #e9ecef)'  // Light gray gradient
+            }}
+        >
             {/* Layer 1: Flowing Starfield (Deep Space) - Seamless on solid background */}
             <div className="absolute inset-0" style={{ zIndex: 0 }}>
                 <Particles
