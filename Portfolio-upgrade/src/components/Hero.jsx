@@ -39,31 +39,38 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // DENSE DYNAMIC STARFIELD - Increased density and speed
+    // THEME-AWARE STARFIELD - Dynamic particles for both light and dark modes
     const particlesOptions = useMemo(() => ({
         fullScreen: { enable: false },
         background: { color: { value: "transparent" } },
         fpsLimit: 120,
         particles: {
-            color: { value: "#ffffff" },
+            // DYNAMIC COLOR: Teal in Dark Mode, Navy in Light Mode
+            color: { 
+                value: isDarkMode ? "#64ffda" : "#0a192f",
+            },
             links: { enable: false },
             move: {
                 enable: true,
-                speed: 1.5, // INCREASED speed for more dynamic feel
+                speed: 0.6,
                 direction: "none",
                 random: true,
                 straight: false,
                 outModes: "out",
             },
             number: {
-                value: 200, // INCREASED density from 120 to 200
-                density: { enable: true, area: 600 }, // DECREASED area for tighter packing
+                value: 100,
+                density: { enable: true, area: 800 },
             },
+            // DYNAMIC OPACITY: Bright in Dark Mode, Very subtle in Light Mode
             opacity: {
-                value: { min: 0.1, max: 1 },
+                value: { 
+                    min: 0.1, 
+                    max: isDarkMode ? 1.0 : 0.3 // Max opacity is much lower in light mode
+                },
                 animation: {
                     enable: true,
-                    speed: 1,
+                    speed: isDarkMode ? 1 : 0.5, // Slower twinkle in light mode
                     sync: false,
                 },
             },
@@ -72,22 +79,22 @@ const Hero = () => {
                 value: { min: 1, max: 3 },
             },
         },
-    }), []);
+        detectRetina: true,
+    // CRITICAL: Add 'isDarkMode' to the dependency array so it updates on theme switch
+    }), [isDarkMode]);
 
     return (
         <section 
             id="home" 
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
-            {/* LAYER 1: STARS (Only visible in Dark Mode) */}
-            <div className="absolute inset-0 z-0 opacity-0 dark:opacity-100 transition-opacity duration-500">
-                <Particles
-                    id="tsparticles"
-                    init={particlesInit}
-                    options={particlesOptions}
-                    className="absolute inset-0 h-full w-full"
-                />
-            </div>
+            {/* LAYER 1: STARS (Visible in both modes with theme-aware styling) */}
+            <Particles
+                id="tsparticles"
+                init={particlesInit}
+                options={particlesOptions}
+                className="absolute inset-0 h-full w-full z-0"
+            />
 
             {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
             <div className="absolute inset-0 z-[1] pointer-events-none 
