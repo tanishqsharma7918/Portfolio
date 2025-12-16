@@ -42,7 +42,7 @@
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-400 to-purple-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-200 via-cyan-400 to-purple-500;
   }
 
   .text-gradient-blue {
@@ -52,9 +52,10 @@
 
 /* REMOVED: Background noise and gradient blobs for clean deep space look */
 /* The only background effects should be:
-   1. Solid color (#020617 in dark mode, #ffffff in light mode)
-   2. tsparticles starfield in Hero section
+   1. Solid color (#030014 in dark mode, #ffffff in light mode) - VOID ONLY
+   2. tsparticles starfield in Hero section (80 particles, speed 0.3)
    3. Nebula glow behind the name in Hero section
+   ZERO patterns, ZERO grids, ZERO background images
 */
 
 @keyframes shimmer {

@@ -8,10 +8,11 @@ import { loadSlim } from 'tsparticles-slim';
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
     
+    // Updated roles sequence to match reference
     const roles = [
-        'MSc Business Analytics',
-        'AI Engineer',
-        'Data Strategist'
+        'AI/ML Engineer',
+        'Data Analyst',
+        'Master\'s in Business Analytics'
     ];
 
     // Detect dark mode
@@ -107,32 +108,29 @@ const Hero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2 className="text-xl md:text-2xl font-light mb-6 text-slate-600 dark:text-slate-400">
+                    <h2 className="text-xl md:text-2xl font-light mb-6 text-slate-500 dark:text-slate-400">
                         Hello, I'm
                     </h2>
                     
-                    {/* Large elegant name */}
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tight leading-none">
-                        <span className="text-gradient">Tanishq Sharma</span>
+                    {/* Refined elegant name - Lighter, tighter, more refined */}
+                    <h1 className="text-6xl md:text-8xl font-extrabold mb-8 tracking-tight leading-none">
+                        <span className="bg-gradient-to-r from-teal-200 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                            Tanishq Sharma
+                        </span>
                     </h1>
 
-                    {/* Subtitle */}
-                    <h3 className="text-xl md:text-3xl text-gray-700 dark:text-gray-200 font-medium mb-4">
-                        Master's in Computer Science Student
-                    </h3>
-
-                    {/* Typewriter Effect */}
-                    <div className="h-10 mb-12 flex items-center justify-center">
+                    {/* Typewriter Effect with accent color */}
+                    <div className="h-12 mb-12 flex items-center justify-center">
                         <TypewriterEffect roles={roles} />
                     </div>
 
-                    {/* CTA Buttons */}
+                    {/* Refined CTA Buttons */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link to="projects" smooth={true} offset={-70} duration={500}>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 rounded-full bg-gradient-to-r from-teal-500 via-cyan-500 to-purple-600 text-white font-semibold shadow-2xl hover:shadow-cyan-500/50 transition-all flex items-center gap-2 text-lg"
+                                className="px-8 py-4 rounded-full bg-gradient-to-r from-teal-400 via-cyan-400 to-cyan-500 text-white font-semibold shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all flex items-center gap-2 text-lg"
                             >
                                 View Projects <ArrowRight size={20} />
                             </motion.button>
@@ -142,7 +140,7 @@ const Hero = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 rounded-full glass font-semibold hover:bg-white/50 dark:hover:bg-white/10 transition-all flex items-center gap-2 text-lg backdrop-blur-md border-2 border-white/30 dark:border-white/20"
+                                className="px-8 py-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm font-semibold hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-2 text-lg text-slate-300"
                             >
                                 Get In Touch <Mail size={20} />
                             </motion.button>
@@ -194,9 +192,12 @@ const TypewriterEffect = ({ roles }) => {
     }, [displayedText, isDeleting, currentRoleIndex, roles]);
 
     return (
-        <div className="text-xl md:text-2xl font-mono text-cyan-600 dark:text-cyan-400 min-h-[2rem] flex items-center justify-center">
-            <span>{displayedText}</span>
-            <span className="animate-pulse ml-1 text-cyan-500">|</span>
+        <div className="flex items-center justify-center gap-2 min-h-[2rem]">
+            <span className="text-lg md:text-xl text-gray-500 dark:text-gray-400">I am a</span>
+            <span className="text-xl md:text-2xl font-medium text-teal-500 dark:text-teal-400">
+                {displayedText}
+            </span>
+            <span className="animate-pulse text-teal-500">|</span>
         </div>
     );
 };
