@@ -54,7 +54,7 @@ const Hero = () => {
                 direction: "none",      // Random drifting
                 outModes: { default: "out" }, // Particles flow off-screen seamlessly
                 random: true,
-                speed: 0.3,             // SLOW SPEED (Nikhila's secret - very slow drift)
+                speed: 1.2,             // Faster visible movement (matching reference video)
                 straight: false,
             },
             number: {

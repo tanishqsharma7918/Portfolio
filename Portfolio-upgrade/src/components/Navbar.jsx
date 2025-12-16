@@ -47,7 +47,7 @@ const Navbar = () => {
                 <Link
                     to="home"
                     smooth={true}
-                    className="cursor-pointer font-bold text-xl tracking-wide hover:opacity-80 transition-opacity"
+                    className="cursor-pointer font-bold text-xl tracking-wide hover:opacity-80 transition-all hover:-translate-y-1 duration-200"
                 >
                     Tanishq Sharma
                 </Link>
@@ -60,7 +60,7 @@ const Navbar = () => {
                             to={link.to}
                             smooth={true}
                             offset={-70}
-                            className="cursor-pointer text-sm font-medium opacity-80 hover:opacity-100 hover:text-purple-500 transition-colors"
+                            className="cursor-pointer text-sm font-medium opacity-80 hover:opacity-100 hover:text-teal-400 transition-all hover:-translate-y-1 hover:scale-105 duration-200"
                         >
                             {link.name}
                         </Link>
@@ -68,7 +68,7 @@ const Navbar = () => {
 
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        className="p-2 rounded-full hover:bg-white/10 transition-all hover:-translate-y-1 hover:scale-110 duration-200"
                         aria-label="Toggle Theme"
                     >
                         {isDark ? <Sun size={20} /> : <Moon size={20} />}
