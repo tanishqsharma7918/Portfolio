@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  /* Seamless Deep Space Background */
+  /* Seamless Deep Space Background - SOLID COLOR ONLY */
   body {
     @apply bg-white text-slate-900 transition-colors duration-300;
   }
   
   html.dark body {
     @apply text-slate-50;
-    background-color: #020617; /* Deep Space Navy - Solid, No Patterns */
+    background-color: #030014; /* Deep Space Void - SOLID HEX, NO PATTERNS */
   }
   
   /* Ensure no scrollbar background issues */
@@ -19,7 +19,7 @@
   }
   
   html.dark {
-    background-color: #020617;
+    background-color: #030014; /* Solid hex color - NO gradients, NO grids, NO images */
   }
 }
 

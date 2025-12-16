@@ -38,49 +38,42 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // Particles configuration
+    // Particles configuration - Exact physics to match reference
     const particlesOptions = useMemo(() => ({
         background: {
-            color: {
-                value: 'transparent',
-            },
+            color: { value: "transparent" }, // Crucial: No background color here, let CSS handle it
         },
-        fpsLimit: 60,
+        fpsLimit: 120,
         particles: {
-            number: {
-                value: 100,
-                density: {
-                    enable: true,
-                    value_area: 800,
-                },
-            },
-            color: {
-                value: isDarkMode ? '#ffffff' : '#64748b', // White in dark mode, slate-gray in light mode
-            },
-            shape: {
-                type: 'circle',
-            },
-            opacity: {
-                value: { min: 0.3, max: 0.8 }, // Random opacity for twinkling
-                animation: {
-                    enable: true,
-                    speed: 0.5,
-                    minimumValue: 0.3,
-                    sync: false,
-                },
-            },
-            size: {
-                value: { min: 1, max: 3 }, // Random sizes 1px to 3px
+            color: { 
+                value: isDarkMode ? "#ffffff" : "#64748b" // White in dark mode, slate-gray in light mode
             },
             move: {
                 enable: true,
-                speed: 0.6, // Slow, gentle flow
-                direction: 'right',
+                direction: "none",      // Random drifting
+                outModes: { default: "out" }, // Particles flow off-screen seamlessly
                 random: true,
+                speed: 0.3,             // SLOW SPEED (Nikhila's secret - very slow drift)
                 straight: false,
-                outModes: {
-                    default: 'out',
+            },
+            number: {
+                density: {
+                    enable: true,
+                    area: 1200,           // High area = Lower density (creates "Deep Space" feel)
                 },
+                value: 80,              // Keep count low. Too many stars ruins the depth.
+            },
+            opacity: {
+                animation: {
+                    enable: true,
+                    speed: 0.5,           // Slow twinkling
+                    sync: false,
+                },
+                value: { min: 0.1, max: 0.6 }, // Varying opacity creates "Distance/3D" effect
+            },
+            shape: { type: "circle" },
+            size: {
+                value: { min: 1, max: 3 }, // Tiny dots, not big blobs
             },
         },
         detectRetina: true,
