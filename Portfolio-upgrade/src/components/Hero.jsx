@@ -88,8 +88,8 @@ const Hero = () => {
 
     return (
         <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-            {/* Layer 1: Flowing Starfield (Deep Space) */}
-            <div className="absolute inset-0 -z-10">
+            {/* Layer 1: Flowing Starfield (Deep Space) - Seamless on solid background */}
+            <div className="absolute inset-0" style={{ zIndex: 0 }}>
                 <Particles
                     id="tsparticles"
                     init={particlesInit}
@@ -99,15 +99,16 @@ const Hero = () => {
             
             {/* Layer 2: Nebula Glow (Behind the Name) */}
             <div 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] -z-[1]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]"
                 style={{
+                    zIndex: 1,
                     background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
                     filter: 'blur(100px)',
                     opacity: 0.4,
                 }}
             />
             
-            <div className="text-center z-10 px-4 max-w-5xl mx-auto relative">
+            <div className="text-center px-4 max-w-5xl mx-auto relative" style={{ zIndex: 10 }}>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -3,12 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  /* Seamless Deep Space Background */
   body {
     @apply bg-white text-slate-900 transition-colors duration-300;
   }
   
   html.dark body {
     @apply text-slate-50;
+    background-color: #020617; /* Deep Space Navy - Solid, No Patterns */
+  }
+  
+  /* Ensure no scrollbar background issues */
+  html {
+    @apply bg-white;
+  }
+  
+  html.dark {
     background-color: #020617;
   }
 }
@@ -40,36 +50,12 @@
   }
 }
 
-/* Background Noise/Particles (Simple CSS implementation) */
-.bg-noise {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -10;
-  opacity: 0.4;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.dark .bg-noise {
-  opacity: 0.2;
-}
-
-/* Orb/Gradient Blobs */
-.blob {
-  position: absolute;
-  filter: blur(80px);
-  z-index: -1;
-  opacity: 0.6;
-  animation: float 10s infinite ease-in-out;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.1); }
-}
+/* REMOVED: Background noise and gradient blobs for clean deep space look */
+/* The only background effects should be:
+   1. Solid color (#020617 in dark mode, #ffffff in light mode)
+   2. tsparticles starfield in Hero section
+   3. Nebula glow behind the name in Hero section
+*/
 
 @keyframes shimmer {
   0% { transform: translateX(-100%); }

@@ -7,18 +7,12 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
-import GridBackground from './components/GridBackground';
 import SocialSidebar from './components/SocialSidebar';
 
 function App() {
   return (
     <div className="relative min-h-screen overflow-hidden selection:bg-cyan-500 selection:text-white">
-      {/* Background Elements */}
-      <div className="bg-noise fixed inset-0 z-[-1]" />
-      <GridBackground />
-      <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-400/30 blob" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-400/30 blob" style={{ animationDelay: '2s' }} />
-      <div className="fixed top-[40%] left-[40%] w-[300px] h-[300px] rounded-full bg-pink-400/20 blob" style={{ animationDelay: '4s' }} />
+      {/* Clean Deep Space Background - No Grid, No Noise, No Patterns */}
 
       <SocialSidebar />
       <Navbar />
