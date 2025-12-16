@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-import Particles from 'react-tsparticles';
-import { loadSlim } from 'tsparticles-slim';
+
+// Dynamically import VantaBackground (prevents SSR issues)
+const VantaBackground = lazy(() => import('./VantaBackground'));
 
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -34,67 +35,19 @@ const Hero = () => {
         return () => observer.disconnect();
     }, []);
 
-    // Initialize tsparticles
-    const particlesInit = useCallback(async (engine) => {
-        await loadSlim(engine);
-    }, []);
-
-    // HYPER-SPACE STARFIELD - Dense, Fast, 3D Parallax Effect
-    const particlesOptions = useMemo(() => ({
-        fullScreen: { enable: false },
-        background: { color: { value: "transparent" } },
-        fpsLimit: 120,
-        particles: {
-            // COLOR: Teal/White in Dark Mode, Navy in Light Mode
-            color: {
-                value: isDarkMode ? ["#ffffff", "#64ffda"] : ["#0a192f", "#112240"],
-            },
-            links: { enable: false }, // No lines, just stars
-            move: {
-                enable: true,
-                speed: 3, // FAST speed for hyperspace feel
-                direction: "none", // Chaos direction
-                random: true,
-                straight: false,
-                outModes: "out", // Stars flow off screen smoothly
-            },
-            number: {
-                value: 250, // Optimized density - Balanced starfield
-                density: { enable: true, area: 800 },
-            },
-            // OPACITY: Varying opacity creates "Distance"
-            opacity: {
-                value: { 
-                    min: 0.1, 
-                    max: isDarkMode ? 1.0 : 0.4 
-                },
-                animation: {
-                    enable: true,
-                    speed: 3,
-                    sync: false,
-                },
-            },
-            shape: { type: "circle" },
-            // SIZE: Wide range creates 3D Parallax (Small = Far, Big = Close)
-            size: {
-                value: { min: 0.5, max: 3 }, 
-            },
-        },
-        detectRetina: true,
-    }), [isDarkMode]);
-
     return (
         <section 
             id="home" 
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
-            {/* LAYER 1: STARS (Visible in both modes with theme-aware styling) */}
-            <Particles
-                id="tsparticles"
-                init={particlesInit}
-                options={particlesOptions}
-                className="absolute inset-0 h-full w-full z-0"
-            />
+            {/* LAYER 1: VANTA BIRDS BACKGROUND (3D Animated) */}
+            <Suspense fallback={
+                <div className="absolute inset-0 h-full w-full z-0 bg-navy/50 flex items-center justify-center">
+                    <div className="animate-pulse text-green text-lg">Loading 3D Background...</div>
+                </div>
+            }>
+                <VantaBackground />
+            </Suspense>
 
             {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
             <div className="absolute inset-0 z-[1] pointer-events-none 
