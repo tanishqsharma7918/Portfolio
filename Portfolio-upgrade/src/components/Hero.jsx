@@ -81,7 +81,7 @@ const Hero = () => {
     }), [isDarkMode]);
 
     return (
-        <section id="home" className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-[#030014] dark:bg-[#030014]">
+        <section id="home" className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-white dark:bg-[#030014] transition-colors duration-300">
             {/* Layer 1: Flowing Starfield (Deep Space) - Seamless on solid background */}
             <div className="absolute inset-0" style={{ zIndex: 0 }}>
                 <Particles
