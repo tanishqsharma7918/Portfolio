@@ -1,93 +1,109 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
- * VantaBackground.jsx
+ * VantaBackground Component
  * 
- * A React component that dynamically loads Vanta Birds effect
- * to prevent SSR crashes and ensure safe client-side rendering.
- * 
- * Features:
- * - Dynamic import of Vanta library (loaded ONLY in browser)
- * - Proper cleanup on unmount
- * - Theme-aware colors (Navy & Teal)
- * - Responsive and interactive
+ * Safe client-side loading of Vanta Birds effect using dynamic imports.
+ * Prevents SSR issues in Vite/React by ensuring browser-only execution.
  */
 
 const VantaBackground = () => {
     const vantaRef = useRef(null);
     const [vantaEffect, setVantaEffect] = useState(null);
+    const effectInitialized = useRef(false);
 
     useEffect(() => {
-        // Only run in browser (prevents SSR issues)
-        if (typeof window === 'undefined') return;
+        // Prevent double initialization
+        if (effectInitialized.current) return;
+        
+        // Browser-only execution
+        if (typeof window === 'undefined' || !vantaRef.current) return;
 
-        // Dynamically import Vanta and THREE
-        const loadVanta = async () => {
+        let mounted = true;
+
+        const initVanta = async () => {
             try {
-                // Import THREE.js first
-                const THREE = await import('three');
+                console.log('🚀 Starting Vanta Birds initialization...');
                 
-                // Import Vanta Birds
-                const VANTA = await import('vanta/dist/vanta.birds.min');
+                // Step 1: Import THREE.js
+                const threeModule = await import('three');
+                const THREE = threeModule.default || threeModule;
+                console.log('✅ THREE.js loaded');
 
-                // Initialize Vanta effect if component is still mounted
-                if (vantaRef.current && !vantaEffect) {
-                    const effect = VANTA.default({
-                        el: vantaRef.current,
-                        THREE: THREE,
-                        mouseControls: true,
-                        touchControls: true,
-                        gyroControls: false,
-                        minHeight: 200.00,
-                        minWidth: 200.00,
-                        scale: 1.00,
-                        scaleMobile: 1.00,
-                        
-                        // THEME COLORS (Navy & Teal)
-                        backgroundColor: 0x0a192f, // Main Navy Background
-                        color1: 0x64ffda,          // Teal (Primary Bird Color)
-                        color2: 0x112240,          // Light Navy (Secondary Bird Color)
-                        colorMode: "lerp",         // Smooth color blending
-                        
-                        // BIRD PHYSICS (Optimized for Performance)
-                        birdSize: 1.5,             // Bird size
-                        wingSpan: 30.00,           // Wing animation intensity
-                        speedLimit: 5.00,          // Max flight speed
-                        separation: 20.00,         // Distance between birds
-                        alignment: 20.00,          // Flocking alignment
-                        cohesion: 20.00,           // Flocking cohesion
-                        quantity: 3.00,            // Number of birds (3 for performance)
-                        
-                        // RESPONSIVE
-                        backgroundAlpha: 1.0       // Full opacity background
-                    });
+                // Step 2: Import Vanta Birds
+                const vantaModule = await import('vanta/dist/vanta.birds.min.js');
+                const VANTA = vantaModule.default || vantaModule;
+                console.log('✅ Vanta Birds module loaded');
+
+                // Step 3: Initialize effect only if component is still mounted
+                if (!mounted || !vantaRef.current || effectInitialized.current) {
+                    console.log('⚠️ Component unmounted or already initialized, skipping...');
+                    return;
+                }
+
+                console.log('🎨 Initializing Vanta Birds effect...');
+                const effect = VANTA({
+                    el: vantaRef.current,
+                    THREE: THREE,
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    scale: 1.00,
+                    scaleMobile: 1.00,
                     
+                    // THEME: Navy & Teal
+                    backgroundColor: 0x0a192f,
+                    color1: 0x64ffda,
+                    color2: 0x112240,
+                    colorMode: "lerp",
+                    
+                    // BIRDS: Optimized for smooth performance
+                    birdSize: 1.5,
+                    wingSpan: 30.00,
+                    speedLimit: 5.00,
+                    separation: 20.00,
+                    alignment: 20.00,
+                    cohesion: 20.00,
+                    quantity: 3.00,
+                    
+                    backgroundAlpha: 1.0
+                });
+
+                if (mounted) {
                     setVantaEffect(effect);
-                    console.log('✅ Vanta Birds loaded successfully!');
+                    effectInitialized.current = true;
+                    console.log('✅ Vanta Birds initialized successfully! 🐦');
                 }
             } catch (error) {
-                console.error('❌ Vanta Birds failed to load:', error);
-                console.error('Error details:', error.message);
+                console.error('❌ Vanta initialization error:', error);
+                console.error('Error type:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Stack:', error.stack);
             }
         };
 
-        // Add small delay to ensure DOM is ready
-        setTimeout(() => {
-            loadVanta();
-        }, 100);
+        // Small delay for DOM readiness
+        const timer = setTimeout(initVanta, 150);
 
-        // CLEANUP: Destroy Vanta effect on unmount
+        // Cleanup function
         return () => {
-            if (vantaEffect) {
+            mounted = false;
+            clearTimeout(timer);
+            
+            if (vantaEffect && typeof vantaEffect.destroy === 'function') {
+                console.log('🧹 Cleaning up Vanta effect...');
                 vantaEffect.destroy();
+                effectInitialized.current = false;
             }
         };
-    }, [vantaEffect]);
+    }, []); // Empty deps - run once on mount
 
     return (
         <div
             ref={vantaRef}
-            className="absolute inset-0 h-full w-full z-0"
+            className="absolute inset-0 w-full h-full"
             style={{
                 position: 'absolute',
                 top: 0,
