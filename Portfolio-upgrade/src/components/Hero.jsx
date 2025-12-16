@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-import Particles from 'react-tsparticles';
-import { loadSlim } from 'tsparticles-slim';
+import BirdBackground from './BirdBackground';
 
 const Hero = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -34,73 +33,17 @@ const Hero = () => {
         return () => observer.disconnect();
     }, []);
 
-    // Initialize tsparticles
-    const particlesInit = useCallback(async (engine) => {
-        await loadSlim(engine);
-    }, []);
-
-    // HYPER-SPACE STARFIELD - Dense, Fast, 3D Parallax Effect
-    const particlesOptions = useMemo(() => ({
-        fullScreen: { enable: false },
-        background: { color: { value: "transparent" } },
-        fpsLimit: 120,
-        particles: {
-            // COLOR: Teal/White in Dark Mode, Navy in Light Mode
-            color: {
-                value: isDarkMode ? ["#ffffff", "#64ffda"] : ["#0a192f", "#112240"],
-            },
-            links: { enable: false }, // No lines, just stars
-            move: {
-                enable: true,
-                speed: 3, // FAST speed for hyperspace feel
-                direction: "none", // Chaos direction
-                random: true,
-                straight: false,
-                outModes: "out", // Stars flow off screen smoothly
-            },
-            number: {
-                value: 250, // Optimized density - Balanced starfield
-                density: { enable: true, area: 800 },
-            },
-            // OPACITY: Varying opacity creates "Distance"
-            opacity: {
-                value: { 
-                    min: 0.1, 
-                    max: isDarkMode ? 1.0 : 0.4 
-                },
-                animation: {
-                    enable: true,
-                    speed: 3,
-                    sync: false,
-                },
-            },
-            shape: { type: "circle" },
-            // SIZE: Wide range creates 3D Parallax (Small = Far, Big = Close)
-            size: {
-                value: { min: 0.5, max: 3 }, 
-            },
-        },
-        detectRetina: true,
-    }), [isDarkMode]);
-
     return (
         <section 
             id="home" 
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
         >
-            {/* LAYER 1: STARS (Visible in both modes with theme-aware styling) */}
-            <Particles
-                id="tsparticles"
-                init={particlesInit}
-                options={particlesOptions}
-                className="absolute inset-0 h-full w-full z-0"
-            />
+            {/* LAYER 1: Vanta Birds (Replaces Particles) */}
+            <BirdBackground />
 
-            {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
+            {/* LAYER 2: Gradient Overlay (Crucial for the 'Glow') */}
             <div className="absolute inset-0 z-[1] pointer-events-none 
-                bg-gradient-to-br from-indigo-50/50 via-transparent to-teal-50/50 
-                dark:from-indigo-500/20 dark:via-transparent dark:to-teal-500/20 
-                transition-all duration-500" 
+                bg-gradient-to-br from-indigo-500/10 via-transparent to-teal-500/10" 
             />
 
             {/* LAYER 3: CONTENT */}
