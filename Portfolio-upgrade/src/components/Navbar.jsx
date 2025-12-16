@@ -61,12 +61,12 @@ const Navbar = () => {
                 {/* The Glass Container */}
                 <nav className="flex items-center gap-1 bg-[#0a192f]/85 backdrop-blur-md border border-[#64ffda]/10 px-2 py-2 rounded-full shadow-2xl">
                     
-                    {/* Logo Section */}
-                    <div className="pl-4 pr-6 font-bold text-[#64ffda] text-lg tracking-tight">
+                    {/* Logo Section - Glowing Teal with Hover Effect */}
+                    <div className="pl-4 pr-6 font-bold text-lg tracking-tight">
                         <Link
                             to="home"
                             smooth={true}
-                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                            className="cursor-pointer text-[#64ffda] hover:text-[#5de6c4] transition-all duration-300 drop-shadow-[0_0_8px_rgba(100,255,218,0.6)] hover:drop-shadow-[0_0_12px_rgba(93,230,196,0.9)]"
                             onClick={() => setActive("Home")}
                         >
                             Tanishq Sharma
@@ -113,11 +113,11 @@ const Navbar = () => {
             {/* MOBILE NAVBAR */}
             <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#0a192f]/90 backdrop-blur-md border-b border-[#64ffda]/10 px-4 py-3">
                 <div className="flex items-center justify-between">
-                    {/* Logo */}
+                    {/* Logo - Glowing Teal */}
                     <Link
                         to="home"
                         smooth={true}
-                        className="text-lg font-bold text-[#64ffda] cursor-pointer"
+                        className="text-lg font-bold text-[#64ffda] cursor-pointer hover:text-[#5de6c4] transition-all duration-300 drop-shadow-[0_0_8px_rgba(100,255,218,0.6)] hover:drop-shadow-[0_0_12px_rgba(93,230,196,0.9)]"
                         onClick={() => setActive("Home")}
                     >
                         Tanishq Sharma
