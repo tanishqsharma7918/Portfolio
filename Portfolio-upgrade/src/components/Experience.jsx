@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar } from 'lucide-react';
+import MouseTrackerCard from './MouseTrackerCard';
 
 const experiences = [
     {
@@ -64,8 +65,8 @@ const Experience = () => {
                                     damping: 15 
                                 }
                             }}
-                            className="glass-card p-6 md:p-8 relative overflow-hidden group hover:bg-white/50 dark:hover:bg-black/50 transition-colors cursor-pointer"
                         >
+                            <MouseTrackerCard className="group cursor-pointer">
                             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                                 <div>
                                     <h3 className="text-xl font-bold text-gradient-blue">{exp.role}</h3>
@@ -89,6 +90,7 @@ const Experience = () => {
                                     </span>
                                 ))}
                             </div>
+                            </MouseTrackerCard>
                         </motion.div>
                     ))}
                 </div>

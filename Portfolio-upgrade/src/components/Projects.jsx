@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Folder } from 'lucide-react';
-import SpotlightCard from './SpotlightCard';
+import MouseTrackerCard from './MouseTrackerCard';
 
 const projects = [
     {
@@ -106,7 +106,7 @@ const ProjectCard = ({ project, index }) => {
             }}
             className="h-full"
         >
-            <SpotlightCard className="flex flex-col h-full group cursor-pointer p-6">
+            <MouseTrackerCard className="flex flex-col h-full group cursor-pointer p-6">
                 {/* Gradient Blob Background for Card */}
                 <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
 
@@ -155,7 +155,7 @@ const ProjectCard = ({ project, index }) => {
                     </a>
                 )}
             </div>
-            </SpotlightCard>
+            </MouseTrackerCard>
         </motion.div>
     );
 };
