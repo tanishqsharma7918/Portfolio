@@ -39,7 +39,7 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // DENSE FLOWING STARFIELD - High density with parallax depth
+    // SUBTLE ATMOSPHERIC PARTICLES - Sparse, elegant whisper
     const particlesOptions = useMemo(() => ({
         background: {
             color: { value: "transparent" },
@@ -47,46 +47,41 @@ const Hero = () => {
         fpsLimit: 60,
         particles: {
             number: {
-                value: 250, // DRAMATICALLY INCREASED for dense starfield
+                value: 60, // LOW density - sparse, evenly scattered
                 density: {
                     enable: true,
-                    value_area: 600, // DECREASED for higher density
+                    value_area: 1000, // INCREASED for sparse distribution
                 },
             },
             color: {
-                value: isDarkMode 
-                    ? ["#ffffff", "#64ffda", "#a8dadc"] // White + teal + cyan mix
-                    : ["#0a192f", "#1a365d", "#2d3748"], // Navy variations
+                value: isDarkMode ? "#ffffff" : "#0a192f", // Simple white/navy
             },
             shape: {
                 type: "circle",
             },
             opacity: {
-                value: 0.6,
-                random: true, // 0.2 to 0.9 range
+                value: 0.3, // Low opacity - barely noticeable
+                random: true,
                 animation: {
                     enable: true,
-                    speed: 0.8, // INCREASED twinkling speed
-                    opacity_min: 0.2, // Wider range (0.2 to 0.9)
+                    speed: 0.3, // Very slow, subtle twinkling
+                    opacity_min: 0.1,
                     sync: false,
                 },
             },
             size: {
-                value: 2.5, // Increased base size
-                random: true, // 1px to 4px variety
+                value: 1.5, // Small particles
+                random: true,
                 animation: {
-                    enable: true, // Add subtle size pulsing
-                    speed: 2,
-                    size_min: 0.8,
-                    sync: false,
+                    enable: false, // No size pulsing - keep it minimal
                 },
             },
             move: {
                 enable: true,
-                speed: 2.5, // INCREASED from 1 to 2.5 (2.5x faster)
-                direction: "none", // Omnidirectional flow
-                random: true, // Speed variation
-                straight: false, // Curved, organic paths
+                speed: 0.5, // VERY slow drift - almost static
+                direction: "none",
+                random: true,
+                straight: false,
                 outModes: {
                     default: "out",
                 },
@@ -99,22 +94,9 @@ const Hero = () => {
         interactivity: {
             detect_on: "canvas",
             events: {
-                onhover: {
-                    enable: true,
-                    mode: "bubble", // Subtle interaction
-                },
-                onclick: {
-                    enable: false,
-                },
+                onhover: { enable: false }, // No interaction
+                onclick: { enable: false },
                 resize: true,
-            },
-            modes: {
-                bubble: {
-                    distance: 150,
-                    size: 4,
-                    duration: 2,
-                    opacity: 0.8,
-                },
             },
         },
         detectRetina: true,
@@ -130,30 +112,30 @@ const Hero = () => {
     return (
         <section 
             id="home" 
-            className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300"
+            className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300"
             style={{
                 background: isDarkMode 
-                    ? 'linear-gradient(to bottom, #0a192f, #020c1b)' // Dark navy to deep black
+                    ? 'linear-gradient(to bottom, #0a192f, #1a2332)' // Dark navy gradient
                     : 'linear-gradient(to bottom, #f8f9fa, #e9ecef)'  // Light gray gradient
             }}
         >
-            {/* Layer 1: Flowing Starfield (Deep Space) - Seamless on solid background */}
+            {/* SUBTLE Atmospheric Particles - Contained within hero section ONLY */}
             <div className="absolute inset-0" style={{ zIndex: 0 }}>
                 <Particles
-                    id="tsparticles"
+                    id="tsparticles-hero"
                     init={particlesInit}
                     options={particlesOptions}
                 />
             </div>
             
-            {/* Layer 2: Nebula Glow (Behind the Name) */}
+            {/* Subtle Nebula Glow (Behind the Name) */}
             <div 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
                 style={{
                     zIndex: 1,
-                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
-                    filter: 'blur(100px)',
-                    opacity: 0.4,
+                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)',
+                    filter: 'blur(80px)',
+                    opacity: 0.3,
                 }}
             />
             

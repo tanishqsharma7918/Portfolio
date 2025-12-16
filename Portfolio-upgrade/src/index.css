@@ -12,7 +12,7 @@
   
   html.dark body {
     @apply text-slate-50;
-    background: linear-gradient(to bottom, #0a192f, #020c1b); /* Dark navy gradient */
+    background-color: #020c1b; /* Solid deep space - NO particles below hero */
   }
   
   /* Ensure no scrollbar background issues */
@@ -23,7 +23,7 @@
   }
   
   html.dark {
-    background: linear-gradient(to bottom, #0a192f, #020c1b); /* Professional dark gradient */
+    background-color: #020c1b; /* Solid background for entire page */
   }
   
   /* Remove default margins/padding from main */
@@ -60,11 +60,16 @@
   }
 }
 
-/* REMOVED: Background noise and gradient blobs for clean deep space look */
-/* The only background effects should be:
-   1. Solid color (#030014 in dark mode, #ffffff in light mode) - VOID ONLY
-   2. tsparticles starfield in Hero section (80 particles, speed 0.3)
-   3. Nebula glow behind the name in Hero section
+/* BACKGROUND STRUCTURE:
+   HERO SECTION: Dark navy gradient (#0a192f → #1a2332) + SPARSE particles (60 max)
+   BELOW HERO: Solid #020c1b background WITHOUT particles
+   
+   Particles are:
+   - CONTAINED within hero section ONLY (not full page)
+   - SPARSE (60 particles) - barely noticeable atmospheric effect
+   - SUBTLE (slow drift, minimal animation)
+   - "Elegant whisper, not loud statement"
+   
    ZERO patterns, ZERO grids, ZERO background images
 */
 
