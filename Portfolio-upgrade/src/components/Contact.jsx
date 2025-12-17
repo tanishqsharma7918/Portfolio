@@ -124,7 +124,13 @@ const Contact = () => {
                                 className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 dark:border-green-400/20"
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className="flex-shrink-0 w-3 h-3 rounded-full bg-green-500 animate-pulse mt-1"></div>
+                                    <div className="relative flex-shrink-0 mt-1">
+                                        {/* Glowing dot with multiple layers */}
+                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 blur-sm"></div>
+                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-400 blur-md animate-pulse opacity-75"></div>
+                                        <div className="w-3 h-3"></div>
+                                    </div>
                                     <div>
                                         <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Available for Opportunities</h3>
                                         <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
