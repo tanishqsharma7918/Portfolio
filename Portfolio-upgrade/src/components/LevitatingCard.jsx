@@ -1,47 +1,81 @@
 'use client';
-import React from 'react';
-import { Tilt } from 'react-tilt';
+import React, { useRef, useState } from 'react';
 
 /**
  * LevitatingCard Component
  * 
- * A 3D parallax tilt effect that makes cards feel like they're floating
+ * A custom 3D parallax tilt effect that makes cards feel like they're floating
  * and responding to mouse movement with physical rotation.
+ * 
+ * Built from scratch - no external dependencies needed!
  * 
  * Features:
  * - 3D perspective rotation (max 15°)
  * - Subtle scale on hover (1.02x zoom)
- * - Smooth transitions (1000ms)
+ * - Smooth transitions
  * - Resets on mouse leave
  * - Custom easing curve
+ * - Performance optimized
  * 
  * Physics Settings:
  * - max: 15° rotation (subtle, professional)
- * - perspective: 1000 (moderate 3D depth)
+ * - perspective: 1000px (moderate 3D depth)
  * - scale: 1.02 (2% lift effect)
- * - speed: 1000ms (smooth transitions)
+ * - transition: 400ms (smooth, responsive)
  */
 
 const LevitatingCard = ({ children, className = "" }) => {
-    const defaultOptions = {
-        reverse: false,        // reverse the tilt direction
-        max: 15,              // max tilt rotation (degrees) - Lower is more subtle
-        perspective: 1000,    // Transform perspective, the lower the more extreme the tilt gets.
-        scale: 1.02,          // 2% Zoom on hover (feels like it lifts up)
-        speed: 1000,          // Speed of the enter/exit transition
-        transition: true,     // Set a transition on enter/exit.
-        axis: null,           // What axis should be disabled. Can be X or Y.
-        reset: true,          // If the tilt effect has to be reset on exit.
-        easing: "cubic-bezier(.03,.98,.52,.99)", // Easing on enter/exit.
+    const cardRef = useRef(null);
+    const [transform, setTransform] = useState('');
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+
+        const card = cardRef.current;
+        const rect = card.getBoundingClientRect();
+        
+        // Calculate mouse position relative to card center
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation angles (max 15 degrees)
+        const rotateX = ((y - centerY) / centerY) * -15; // Inverted for natural tilt
+        const rotateY = ((x - centerX) / centerX) * 15;
+        
+        // Apply 3D transform with scale
+        setTransform(
+            `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`
+        );
+    };
+
+    const handleMouseEnter = () => {
+        if (!cardRef.current) return;
+        cardRef.current.style.transition = 'transform 0.1s ease-out';
+    };
+
+    const handleMouseLeave = () => {
+        if (!cardRef.current) return;
+        cardRef.current.style.transition = 'transform 0.6s cubic-bezier(0.03, 0.98, 0.52, 0.99)';
+        setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
     };
 
     return (
-        <Tilt options={defaultOptions} className={`h-full ${className}`}>
-            {/* We keep the glass style, but now it MOVES */}
-            <div className="h-full">
-                {children}
-            </div>
-        </Tilt>
+        <div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                transform: transform,
+                transformStyle: 'preserve-3d',
+            }}
+            className={`h-full ${className}`}
+        >
+            {children}
+        </div>
     );
 };
 
