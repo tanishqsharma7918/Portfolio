@@ -12,7 +12,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'GPT-4o', 'Plotly'],
         github: 'https://github.com/tanishqsharma7918/Competitor-Analysis-Engine',
         demo: 'https://competitor-analysis-engine.streamlit.app/',
-        image: 'https://www.genspark.ai/api/files/s/aqll9byO',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop&q=80',
         color: 'from-purple-500 to-indigo-500'
     },
     {
@@ -22,7 +22,7 @@ const projects = [
         tech: ['Python', 'LangChain', 'GPT-4o', 'SendGrid'],
         github: 'https://github.com/tanishqsharma7918/AI-Daily-Digest',
         demo: null,
-        image: 'https://www.genspark.ai/api/files/s/rXjtWgT7',
+        image: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&h=450&fit=crop&q=80',
         color: 'from-blue-500 to-cyan-500'
     },
     {
@@ -32,7 +32,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'LangChain', 'FAISS'],
         github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot/tree/main/rag-mcp-app',
         demo: null,
-        image: 'https://www.genspark.ai/api/files/s/utnHn7mZ',
+        image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop&q=80',
         color: 'from-emerald-500 to-teal-500'
     },
     {
@@ -42,7 +42,7 @@ const projects = [
         tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Docker'],
         github: 'https://github.com/tanishqsharma7918/AI-News-Dashboard',
         demo: 'https://ai-news-frontend-d1ld.onrender.com/',
-        image: 'https://www.genspark.ai/api/files/s/da9DzC2i',
+        image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80',
         color: 'from-orange-500 to-red-500'
     },
     {
