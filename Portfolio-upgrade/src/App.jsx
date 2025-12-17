@@ -6,6 +6,7 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Blog from './components/Blog';
+import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import SocialSidebar from './components/SocialSidebar';
 
@@ -29,6 +30,7 @@ function App() {
         <Projects />
 
         <Blog />
+        <Testimonials />
         <Contact />
       </main>
 
