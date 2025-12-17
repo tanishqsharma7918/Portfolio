@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, AlertCircle, Briefcase } from 'lucide-react';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -50,7 +50,7 @@ const Contact = () => {
         } catch (error) {
             setStatus({
                 type: 'error',
-                message: 'Failed to send message. Please try emailing me directly at tanishq.822@gmail.com'
+                message: 'Failed to send message. Please try emailing me directly at tanishq.career@gmail.com'
             });
         } finally {
             setIsSubmitting(false);
@@ -81,7 +81,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Email Me</p>
-                                    <a href="mailto:tanishq.822@gmail.com" className="font-semibold hover:text-purple-500 transition-colors">tanishq.822@gmail.com</a>
+                                    <a href="mailto:tanishq.career@gmail.com" className="font-semibold hover:text-purple-500 transition-colors">tanishq.career@gmail.com</a>
                                 </div>
                             </div>
 
@@ -111,9 +111,32 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                                    <p className="font-semibold">New Delhi, India</p>
+                                    <p className="font-semibold">Lucknow, India</p>
                                 </div>
                             </div>
+
+                            {/* Available for Opportunities Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 dark:border-green-400/20"
+                            >
+                                <div className="flex items-start gap-4">
+                                    <div className="flex-shrink-0 w-3 h-3 rounded-full bg-green-500 animate-pulse mt-1"></div>
+                                    <div>
+                                        <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Available for Opportunities</h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                                            Open to full-time roles in <span className="font-semibold text-green-600 dark:text-green-400">Data Analyst</span> and <span className="font-semibold text-green-600 dark:text-green-400">AI/ML Engineer</span>
+                                        </p>
+                                        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                            <Briefcase size={14} />
+                                            <span>Ready to start immediately</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
                         </div>
                     </div>
 
