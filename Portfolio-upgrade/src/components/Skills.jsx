@@ -12,8 +12,8 @@ const skillsData = [
         skills: [
             { name: 'Python', level: 95 },
             { name: 'SQL', level: 90 },
-            { name: 'JavaScript', level: 85 },
-            { name: 'R', level: 80 }
+            { name: 'JavaScript', level: 50 },
+            { name: 'R', level: 60 }
         ]
     },
     {
