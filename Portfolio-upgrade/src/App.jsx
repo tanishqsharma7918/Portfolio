@@ -5,7 +5,6 @@ import Projects from './components/Projects';
 import About from './components/About';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
-import Blog from './components/Blog';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import SocialSidebar from './components/SocialSidebar';
@@ -29,13 +28,12 @@ function App() {
 
         <Projects />
 
-        <Blog />
         <Testimonials />
         <Contact />
       </main>
 
       <footer className="glass py-8 text-center text-sm opacity-60">
-        <p>© 2025 Tanishq Sharma. Designed with Glassmorphism.</p>
+        <p>© 2025 Tanishq Sharma. All Rights Reserved.</p>
       </footer>
     </div>
   );
