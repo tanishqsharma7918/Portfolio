@@ -39,7 +39,7 @@ const Hero = () => {
         await loadSlim(engine);
     }, []);
 
-    // CHAOTIC SWARM - Bird-like movement with triangles
+    // CHAOTIC SWARM - Dynamic particle movement
     const particlesOptions = useMemo(() => ({
         fullScreen: { enable: false },
         background: { color: { value: "transparent" } },
@@ -49,9 +49,9 @@ const Hero = () => {
             color: {
                 value: isDarkMode ? "#64ffda" : "#0a192f",
             },
-            // SHAPE: Triangle looks more like a 'wing' or 'ship' than a circle
+            // SHAPE: Circles for classic particle effect
             shape: {
-                type: "triangle",
+                type: "circle",
             },
             opacity: {
                 value: { min: 0.3, max: 1 },
