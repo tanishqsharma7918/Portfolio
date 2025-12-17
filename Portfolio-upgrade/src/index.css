@@ -16,7 +16,7 @@
   }
   
   html.dark {
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+    background: linear-gradient(135deg, #042f2e 0%, #134e4a 50%, #115e59 100%);
     background-attachment: fixed; /* Keep gradient fixed during scroll */
   }
   
@@ -28,8 +28,8 @@
   }
   
   html.dark body {
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
-    background-attachment: fixed; /* Midnight Indigo gradient in Dark Mode */
+    background: linear-gradient(135deg, #042f2e 0%, #134e4a 50%, #115e59 100%);
+    background-attachment: fixed; /* Deep Teal gradient in Dark Mode */
     color: #8892b0; /* Slate text in Dark Mode */
   }
   

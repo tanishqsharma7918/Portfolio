@@ -45,9 +45,9 @@ const Hero = () => {
         background: { color: { value: "transparent" } },
         fpsLimit: 120,
         particles: {
-            // COLOR: Indigo variations in Dark Mode, Navy in Light Mode
+            // COLOR: Teal variations in Dark Mode, Navy in Light Mode
             color: {
-                value: isDarkMode ? ["#818cf8", "#a5b4fc", "#c7d2fe"] : "#0a192f",
+                value: isDarkMode ? ["#5eead4", "#2dd4bf", "#99f6e4"] : "#0a192f",
             },
             // SHAPE: Circles for classic particle effect
             shape: {
