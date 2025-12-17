@@ -12,7 +12,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'GPT-4o', 'Plotly'],
         github: 'https://github.com/tanishqsharma7918/Competitor-Analysis-Engine',
         demo: 'https://competitor-analysis-engine.streamlit.app/',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop&q=80',
         color: 'from-purple-500 to-indigo-500'
     },
     {
