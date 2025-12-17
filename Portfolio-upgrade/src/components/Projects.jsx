@@ -16,14 +16,14 @@ const projects = [
         color: 'from-purple-500 to-indigo-500'
     },
     {
-        title: 'AI Daily Digest',
-        description: 'Multi-agent newsletter generator that automates fetching, summarizing, and delivering the latest AI and tech headlines as elegant HTML newsletters.',
-        features: ['Multi-Source RSS Hunter', 'AI Summarization', 'Email Automation', 'LangGraph Agents'],
-        tech: ['Python', 'LangChain', 'GPT-4o', 'SendGrid'],
-        github: 'https://github.com/tanishqsharma7918/AI-Daily-Digest',
-        demo: null,
-        image: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&h=450&fit=crop&q=80',
-        color: 'from-blue-500 to-cyan-500'
+        title: 'AI Pulse News',
+        description: 'Production-ready full-stack intelligence engine that aggregates, clusters, and ranks high-impact AI news from 20+ sources. Features topic clustering, popularity scoring, and automated RSS ingestion.',
+        features: ['Topic Clustering', 'Popularity Scoring', 'Automated Ingestion', 'Social Broadcasting'],
+        tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Docker'],
+        github: 'https://github.com/tanishqsharma7918/AI-News-Dashboard',
+        demo: 'https://ai-news-frontend-d1ld.onrender.com/',
+        image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80',
+        color: 'from-orange-500 to-red-500'
     },
     {
         title: 'RAG-MCP Chatbot',
@@ -36,14 +36,14 @@ const projects = [
         color: 'from-emerald-500 to-teal-500'
     },
     {
-        title: 'AI Pulse News',
-        description: 'Production-ready full-stack intelligence engine that aggregates, clusters, and ranks high-impact AI news from 20+ sources. Features topic clustering, popularity scoring, and automated RSS ingestion.',
-        features: ['Topic Clustering', 'Popularity Scoring', 'Automated Ingestion', 'Social Broadcasting'],
-        tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Docker'],
-        github: 'https://github.com/tanishqsharma7918/AI-News-Dashboard',
-        demo: 'https://ai-news-frontend-d1ld.onrender.com/',
-        image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop&q=80',
-        color: 'from-orange-500 to-red-500'
+        title: 'AI Daily Digest',
+        description: 'Multi-agent newsletter generator that automates fetching, summarizing, and delivering the latest AI and tech headlines as elegant HTML newsletters.',
+        features: ['Multi-Source RSS Hunter', 'AI Summarization', 'Email Automation', 'LangGraph Agents'],
+        tech: ['Python', 'LangChain', 'GPT-4o', 'SendGrid'],
+        github: 'https://github.com/tanishqsharma7918/AI-Daily-Digest',
+        demo: null,
+        image: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&h=450&fit=crop&q=80',
+        color: 'from-blue-500 to-cyan-500'
     },
     {
         title: 'NHS Healthcare Dashboards',
