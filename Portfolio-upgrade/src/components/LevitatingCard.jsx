@@ -41,13 +41,13 @@ const LevitatingCard = ({ children, className = "" }) => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        // Calculate rotation angles (max 15 degrees)
-        const rotateX = ((y - centerY) / centerY) * -15; // Inverted for natural tilt
-        const rotateY = ((x - centerX) / centerX) * 15;
+        // Calculate rotation angles (max 5 degrees - reduced for subtlety)
+        const rotateX = ((y - centerY) / centerY) * -5; // Inverted for natural tilt
+        const rotateY = ((x - centerX) / centerX) * 5;
         
-        // Apply 3D transform with scale
+        // Apply 3D transform with minimal scale
         setTransform(
-            `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`
+            `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`
         );
     };
 
@@ -59,7 +59,7 @@ const LevitatingCard = ({ children, className = "" }) => {
     const handleMouseLeave = () => {
         if (!cardRef.current) return;
         cardRef.current.style.transition = 'transform 0.6s cubic-bezier(0.03, 0.98, 0.52, 0.99)';
-        setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+        setTransform('perspective(1500px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
     };
 
     return (
