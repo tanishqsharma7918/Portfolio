@@ -121,21 +121,18 @@ const Contact = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
-                                className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 dark:border-green-400/20"
+                                className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 dark:border-green-400/30"
                             >
-                                <div className="flex flex-col">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <span className="status-indicator"></span>
-                                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Available for Opportunities</h3>
-                                    </div>
-                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                                            Open to full-time roles in <span className="font-semibold text-green-600 dark:text-green-400">Data Analyst</span> and <span className="font-semibold text-green-600 dark:text-green-400">AI/ML Engineer</span>
-                                        </p>
-                                        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                                            <Briefcase size={14} />
-                                            <span>Ready to start immediately</span>
-                                        </div>
-                                    </div>
+                                <div className="flex items-center gap-3 mb-3">
+                                    <span className="status-indicator"></span>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Available for Opportunities</h3>
+                                </div>
+                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 ml-6">
+                                    Open to full-time roles in <span className="font-semibold text-green-600 dark:text-green-400">Data Analyst</span> and <span className="font-semibold text-green-600 dark:text-green-400">AI/ML Engineer</span>
+                                </p>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 ml-6">
+                                    <Briefcase size={14} />
+                                    <span>Ready to start immediately</span>
                                 </div>
                             </motion.div>
                         </div>
