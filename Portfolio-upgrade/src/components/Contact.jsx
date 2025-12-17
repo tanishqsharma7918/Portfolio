@@ -124,12 +124,13 @@ const Contact = () => {
                                 className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 dark:border-green-400/20"
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className="relative flex-shrink-0 mt-1">
-                                        {/* Glowing dot with multiple layers */}
-                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 blur-sm"></div>
-                                        <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-400 blur-md animate-pulse opacity-75"></div>
-                                        <div className="w-3 h-3"></div>
+                                    <div className="relative flex-shrink-0 w-4 h-4 mt-1">
+                                        {/* Outer glow ring - largest */}
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-green-400 opacity-30 blur-md animate-pulse"></div>
+                                        {/* Middle glow ring */}
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-green-500 opacity-50 blur-sm"></div>
+                                        {/* Core solid dot */}
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-lg shadow-green-500/50"></div>
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Available for Opportunities</h3>
