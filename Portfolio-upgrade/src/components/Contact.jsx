@@ -162,7 +162,7 @@ const Contact = () => {
                                     className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-black/30 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400 resize-none transition-all" 
                                 />
                                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                                    💌 I'll reply within 24 hours!
+                                    💌 I'll respond within 24 hours. Thanks so much for reaching out!
                                 </p>
                             </div>
 
