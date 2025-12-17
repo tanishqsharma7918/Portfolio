@@ -30,9 +30,9 @@ const projects = [
         description: 'Contextual AI Assistant for ML queries using Retrieval-Augmented Generation and LangGraph agents for dynamic document retrieval.',
         features: ['RAG Architecture', 'FAISS Vector Store', 'Context Memory', 'Real-time Interaction'],
         tech: ['Python', 'Streamlit', 'LangChain', 'FAISS'],
-        github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot',
+        github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot/tree/main/rag-mcp-app',
         demo: null,
-        image: 'https://raw.githubusercontent.com/tanishqsharma7918/RAG-MCP-chatbot/main/assets/preview.png',
+        image: 'https://raw.githubusercontent.com/tanishqsharma7918/RAG-MCP-chatbot/main/rag-mcp-app/assets/preview.png',
         color: 'from-emerald-500 to-teal-500'
     },
     {
