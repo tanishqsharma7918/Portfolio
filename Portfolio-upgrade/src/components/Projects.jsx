@@ -12,6 +12,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'GPT-4o', 'Plotly'],
         github: 'https://github.com/tanishqsharma7918/Competitor-Analysis-Engine',
         demo: 'https://competitor-analysis-engine.streamlit.app/',
+        image: 'https://raw.githubusercontent.com/tanishqsharma7918/Competitor-Analysis-Engine/main/assets/preview.png',
         color: 'from-purple-500 to-indigo-500'
     },
     {
@@ -21,6 +22,7 @@ const projects = [
         tech: ['Python', 'LangChain', 'GPT-4o', 'SendGrid'],
         github: 'https://github.com/tanishqsharma7918/AI-Daily-Digest',
         demo: null,
+        image: 'https://raw.githubusercontent.com/tanishqsharma7918/AI-Daily-Digest/main/assets/preview.png',
         color: 'from-blue-500 to-cyan-500'
     },
     {
@@ -30,6 +32,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'LangChain', 'FAISS'],
         github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot',
         demo: null,
+        image: 'https://raw.githubusercontent.com/tanishqsharma7918/RAG-MCP-chatbot/main/assets/preview.png',
         color: 'from-emerald-500 to-teal-500'
     },
     {
@@ -39,6 +42,7 @@ const projects = [
         tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Docker'],
         github: 'https://github.com/tanishqsharma7918/AI-News-Dashboard',
         demo: 'https://ai-news-frontend-d1ld.onrender.com/',
+        image: 'https://raw.githubusercontent.com/tanishqsharma7918/AI-News-Dashboard/main/assets/preview.png',
         color: 'from-orange-500 to-red-500'
     },
     {
@@ -48,6 +52,7 @@ const projects = [
         tech: ['Tableau', 'Power BI', 'Excel', 'SQL'],
         github: 'https://github.com/tanishqsharma7918',
         demo: null,
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
         color: 'from-pink-500 to-rose-500'
     },
     {
@@ -57,6 +62,7 @@ const projects = [
         tech: ['Python', 'Scikit-learn', 'Pandas', 'Excel'],
         github: 'https://github.com/tanishqsharma7918',
         demo: null,
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
         color: 'from-violet-500 to-purple-500'
     }
 ];
@@ -104,9 +110,23 @@ const ProjectCard = ({ project, index }) => {
                 {/* Gradient Blob Background for Card */}
                 <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity`} />
 
-            <div className="mb-6 rounded-xl bg-gray-100 dark:bg-gray-800 h-48 flex items-center justify-center overflow-hidden border border-white/10 relative">
-                {/* Placeholder for Screenshot */}
-                <Folder size={48} className="text-gray-400 opacity-50" />
+            <div className="mb-6 rounded-xl bg-gray-100 dark:bg-gray-800 h-48 flex items-center justify-center overflow-hidden border border-white/10 relative group/image">
+                {/* Project Screenshot/Image */}
+                {project.image ? (
+                    <img 
+                        src={project.image} 
+                        alt={`${project.title} preview`}
+                        className="w-full h-full object-cover group-hover/image:scale-110 transition-transform duration-500"
+                        onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                        }}
+                    />
+                ) : null}
+                {/* Fallback Icon */}
+                <div className={`absolute inset-0 flex items-center justify-center ${project.image ? 'hidden' : 'flex'}`}>
+                    <Folder size={48} className="text-gray-400 opacity-50" />
+                </div>
             </div>
 
             <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-500 transition-colors">{project.title}</h3>
