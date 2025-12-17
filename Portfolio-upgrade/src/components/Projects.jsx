@@ -33,12 +33,12 @@ const projects = [
         color: 'from-emerald-500 to-teal-500'
     },
     {
-        title: 'Winter Rock Ski Analytics',
-        description: 'Analysed historical ski sales to uncover growth trends and seasonality. Developed forecasting models with single exponential smoothing achieving 3.77% MAE.',
-        features: ['Time Series Analysis', 'Moving Averages', 'Monte Carlo Simulation', 'Decision Trees'],
-        tech: ['Python', 'Excel', 'Pandas', 'NumPy'],
-        github: 'https://github.com/tanishqsharma7918',
-        demo: null,
+        title: 'AI Pulse News',
+        description: 'Production-ready full-stack intelligence engine that aggregates, clusters, and ranks high-impact AI news from 20+ sources. Features topic clustering, popularity scoring, and automated RSS ingestion.',
+        features: ['Topic Clustering', 'Popularity Scoring', 'Automated Ingestion', 'Social Broadcasting'],
+        tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Docker'],
+        github: 'https://github.com/tanishqsharma7918/AI-News-Dashboard',
+        demo: 'https://ai-news-frontend-d1ld.onrender.com/',
         color: 'from-orange-500 to-red-500'
     },
     {
