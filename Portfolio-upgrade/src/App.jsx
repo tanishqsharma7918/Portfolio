@@ -11,8 +11,8 @@ import SocialSidebar from './components/SocialSidebar';
 
 function App() {
   return (
-    <div className="relative min-h-screen overflow-hidden selection:bg-cyan-500 selection:text-white bg-white dark:bg-gradient-to-br dark:from-[#042f2e] dark:via-[#134e4a] dark:to-[#115e59] transition-colors duration-300">
-      {/* Light Mode: White background | Dark Mode: Deep Teal gradient */}
+    <div className="relative min-h-screen overflow-hidden selection:bg-cyan-500 selection:text-white bg-white dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#334155] transition-colors duration-300">
+      {/* Light Mode: White background | Dark Mode: Charcoal Slate gradient */}
 
       <SocialSidebar />
       <Navbar />
