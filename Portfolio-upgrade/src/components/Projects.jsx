@@ -32,7 +32,7 @@ const projects = [
         tech: ['Python', 'Streamlit', 'LangChain', 'FAISS'],
         github: 'https://github.com/tanishqsharma7918/RAG-MCP-chatbot/tree/main/rag-mcp-app',
         demo: null,
-        image: 'https://www.genspark.ai/api/files/s/hcoikdjF',
+        image: 'https://www.genspark.ai/api/files/s/kItJNt8B',
         color: 'from-emerald-500 to-teal-500'
     },
     {
