@@ -16,7 +16,8 @@
   }
   
   html.dark {
-    background-color: #0a192f; /* Navy background for entire page */
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+    background-attachment: fixed; /* Keep gradient fixed during scroll */
   }
   
   body {
@@ -27,7 +28,8 @@
   }
   
   html.dark body {
-    background-color: #0a192f; /* Navy deep space background in Dark Mode */
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+    background-attachment: fixed; /* Midnight Indigo gradient in Dark Mode */
     color: #8892b0; /* Slate text in Dark Mode */
   }
   
