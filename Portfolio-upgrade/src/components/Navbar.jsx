@@ -73,7 +73,7 @@ const Navbar = () => {
                 
                 {/* GLASS CONTAINER */}
                 <nav className="relative flex items-center justify-between 
-                    bg-white/80 dark:bg-navy/85 
+                    bg-white/60 dark:bg-navy/60 
                     backdrop-blur-md 
                     border border-navy/10 dark:border-green/10 
                     px-6 py-3 rounded-full shadow-xl transition-colors duration-300 h-16"
@@ -132,7 +132,7 @@ const Navbar = () => {
             </header>
 
             {/* --- MOBILE NAVBAR (Also Fixed) --- */}
-            <nav className={`md:hidden fixed w-full z-50 transition-all duration-300 ${isMobileMenuOpen || scrolled ? 'bg-white/90 dark:bg-navy/90 backdrop-blur-md border-b border-navy/10 dark:border-green/10 shadow-lg' : 'bg-transparent'}`}>
+            <nav className={`md:hidden fixed w-full z-50 transition-all duration-300 ${isMobileMenuOpen || scrolled ? 'bg-white/60 dark:bg-navy/60 backdrop-blur-md border-b border-navy/10 dark:border-green/10 shadow-lg' : 'bg-transparent'}`}>
                 <div className="flex items-center justify-between px-6 py-4">
                     <Link 
                         to="home" 
@@ -154,7 +154,7 @@ const Navbar = () => {
 
                 {/* Mobile Dropdown Menu */}
                 {isMobileMenuOpen && (
-                    <div className="px-4 py-4 bg-white/95 dark:bg-navy/95 backdrop-blur-md border-t border-navy/10 dark:border-green/10">
+                    <div className="px-4 py-4 bg-white/70 dark:bg-navy/70 backdrop-blur-md border-t border-navy/10 dark:border-green/10">
                         <ul className="flex flex-col space-y-2">
                             {navLinks.map((link, index) => (
                                 <li key={link.name}>

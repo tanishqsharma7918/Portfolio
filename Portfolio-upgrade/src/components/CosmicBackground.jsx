@@ -301,7 +301,7 @@ const CosmicBackground = () => {
                 className="absolute inset-0 w-full h-full"
                 style={{ 
                     mixBlendMode: isDarkMode ? 'screen' : 'multiply',
-                    opacity: isDarkMode ? 1 : 0.5
+                    opacity: isDarkMode ? 1 : 0.7
                 }}
             />
 
