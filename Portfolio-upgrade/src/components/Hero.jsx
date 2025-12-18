@@ -28,9 +28,11 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    {/* 1. 'Hello, I'm' - Fixed Visibility */}
-                    <p className="text-navy dark:text-green font-mono text-lg mb-2">
-                        Hello, I'm
+                    {/* 1. 'Hello, I'm' - Same font as name */}
+                    <p className="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+                        <span className="animate-gradient-x bg-gradient-to-r from-navy via-purple-600 to-navy dark:from-[#64ffda] dark:via-[#bd34fe] dark:to-[#64ffda] bg-[length:200%_auto] bg-clip-text text-transparent">
+                            Hello, I&apos;m
+                        </span>
                     </p>
 
                     {/* 2. Main Name Title (Animated Gradient - Theme Aware) */}
@@ -40,9 +42,9 @@ const Hero = () => {
                         </span>
                     </h1>
 
-                    {/* 3. Subheading - Fixed Visibility */}
-                    <h2 className="text-xl md:text-2xl font-light mb-6 text-navy dark:text-lightSlate max-w-2xl mx-auto">
-                        MSc in Business Analytics from <span className="text-purple-600 dark:text-green font-semibold">University of Birmingham</span>
+                    {/* 3. Subheading - Smaller, no highlight */}
+                    <h2 className="text-lg md:text-xl font-light mb-6 text-navy dark:text-lightSlate max-w-2xl mx-auto">
+                        Master&apos;s in Business Analytics from University of Birmingham
                     </h2>
 
                     {/* 4. Typing Effect - Theme Aware */}

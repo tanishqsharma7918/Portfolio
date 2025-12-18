@@ -73,9 +73,8 @@ const Navbar = () => {
                 
                 {/* GLASS CONTAINER */}
                 <nav className="relative flex items-center justify-between 
-                    bg-white/60 dark:bg-navy/60 
+                    bg-white/50 dark:bg-navy/50 
                     backdrop-blur-md 
-                    border border-navy/10 dark:border-green/10 
                     px-6 py-3 rounded-full shadow-xl transition-colors duration-300 h-16"
                 >
                     {/* 1. LEFT: Logo */}
@@ -117,7 +116,7 @@ const Navbar = () => {
                     </div>
 
                     {/* 3. RIGHT: Theme Toggle */}
-                    <div className="pl-4 border-l border-navy/10 dark:border-green/20 z-20">
+                    <div className="pl-4 z-20">
                         <button 
                             onClick={toggleTheme}
                             className="p-2 rounded-full transition-all duration-300
@@ -132,7 +131,7 @@ const Navbar = () => {
             </header>
 
             {/* --- MOBILE NAVBAR (Also Fixed) --- */}
-            <nav className={`md:hidden fixed w-full z-50 transition-all duration-300 ${isMobileMenuOpen || scrolled ? 'bg-white/60 dark:bg-navy/60 backdrop-blur-md border-b border-navy/10 dark:border-green/10 shadow-lg' : 'bg-transparent'}`}>
+            <nav className={`md:hidden fixed w-full z-50 transition-all duration-300 ${isMobileMenuOpen || scrolled ? 'bg-white/50 dark:bg-navy/50 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
                 <div className="flex items-center justify-between px-6 py-4">
                     <Link 
                         to="home" 
@@ -154,7 +153,7 @@ const Navbar = () => {
 
                 {/* Mobile Dropdown Menu */}
                 {isMobileMenuOpen && (
-                    <div className="px-4 py-4 bg-white/70 dark:bg-navy/70 backdrop-blur-md border-t border-navy/10 dark:border-green/10">
+                    <div className="px-4 py-4 bg-white/60 dark:bg-navy/60 backdrop-blur-md">
                         <ul className="flex flex-col space-y-2">
                             {navLinks.map((link, index) => (
                                 <li key={link.name}>
@@ -182,7 +181,7 @@ const Navbar = () => {
                         </ul>
 
                         {/* Mobile Theme Toggle */}
-                        <div className="mt-4 pt-4 border-t border-navy/10 dark:border-green/10">
+                        <div className="mt-4 pt-4">
                             <button 
                                 onClick={toggleTheme}
                                 className="w-full px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2
