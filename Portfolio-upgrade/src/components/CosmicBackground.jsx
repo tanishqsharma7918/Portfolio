@@ -218,20 +218,20 @@ const CosmicBackground = () => {
                 starsMeshRef.current.material.uniforms.time.value = time;
             }
 
-            // Synchronized motion: all particles move slowly left to right with upward drift
+            // Synchronized motion: all particles move slowly right to left with upward drift (flowing backwards)
             const speed = 0.08; // Slow, steady movement
             const positions = particlesMesh.geometry.attributes.position.array;
             
             for (let i = 0; i < positions.length; i += 3) {
-                // Move right (positive X)
-                positions[i] += speed;
+                // Move left (negative X) - flowing backwards
+                positions[i] -= speed;
                 
-                // Move upward (positive Y) - slower than horizontal
-                positions[i + 1] += speed * 0.5;
+                // Move upward (positive Y) - creating diagonal backward flow
+                positions[i + 1] += speed * 0.6;
                 
                 // Wrap particles when they go off screen
-                if (positions[i] > 75) {
-                    positions[i] = -75;
+                if (positions[i] < -75) {
+                    positions[i] = 75; // Wrap from left to right
                 }
                 if (positions[i + 1] > 75) {
                     positions[i + 1] = -75;
@@ -301,13 +301,13 @@ const CosmicBackground = () => {
                 className="absolute inset-0 w-full h-full"
                 style={{ 
                     mixBlendMode: isDarkMode ? 'screen' : 'multiply',
-                    opacity: isDarkMode ? 1 : 0.25
+                    opacity: isDarkMode ? 1 : 0.5
                 }}
             />
 
             {/* Theme-aware overlay */}
             <div className={`absolute inset-0 ${
-                isDarkMode ? 'bg-black/30' : 'bg-white/40'
+                isDarkMode ? 'bg-black/30' : 'bg-white/30'
             }`} />
 
             {/* Vignette effect */}
