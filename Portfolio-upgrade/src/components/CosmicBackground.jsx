@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const CosmicBackground = () => {
@@ -6,8 +6,29 @@ const CosmicBackground = () => {
     const sceneRef = useRef(null);
     const rendererRef = useRef(null);
     const particlesMeshRef = useRef(null);
+    const starsMeshRef = useRef(null);
     const cameraRef = useRef(null);
     const animationFrameRef = useRef(null);
+    const [isDarkMode, setIsDarkMode] = useState(true);
+
+    useEffect(() => {
+        // Detect dark mode
+        const checkDarkMode = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setIsDarkMode(isDark);
+        };
+        
+        checkDarkMode();
+        
+        // Watch for dark mode changes
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -36,33 +57,39 @@ const CosmicBackground = () => {
         containerRef.current.appendChild(renderer.domElement);
         rendererRef.current = renderer;
 
-        // Create silver star particle system with twinkling
+        // Reduced particle count
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = window.innerWidth < 768 ? 4000 : 8000; // Reduced on mobile
+        const particlesCount = window.innerWidth < 768 ? 2000 : 4000; // Reduced from 4000/8000
         const posArray = new Float32Array(particlesCount * 3);
         const colorArray = new Float32Array(particlesCount * 3);
         const sizeArray = new Float32Array(particlesCount);
         const twinklePhaseArray = new Float32Array(particlesCount);
+        const velocityArray = new Float32Array(particlesCount * 3);
 
         for (let i = 0; i < particlesCount; i++) {
             const i3 = i * 3;
             
-            // Position - wider spread for cosmic effect
+            // Position
             posArray[i3] = (Math.random() - 0.5) * 150;
             posArray[i3 + 1] = (Math.random() - 0.5) * 150;
             posArray[i3 + 2] = (Math.random() - 0.5) * 150;
 
-            // Silver star color (slightly varied for depth)
-            const brightness = 0.8 + Math.random() * 0.2; // 0.8 to 1.0
-            colorArray[i3] = brightness;     // R
-            colorArray[i3 + 1] = brightness; // G
-            colorArray[i3 + 2] = brightness; // B
+            // Silver star color
+            const brightness = 0.8 + Math.random() * 0.2;
+            colorArray[i3] = brightness;
+            colorArray[i3 + 1] = brightness;
+            colorArray[i3 + 2] = brightness;
 
-            // Random size for star variation
-            sizeArray[i] = Math.random() * 2 + 0.5; // 0.5 to 2.5
+            // Random size
+            sizeArray[i] = Math.random() * 2 + 0.5;
 
-            // Random twinkle phase for each star
+            // Random twinkle phase
             twinklePhaseArray[i] = Math.random() * Math.PI * 2;
+
+            // Initial velocity (will be updated in animation)
+            velocityArray[i3] = 0;
+            velocityArray[i3 + 1] = 0;
+            velocityArray[i3 + 2] = 0;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
@@ -86,9 +113,8 @@ const CosmicBackground = () => {
                 void main() {
                     vColor = color;
                     
-                    // Twinkling effect with individual phases
                     float twinkle = sin(time * 2.0 + twinklePhase) * 0.5 + 0.5;
-                    vOpacity = 0.3 + twinkle * 0.7; // Opacity varies from 0.3 to 1.0
+                    vOpacity = 0.3 + twinkle * 0.7;
                     
                     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
                     gl_PointSize = size * (300.0 / -mvPosition.z);
@@ -100,13 +126,10 @@ const CosmicBackground = () => {
                 varying float vOpacity;
 
                 void main() {
-                    // Create round particles
                     float r = length(gl_PointCoord - vec2(0.5, 0.5));
                     if (r > 0.5) discard;
                     
-                    // Soft edge with glow
                     float alpha = smoothstep(0.5, 0.2, r) * vOpacity;
-                    
                     gl_FragColor = vec4(vColor, alpha);
                 }
             `,
@@ -119,9 +142,9 @@ const CosmicBackground = () => {
         scene.add(particlesMesh);
         particlesMeshRef.current = particlesMesh;
 
-        // Add additional smaller starfield layer for depth
+        // Background stars (also reduced)
         const starsGeometry = new THREE.BufferGeometry();
-        const starsCount = window.innerWidth < 768 ? 500 : 1000;
+        const starsCount = window.innerWidth < 768 ? 300 : 600; // Reduced from 500/1000
         const starsArray = new Float32Array(starsCount * 3);
         const starsSizeArray = new Float32Array(starsCount);
         const starsTwinkleArray = new Float32Array(starsCount);
@@ -132,7 +155,7 @@ const CosmicBackground = () => {
             starsArray[i3 + 1] = (Math.random() - 0.5) * 200;
             starsArray[i3 + 2] = (Math.random() - 0.5) * 200;
             
-            starsSizeArray[i] = Math.random() * 1 + 0.3; // 0.3 to 1.3
+            starsSizeArray[i] = Math.random() * 1 + 0.3;
             starsTwinkleArray[i] = Math.random() * Math.PI * 2;
         }
 
@@ -151,7 +174,6 @@ const CosmicBackground = () => {
                 uniform float time;
 
                 void main() {
-                    // Slower twinkle for background stars
                     float twinkle = sin(time * 1.5 + twinklePhase) * 0.5 + 0.5;
                     vOpacity = 0.2 + twinkle * 0.6;
                     
@@ -178,33 +200,56 @@ const CosmicBackground = () => {
 
         const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(starsMesh);
+        starsMeshRef.current = starsMesh;
 
         // Animation loop
         let time = 0;
         const animate = () => {
             animationFrameRef.current = requestAnimationFrame(animate);
 
-            time += 0.01;
+            time += 0.02; // Faster animation
 
             // Update twinkle effect
             if (particlesMeshRef.current && particlesMeshRef.current.material.uniforms) {
                 particlesMeshRef.current.material.uniforms.time.value = time;
             }
 
-            if (starsMesh && starsMesh.material.uniforms) {
-                starsMesh.material.uniforms.time.value = time;
+            if (starsMeshRef.current && starsMeshRef.current.material.uniforms) {
+                starsMeshRef.current.material.uniforms.time.value = time;
             }
 
-            // Slow rotation for cosmic drift effect
+            // Circular motion: left → up → right → down
+            // Using parametric circle equations with faster speed
+            const circleSpeed = 0.0015; // Faster circular motion
+            const positions = particlesMesh.geometry.attributes.position.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                // Circular motion pattern
+                const angle = time * circleSpeed + (i / positions.length) * Math.PI * 2;
+                const radius = 0.15; // Movement radius
+                
+                // Apply circular motion: left → up → right → down
+                positions[i] += Math.cos(angle) * radius; // X: left/right
+                positions[i + 1] += Math.sin(angle) * radius; // Y: up/down
+                
+                // Wrap particles that go too far
+                if (positions[i] > 75) positions[i] = -75;
+                if (positions[i] < -75) positions[i] = 75;
+                if (positions[i + 1] > 75) positions[i + 1] = -75;
+                if (positions[i + 1] < -75) positions[i + 1] = 75;
+            }
+            
+            particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+            // Slow rotation for depth
             if (particlesMeshRef.current) {
-                particlesMeshRef.current.rotation.y += 0.0005;
-                particlesMeshRef.current.rotation.x += 0.0002;
+                particlesMeshRef.current.rotation.z += 0.0003;
             }
 
-            // Slower counter-rotation for background stars
-            if (starsMesh) {
-                starsMesh.rotation.y -= 0.0003;
-                starsMesh.rotation.x -= 0.0001;
+            // Counter-rotation for background stars
+            if (starsMeshRef.current) {
+                starsMeshRef.current.rotation.y -= 0.0003;
+                starsMeshRef.current.rotation.x -= 0.0001;
             }
 
             renderer.render(scene, camera);
@@ -234,7 +279,6 @@ const CosmicBackground = () => {
                 containerRef.current.removeChild(rendererRef.current.domElement);
             }
 
-            // Dispose Three.js resources
             if (particlesGeometry) particlesGeometry.dispose();
             if (particlesMaterial) particlesMaterial.dispose();
             if (starsGeometry) starsGeometry.dispose();
@@ -245,24 +289,35 @@ const CosmicBackground = () => {
 
     return (
         <div className="absolute inset-0 w-full h-full overflow-hidden">
-            {/* Base dark gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0a0520] via-[#1a0a3e] to-[#2d1b4e]" />
+            {/* Theme-aware base gradient */}
+            <div className={`absolute inset-0 transition-colors duration-300 ${
+                isDarkMode 
+                    ? 'bg-gradient-to-br from-[#0a0520] via-[#1a0a3e] to-[#2d1b4e]'
+                    : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+            }`} />
 
             {/* Three.js container */}
             <div 
                 ref={containerRef} 
                 className="absolute inset-0 w-full h-full"
-                style={{ mixBlendMode: 'screen' }}
+                style={{ 
+                    mixBlendMode: isDarkMode ? 'screen' : 'multiply',
+                    opacity: isDarkMode ? 1 : 0.4
+                }}
             />
 
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/30" />
+            {/* Theme-aware overlay */}
+            <div className={`absolute inset-0 ${
+                isDarkMode ? 'bg-black/30' : 'bg-white/20'
+            }`} />
 
-            {/* Subtle vignette effect */}
+            {/* Vignette effect */}
             <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                    background: 'radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.5) 100%)'
+                    background: isDarkMode 
+                        ? 'radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.5) 100%)'
+                        : 'radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.3) 100%)'
                 }}
             />
         </div>
