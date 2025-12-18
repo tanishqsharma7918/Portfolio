@@ -59,7 +59,7 @@ const CosmicBackground = () => {
 
         // Reduced particle count
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = window.innerWidth < 768 ? 2000 : 4000; // Reduced from 4000/8000
+        const particlesCount = window.innerWidth < 768 ? 2000 : 4000;
         const posArray = new Float32Array(particlesCount * 3);
         const colorArray = new Float32Array(particlesCount * 3);
         const sizeArray = new Float32Array(particlesCount);
@@ -74,7 +74,7 @@ const CosmicBackground = () => {
             posArray[i3 + 1] = (Math.random() - 0.5) * 150;
             posArray[i3 + 2] = (Math.random() - 0.5) * 150;
 
-            // Silver star color
+            // Theme-aware particle colors will be updated dynamically
             const brightness = 0.8 + Math.random() * 0.2;
             colorArray[i3] = brightness;
             colorArray[i3 + 1] = brightness;
@@ -86,7 +86,7 @@ const CosmicBackground = () => {
             // Random twinkle phase
             twinklePhaseArray[i] = Math.random() * Math.PI * 2;
 
-            // Initial velocity (will be updated in animation)
+            // Initial velocity
             velocityArray[i3] = 0;
             velocityArray[i3 + 1] = 0;
             velocityArray[i3 + 2] = 0;
@@ -97,10 +97,11 @@ const CosmicBackground = () => {
         particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
         particlesGeometry.setAttribute('twinklePhase', new THREE.BufferAttribute(twinklePhaseArray, 1));
 
-        // Custom shader material for twinkling effect
+        // Custom shader material for twinkling effect with theme-aware colors
         const particlesMaterial = new THREE.ShaderMaterial({
             uniforms: {
-                time: { value: 0 }
+                time: { value: 0 },
+                isDarkMode: { value: isDarkMode ? 1.0 : 0.0 }
             },
             vertexShader: `
                 attribute float size;
@@ -109,9 +110,16 @@ const CosmicBackground = () => {
                 varying vec3 vColor;
                 varying float vOpacity;
                 uniform float time;
+                uniform float isDarkMode;
 
                 void main() {
-                    vColor = color;
+                    // Theme-aware color: Silver/White in dark mode, Dark Navy/Blue in light mode
+                    if (isDarkMode > 0.5) {
+                        vColor = color; // Silver/white in dark mode
+                    } else {
+                        // Dark navy blue particles in light mode
+                        vColor = vec3(0.04, 0.1, 0.18); // Dark navy color (#0a192f)
+                    }
                     
                     float twinkle = sin(time * 2.0 + twinklePhase) * 0.5 + 0.5;
                     vOpacity = 0.3 + twinkle * 0.7;
@@ -142,9 +150,9 @@ const CosmicBackground = () => {
         scene.add(particlesMesh);
         particlesMeshRef.current = particlesMesh;
 
-        // Background stars (also reduced)
+        // Background stars
         const starsGeometry = new THREE.BufferGeometry();
-        const starsCount = window.innerWidth < 768 ? 300 : 600; // Reduced from 500/1000
+        const starsCount = window.innerWidth < 768 ? 300 : 600;
         const starsArray = new Float32Array(starsCount * 3);
         const starsSizeArray = new Float32Array(starsCount);
         const starsTwinkleArray = new Float32Array(starsCount);
@@ -165,15 +173,25 @@ const CosmicBackground = () => {
 
         const starsMaterial = new THREE.ShaderMaterial({
             uniforms: {
-                time: { value: 0 }
+                time: { value: 0 },
+                isDarkMode: { value: isDarkMode ? 1.0 : 0.0 }
             },
             vertexShader: `
                 attribute float size;
                 attribute float twinklePhase;
                 varying float vOpacity;
+                varying vec3 vColor;
                 uniform float time;
+                uniform float isDarkMode;
 
                 void main() {
+                    // Theme-aware color for background stars
+                    if (isDarkMode > 0.5) {
+                        vColor = vec3(1.0, 1.0, 1.0); // White in dark mode
+                    } else {
+                        vColor = vec3(0.06, 0.12, 0.22); // Darker navy in light mode
+                    }
+                    
                     float twinkle = sin(time * 1.5 + twinklePhase) * 0.5 + 0.5;
                     vOpacity = 0.2 + twinkle * 0.6;
                     
@@ -184,13 +202,14 @@ const CosmicBackground = () => {
             `,
             fragmentShader: `
                 varying float vOpacity;
+                varying vec3 vColor;
 
                 void main() {
                     float r = length(gl_PointCoord - vec2(0.5, 0.5));
                     if (r > 0.5) discard;
                     
                     float alpha = smoothstep(0.5, 0.1, r) * vOpacity;
-                    gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
+                    gl_FragColor = vec4(vColor, alpha);
                 }
             `,
             transparent: true,
@@ -207,31 +226,30 @@ const CosmicBackground = () => {
         const animate = () => {
             animationFrameRef.current = requestAnimationFrame(animate);
 
-            time += 0.02; // Faster animation
+            time += 0.02;
 
-            // Update twinkle effect
+            // Update theme-aware uniforms
+            const currentIsDarkMode = document.documentElement.classList.contains('dark');
             if (particlesMeshRef.current && particlesMeshRef.current.material.uniforms) {
                 particlesMeshRef.current.material.uniforms.time.value = time;
+                particlesMeshRef.current.material.uniforms.isDarkMode.value = currentIsDarkMode ? 1.0 : 0.0;
             }
 
             if (starsMeshRef.current && starsMeshRef.current.material.uniforms) {
                 starsMeshRef.current.material.uniforms.time.value = time;
+                starsMeshRef.current.material.uniforms.isDarkMode.value = currentIsDarkMode ? 1.0 : 0.0;
             }
 
-            // Synchronized motion: all particles move slowly right to left with upward drift (flowing backwards)
-            const speed = 0.08; // Slow, steady movement
+            // Synchronized motion: all particles move slowly right to left with upward drift
+            const speed = 0.08;
             const positions = particlesMesh.geometry.attributes.position.array;
             
             for (let i = 0; i < positions.length; i += 3) {
-                // Move left (negative X) - flowing backwards
                 positions[i] -= speed;
-                
-                // Move upward (positive Y) - creating diagonal backward flow
                 positions[i + 1] += speed * 0.6;
                 
-                // Wrap particles when they go off screen
                 if (positions[i] < -75) {
-                    positions[i] = 75; // Wrap from left to right
+                    positions[i] = 75;
                 }
                 if (positions[i + 1] > 75) {
                     positions[i + 1] = -75;
@@ -245,7 +263,6 @@ const CosmicBackground = () => {
                 particlesMeshRef.current.rotation.z += 0.0003;
             }
 
-            // Counter-rotation for background stars
             if (starsMeshRef.current) {
                 starsMeshRef.current.rotation.y -= 0.0003;
                 starsMeshRef.current.rotation.x -= 0.0001;
