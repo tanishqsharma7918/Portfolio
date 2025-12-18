@@ -36,88 +36,164 @@ const CosmicBackground = () => {
         containerRef.current.appendChild(renderer.domElement);
         rendererRef.current = renderer;
 
-        // Create nebula particle system
+        // Create silver star particle system with twinkling
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = window.innerWidth < 768 ? 4000 : 8000; // Reduced on mobile
         const posArray = new Float32Array(particlesCount * 3);
         const colorArray = new Float32Array(particlesCount * 3);
+        const sizeArray = new Float32Array(particlesCount);
+        const twinklePhaseArray = new Float32Array(particlesCount);
 
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-            // Position - wider spread for nebula effect
-            posArray[i] = (Math.random() - 0.5) * 150;
-            posArray[i + 1] = (Math.random() - 0.5) * 150;
-            posArray[i + 2] = (Math.random() - 0.5) * 150;
+        for (let i = 0; i < particlesCount; i++) {
+            const i3 = i * 3;
+            
+            // Position - wider spread for cosmic effect
+            posArray[i3] = (Math.random() - 0.5) * 150;
+            posArray[i3 + 1] = (Math.random() - 0.5) * 150;
+            posArray[i3 + 2] = (Math.random() - 0.5) * 150;
 
-            // Color (purple, pink, cyan, indigo mix)
-            const colorChoice = Math.random();
-            if (colorChoice < 0.25) {
-                // Purple (#8a2be2)
-                colorArray[i] = 0.54;
-                colorArray[i + 1] = 0.17;
-                colorArray[i + 2] = 0.89;
-            } else if (colorChoice < 0.5) {
-                // Pink (#ff69b4)
-                colorArray[i] = 1.0;
-                colorArray[i + 1] = 0.41;
-                colorArray[i + 2] = 0.71;
-            } else if (colorChoice < 0.75) {
-                // Cyan (#5eead4)
-                colorArray[i] = 0.37;
-                colorArray[i + 1] = 0.92;
-                colorArray[i + 2] = 0.83;
-            } else {
-                // Indigo (#4b0082)
-                colorArray[i] = 0.29;
-                colorArray[i + 1] = 0.0;
-                colorArray[i + 2] = 0.51;
-            }
+            // Silver star color (slightly varied for depth)
+            const brightness = 0.8 + Math.random() * 0.2; // 0.8 to 1.0
+            colorArray[i3] = brightness;     // R
+            colorArray[i3 + 1] = brightness; // G
+            colorArray[i3 + 2] = brightness; // B
+
+            // Random size for star variation
+            sizeArray[i] = Math.random() * 2 + 0.5; // 0.5 to 2.5
+
+            // Random twinkle phase for each star
+            twinklePhaseArray[i] = Math.random() * Math.PI * 2;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+        particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+        particlesGeometry.setAttribute('twinklePhase', new THREE.BufferAttribute(twinklePhaseArray, 1));
 
-        // Particle material with additive blending for glow effect
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.3,
-            vertexColors: true,
+        // Custom shader material for twinkling effect
+        const particlesMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 }
+            },
+            vertexShader: `
+                attribute float size;
+                attribute float twinklePhase;
+                attribute vec3 color;
+                varying vec3 vColor;
+                varying float vOpacity;
+                uniform float time;
+
+                void main() {
+                    vColor = color;
+                    
+                    // Twinkling effect with individual phases
+                    float twinkle = sin(time * 2.0 + twinklePhase) * 0.5 + 0.5;
+                    vOpacity = 0.3 + twinkle * 0.7; // Opacity varies from 0.3 to 1.0
+                    
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vColor;
+                varying float vOpacity;
+
+                void main() {
+                    // Create round particles
+                    float r = length(gl_PointCoord - vec2(0.5, 0.5));
+                    if (r > 0.5) discard;
+                    
+                    // Soft edge with glow
+                    float alpha = smoothstep(0.5, 0.2, r) * vOpacity;
+                    
+                    gl_FragColor = vec4(vColor, alpha);
+                }
+            `,
             transparent: true,
-            opacity: 0.8,
             blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            sizeAttenuation: true
+            depthWrite: false
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
         particlesMeshRef.current = particlesMesh;
 
-        // Add additional starfield layer
+        // Add additional smaller starfield layer for depth
         const starsGeometry = new THREE.BufferGeometry();
         const starsCount = window.innerWidth < 768 ? 500 : 1000;
         const starsArray = new Float32Array(starsCount * 3);
+        const starsSizeArray = new Float32Array(starsCount);
+        const starsTwinkleArray = new Float32Array(starsCount);
 
-        for (let i = 0; i < starsCount * 3; i += 3) {
-            starsArray[i] = (Math.random() - 0.5) * 200;
-            starsArray[i + 1] = (Math.random() - 0.5) * 200;
-            starsArray[i + 2] = (Math.random() - 0.5) * 200;
+        for (let i = 0; i < starsCount; i++) {
+            const i3 = i * 3;
+            starsArray[i3] = (Math.random() - 0.5) * 200;
+            starsArray[i3 + 1] = (Math.random() - 0.5) * 200;
+            starsArray[i3 + 2] = (Math.random() - 0.5) * 200;
+            
+            starsSizeArray[i] = Math.random() * 1 + 0.3; // 0.3 to 1.3
+            starsTwinkleArray[i] = Math.random() * Math.PI * 2;
         }
 
         starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsArray, 3));
+        starsGeometry.setAttribute('size', new THREE.BufferAttribute(starsSizeArray, 1));
+        starsGeometry.setAttribute('twinklePhase', new THREE.BufferAttribute(starsTwinkleArray, 1));
 
-        const starsMaterial = new THREE.PointsMaterial({
-            size: 0.1,
-            color: 0xffffff,
+        const starsMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 }
+            },
+            vertexShader: `
+                attribute float size;
+                attribute float twinklePhase;
+                varying float vOpacity;
+                uniform float time;
+
+                void main() {
+                    // Slower twinkle for background stars
+                    float twinkle = sin(time * 1.5 + twinklePhase) * 0.5 + 0.5;
+                    vOpacity = 0.2 + twinkle * 0.6;
+                    
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying float vOpacity;
+
+                void main() {
+                    float r = length(gl_PointCoord - vec2(0.5, 0.5));
+                    if (r > 0.5) discard;
+                    
+                    float alpha = smoothstep(0.5, 0.1, r) * vOpacity;
+                    gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
+                }
+            `,
             transparent: true,
-            opacity: 0.6,
-            blending: THREE.AdditiveBlending
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
         });
 
         const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(starsMesh);
 
         // Animation loop
+        let time = 0;
         const animate = () => {
             animationFrameRef.current = requestAnimationFrame(animate);
+
+            time += 0.01;
+
+            // Update twinkle effect
+            if (particlesMeshRef.current && particlesMeshRef.current.material.uniforms) {
+                particlesMeshRef.current.material.uniforms.time.value = time;
+            }
+
+            if (starsMesh && starsMesh.material.uniforms) {
+                starsMesh.material.uniforms.time.value = time;
+            }
 
             // Slow rotation for cosmic drift effect
             if (particlesMeshRef.current) {
@@ -125,7 +201,7 @@ const CosmicBackground = () => {
                 particlesMeshRef.current.rotation.x += 0.0002;
             }
 
-            // Slower counter-rotation for stars
+            // Slower counter-rotation for background stars
             if (starsMesh) {
                 starsMesh.rotation.y -= 0.0003;
                 starsMesh.rotation.x -= 0.0001;
