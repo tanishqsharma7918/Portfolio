@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { ArrowRight, Mail } from 'lucide-react';
-import Particles from 'react-tsparticles';
-import { loadSlim } from 'tsparticles-slim';
+import CosmicBackground from './CosmicBackground';
 
 const Hero = () => {
-    const [isDarkMode, setIsDarkMode] = useState(true);
-    
     // Dynamic job roles for typewriter (NOT the degree)
     const roles = [
         'AI/ML Engineer',
@@ -15,111 +12,13 @@ const Hero = () => {
         'Problem Solver'
     ];
 
-    // Detect dark mode
-    useEffect(() => {
-        const checkDarkMode = () => {
-            const isDark = document.documentElement.classList.contains('dark');
-            setIsDarkMode(isDark);
-        };
-        
-        checkDarkMode();
-        
-        // Watch for dark mode changes
-        const observer = new MutationObserver(checkDarkMode);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-        
-        return () => observer.disconnect();
-    }, []);
-
-    // Initialize tsparticles
-    const particlesInit = useCallback(async (engine) => {
-        await loadSlim(engine);
-    }, []);
-
-    // CHAOTIC SWARM - Dynamic particle movement
-    const particlesOptions = useMemo(() => ({
-        fullScreen: { enable: false },
-        background: { color: { value: "transparent" } },
-        fpsLimit: 120,
-        particles: {
-            // COLOR: Slate variations in Dark Mode, Navy in Light Mode
-            color: {
-                value: isDarkMode ? ["#94a3b8", "#cbd5e1", "#ffffff"] : "#0a192f",
-            },
-            // SHAPE: Circles for classic particle effect
-            shape: {
-                type: "circle",
-            },
-            opacity: {
-                value: { min: 0.3, max: 1 },
-                animation: { enable: true, speed: 1, sync: false }
-            },
-            size: {
-                value: { min: 2, max: 4 }, // Larger to be visible
-            },
-            // MOVEMENT: The critical part for 'Bird' feel
-            move: {
-                enable: true,
-                speed: 4.5, // FAST (Like birds flying)
-                direction: "none", // Chaotic
-                random: true,
-                straight: false,
-                outModes: "out",
-                attract: {
-                    enable: true,
-                    rotateX: 600,
-                    rotateY: 1200
-                }
-            },
-            number: {
-                value: 100, // Flock size
-                density: { enable: true, area: 800 },
-            },
-        },
-        // INTERACTION: Flocking behavior on mouse
-        interactivity: {
-            events: {
-                onHover: {
-                    enable: true,
-                    mode: "attract", // Particles swarm to mouse like birds
-                },
-            },
-            modes: {
-                attract: {
-                    distance: 200,
-                    duration: 0.4,
-                    easing: "ease-out-quad",
-                    factor: 3,
-                    maxSpeed: 50,
-                    speed: 1
-                },
-            },
-        },
-        detectRetina: true,
-    }), [isDarkMode]);
-
     return (
         <section 
             id="home" 
-            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-navy transition-colors duration-300"
+            className="relative w-full h-screen flex items-center justify-center overflow-hidden"
         >
-            {/* LAYER 1: CHAOTIC SWARM (Bird-like Triangle Particles) */}
-            <Particles
-                id="tsparticles"
-                init={particlesInit}
-                options={particlesOptions}
-                className="absolute inset-0 h-full w-full z-0"
-            />
-
-            {/* LAYER 2: ATMOSPHERE GLOW (Subtle Gray in Light Mode, Blue in Dark Mode) */}
-            <div className="absolute inset-0 z-[1] pointer-events-none 
-                bg-gradient-to-br from-indigo-50/50 via-transparent to-teal-50/50 
-                dark:from-indigo-500/20 dark:via-transparent dark:to-teal-500/20 
-                transition-all duration-500" 
-            />
+            {/* COSMIC NEBULA BACKGROUND */}
+            <CosmicBackground />
 
             {/* LAYER 3: CONTENT */}
             <div className="relative z-10 container mx-auto px-4 text-center">

@@ -104,6 +104,80 @@
   animation: shimmer 2s infinite;
 }
 
+/* Cosmic Nebula Animations */
+@keyframes nebula-drift-1 {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.4;
+  }
+  33% { 
+    transform: translate(-5%, 3%) scale(1.1);
+    opacity: 0.5;
+  }
+  66% { 
+    transform: translate(3%, -2%) scale(0.95);
+    opacity: 0.35;
+  }
+}
+
+@keyframes nebula-drift-2 {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.3;
+  }
+  40% { 
+    transform: translate(4%, -3%) scale(1.15);
+    opacity: 0.4;
+  }
+  80% { 
+    transform: translate(-3%, 4%) scale(0.9);
+    opacity: 0.25;
+  }
+}
+
+@keyframes nebula-drift-3 {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1) rotate(0deg);
+    opacity: 0.35;
+  }
+  50% { 
+    transform: translate(-4%, 2%) scale(1.05) rotate(5deg);
+    opacity: 0.45;
+  }
+}
+
+@keyframes nebula-drift-4 {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.15;
+  }
+  25% { 
+    transform: translate(3%, 4%) scale(1.2);
+    opacity: 0.25;
+  }
+  75% { 
+    transform: translate(-2%, -3%) scale(0.85);
+    opacity: 0.1;
+  }
+}
+
+@keyframes nebula-drift-5 {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1) rotate(0deg);
+    opacity: 0.25;
+  }
+  60% { 
+    transform: translate(2%, -4%) scale(1.1) rotate(-3deg);
+    opacity: 0.35;
+  }
+}
+
+.animate-nebula-drift-1 { animation: nebula-drift-1 30s ease-in-out infinite; }
+.animate-nebula-drift-2 { animation: nebula-drift-2 40s ease-in-out infinite; }
+.animate-nebula-drift-3 { animation: nebula-drift-3 35s ease-in-out infinite; }
+.animate-nebula-drift-4 { animation: nebula-drift-4 45s ease-in-out infinite; }
+.animate-nebula-drift-5 { animation: nebula-drift-5 50s ease-in-out infinite; }
+
 /* Glowing Pulsing Dot for Availability Status */
 .status-indicator {
   display: inline-block;
