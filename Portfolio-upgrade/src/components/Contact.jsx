@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, AlertCircle, Briefcase } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, Send, CheckCircle, AlertCircle, Briefcase } from 'lucide-react';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -87,6 +87,16 @@ const Contact = () => {
 
                             <div className="flex items-center gap-4">
                                 <div className="p-3 glass rounded-full text-purple-600">
+                                    <Phone size={24} />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
+                                    <a href="tel:+919264436795" className="font-semibold hover:text-purple-500 transition-colors">(+91) - 9264436795</a>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 glass rounded-full text-purple-600">
                                     <Linkedin size={24} />
                                 </div>
                                 <div>
@@ -105,17 +115,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 glass rounded-full text-purple-600">
-                                    <MapPin size={24} />
-                                </div>
-                                <div>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                                    <p className="font-semibold">Lucknow, India</p>
-                                </div>
-                            </div>
-
-                            {/* Available for Opportunities Card */}
+                            {/* Available for Opportunities Card */
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
