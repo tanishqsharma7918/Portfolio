@@ -28,11 +28,9 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    {/* 1. 'Hello, I'm' - Same font as name */}
-                    <p className="text-5xl md:text-7xl font-bold tracking-tight mb-2">
-                        <span className="animate-gradient-x bg-gradient-to-r from-navy via-purple-600 to-navy dark:from-[#64ffda] dark:via-[#bd34fe] dark:to-[#64ffda] bg-[length:200%_auto] bg-clip-text text-transparent">
-                            Hello, I&apos;m
-                        </span>
+                    {/* 1. 'Hello, I'm' - Match subheading size and color */}
+                    <p className="text-lg md:text-xl font-light mb-2 text-navy dark:text-lightSlate">
+                        Hello, I&apos;m
                     </p>
 
                     {/* 2. Main Name Title (Animated Gradient - Theme Aware) */}

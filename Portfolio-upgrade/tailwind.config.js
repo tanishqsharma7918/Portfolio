@@ -21,7 +21,16 @@ export default {
         glassDark: "rgba(0, 0, 0, 0.25)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"], // Clean, geometric sans-serif
+        sans: [
+          "-apple-system", 
+          "BlinkMacSystemFont", 
+          "SF Pro Display", 
+          "SF Pro Text", 
+          "Segoe UI", 
+          "Roboto", 
+          "system-ui", 
+          "sans-serif"
+        ], // Modern Geometric Sans-Serif (Apple / Product-Designer Style)
       },
       backdropBlur: {
         xs: '2px',
