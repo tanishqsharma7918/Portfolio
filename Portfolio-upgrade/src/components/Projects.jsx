@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Code, Folder } from 'lucide-react';
+import { ExternalLink, Github, Code, Folder, ArrowRight } from 'lucide-react';
 import MouseTrackerCard from './MouseTrackerCard';
 import LevitatingCard from './LevitatingCard';
 
@@ -68,6 +68,9 @@ const projects = [
 ];
 
 const Projects = () => {
+    const [showAll, setShowAll] = useState(false);
+    const displayedProjects = showAll ? projects : projects.slice(0, 3);
+
     return (
         <section id="projects" className="py-20 relative">
             <div className="max-w-7xl mx-auto px-6">
@@ -87,10 +90,47 @@ const Projects = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projects.map((project, index) => (
+                    {displayedProjects.map((project, index) => (
                         <ProjectCard key={index} project={project} index={index} />
                     ))}
                 </div>
+
+                {/* View All Projects Button */}
+                {!showAll && projects.length > 3 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="flex justify-center mt-12"
+                    >
+                        <button
+                            onClick={() => setShowAll(true)}
+                            className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:scale-105 active:scale-95"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px'
+                            }}
+                        >
+                            {/* 3D Effect Layers */}
+                            <span className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 rounded-xl transform translate-y-1 translate-x-1 -z-10 group-hover:translate-y-2 group-hover:translate-x-2 transition-transform duration-300" 
+                                style={{ transform: 'translateZ(-8px)' }}
+                            />
+                            <span className="absolute inset-0 bg-gradient-to-r from-purple-800 to-pink-800 rounded-xl transform translate-y-2 translate-x-2 -z-20 group-hover:translate-y-3 group-hover:translate-x-3 transition-transform duration-300" 
+                                style={{ transform: 'translateZ(-16px)' }}
+                            />
+                            
+                            {/* Glow Effect */}
+                            <span className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300" />
+                            
+                            {/* Button Content */}
+                            <span className="relative flex items-center gap-2 font-semibold text-lg">
+                                View All Projects
+                                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+                            </span>
+                        </button>
+                    </motion.div>
+                )}
             </div>
         </section>
     );
