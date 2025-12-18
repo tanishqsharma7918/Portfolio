@@ -41,7 +41,7 @@ const Contact = () => {
             if (response.ok) {
                 setStatus({
                     type: 'success',
-                    message: 'Message sent successfully! I\'ll get back to you within 24 hours.'
+                    message: 'Message sent successfully! I will get back to you within 24 hours.'
                 });
                 setFormData({ name: '', email: '', message: '' });
             } else {
@@ -69,9 +69,9 @@ const Contact = () => {
                 >
                     {/* Left: Info */}
                     <div className="flex flex-col justify-center">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6">Let's Connect</h2>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6">Let&apos;s Connect</h2>
                         <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+                            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                         </p>
 
                         <div className="space-y-6">
@@ -115,7 +115,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            {/* Available for Opportunities Card */
+                            {/* Available for Opportunities Card */}
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -183,7 +183,7 @@ const Contact = () => {
                                     className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-black/30 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400 resize-none transition-all" 
                                 />
                                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                                    💌 I'll respond within 24 hours. Thanks so much for reaching out!
+                                    I&apos;ll respond within 24 hours. Thanks so much for reaching out!
                                 </p>
                             </div>
 
