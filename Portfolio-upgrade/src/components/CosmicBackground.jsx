@@ -218,25 +218,24 @@ const CosmicBackground = () => {
                 starsMeshRef.current.material.uniforms.time.value = time;
             }
 
-            // Circular motion: left → up → right → down
-            // Using parametric circle equations with faster speed
-            const circleSpeed = 0.0015; // Faster circular motion
+            // Synchronized motion: all particles move slowly left to right with upward drift
+            const speed = 0.08; // Slow, steady movement
             const positions = particlesMesh.geometry.attributes.position.array;
             
             for (let i = 0; i < positions.length; i += 3) {
-                // Circular motion pattern
-                const angle = time * circleSpeed + (i / positions.length) * Math.PI * 2;
-                const radius = 0.15; // Movement radius
+                // Move right (positive X)
+                positions[i] += speed;
                 
-                // Apply circular motion: left → up → right → down
-                positions[i] += Math.cos(angle) * radius; // X: left/right
-                positions[i + 1] += Math.sin(angle) * radius; // Y: up/down
+                // Move upward (positive Y) - slower than horizontal
+                positions[i + 1] += speed * 0.5;
                 
-                // Wrap particles that go too far
-                if (positions[i] > 75) positions[i] = -75;
-                if (positions[i] < -75) positions[i] = 75;
-                if (positions[i + 1] > 75) positions[i + 1] = -75;
-                if (positions[i + 1] < -75) positions[i + 1] = 75;
+                // Wrap particles when they go off screen
+                if (positions[i] > 75) {
+                    positions[i] = -75;
+                }
+                if (positions[i + 1] > 75) {
+                    positions[i + 1] = -75;
+                }
             }
             
             particlesMesh.geometry.attributes.position.needsUpdate = true;
@@ -293,7 +292,7 @@ const CosmicBackground = () => {
             <div className={`absolute inset-0 transition-colors duration-300 ${
                 isDarkMode 
                     ? 'bg-gradient-to-br from-[#0a0520] via-[#1a0a3e] to-[#2d1b4e]'
-                    : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+                    : 'bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200'
             }`} />
 
             {/* Three.js container */}
@@ -302,13 +301,13 @@ const CosmicBackground = () => {
                 className="absolute inset-0 w-full h-full"
                 style={{ 
                     mixBlendMode: isDarkMode ? 'screen' : 'multiply',
-                    opacity: isDarkMode ? 1 : 0.4
+                    opacity: isDarkMode ? 1 : 0.25
                 }}
             />
 
             {/* Theme-aware overlay */}
             <div className={`absolute inset-0 ${
-                isDarkMode ? 'bg-black/30' : 'bg-white/20'
+                isDarkMode ? 'bg-black/30' : 'bg-white/40'
             }`} />
 
             {/* Vignette effect */}
