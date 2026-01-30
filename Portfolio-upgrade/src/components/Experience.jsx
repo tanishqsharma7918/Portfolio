@@ -6,7 +6,7 @@ const experiences = [
     {
         role: 'Machine Learning Engineer',
         company: 'Culinda Inc.',
-        period: 'Present',
+        period: 'Jan 2026 - Present',
         location: 'Remote',
         responsibilities: [
             'Developing and implementing advanced machine learning models to address complex business challenges, ensuring optimal utilization of data resources',
