@@ -4,6 +4,18 @@ import { Briefcase, Calendar, MapPin, Building2 } from 'lucide-react';
 
 const experiences = [
     {
+        role: 'Machine Learning Engineer',
+        company: 'Culinda Inc.',
+        period: 'Present',
+        location: 'Remote',
+        responsibilities: [
+            'Developing and implementing advanced machine learning models to address complex business challenges, ensuring optimal utilization of data resources',
+            'Driving research and development initiatives to explore the latest in AI and ML advancements, supporting Culinda\'s goal to remain at the forefront of the industry',
+            'Building and deploying deep learning-based models that enhance the efficiency and effectiveness of data-driven decision-making processes'
+        ],
+        skills: ['Machine Learning', 'Deep Learning', 'NLP', 'AI Research', 'MLOps', 'Python']
+    },
+    {
         role: 'AI/ML Engineering Analyst Intern',
         company: 'Victoria Solutions',
         period: 'Jul 2025 - Aug 2025',
