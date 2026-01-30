@@ -7,7 +7,7 @@ const experiences = [
         role: 'Machine Learning Engineer',
         company: 'Culinda Inc.',
         period: 'Jan 2026 - Present',
-        location: 'Remote',
+        location: 'Hyderabad',
         responsibilities: [
             'Developing and implementing advanced machine learning models to address complex business challenges, ensuring optimal utilization of data resources',
             'Driving research and development initiatives to explore the latest in AI and ML advancements, supporting Culinda\'s goal to remain at the forefront of the industry',
