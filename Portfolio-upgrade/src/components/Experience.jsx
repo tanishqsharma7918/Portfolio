@@ -13,7 +13,7 @@ const experiences = [
             'Driving research and development initiatives to explore the latest in AI and ML advancements, supporting Culinda\'s goal to remain at the forefront of the industry',
             'Building and deploying deep learning-based models that enhance the efficiency and effectiveness of data-driven decision-making processes'
         ],
-        skills: ['Machine Learning', 'Deep Learning', 'NLP', 'AI Research', 'MLOps', 'Python']
+        skills: ['LLMs', 'RAG', 'MLOps', 'Scalable ML Systems', 'Model Deployment', 'Inference Optimization & Monitoring']
     },
     {
         role: 'AI/ML Engineering Analyst Intern',
