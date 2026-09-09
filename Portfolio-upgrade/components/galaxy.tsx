@@ -749,28 +749,146 @@ export function Galaxy() {
             tint: 0 as 0 | 1 | 2 | 3,
         }))
 
-        function drawNebulae(t: number) {
-            const cx = width / 2
-            const cy = height / 2
-            const prev = ctx.globalCompositeOperation
-            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+        /* -------------------------------------------------------- */
+        /*  Nebulae — lensed                                          */
+        /* -------------------------------------------------------- */
+        let nebCv: HTMLCanvasElement | null = null
+        let nebCtx: CanvasRenderingContext2D | null = null
+        // Half resolution. They are smooth gradients, so the downsample is
+        // invisible, and every warped slice below costs a quarter as much.
+        const NEB_SCALE = 0.5
 
+        /** Primary image radius for a source at radius b. */
+        function imageR(b: number, bE: number) {
+            return (b + Math.sqrt(b * b + 4 * bE * bE)) * 0.5
+        }
+        /** Secondary image radius (magnitude; it lands on the far side). */
+        function imageRNeg(b: number, bE: number) {
+            return (Math.sqrt(b * b + 4 * bE * bE) - b) * 0.5
+        }
+
+        function paintNebulae(g: CanvasRenderingContext2D, t: number, k: number) {
+            const cx = (width / 2) * k
+            const cy = (height / 2) * k
+            g.globalCompositeOperation = "lighter"
             for (const n of nebulae) {
                 const wobbleX = Math.cos(t * n.drift + n.phase) * 0.06
                 const wobbleY = Math.sin(t * n.drift * 1.3 + n.phase) * 0.05
-                const x = cx + (n.x + wobbleX) * width
-                const y = cy + (n.y + wobbleY) * height
-                const radius = n.r * Math.max(width, height) * 0.62
+                const x = cx + (n.x + wobbleX) * width * k
+                const y = cy + (n.y + wobbleY) * height * k
+                const radius = n.r * Math.max(width, height) * 0.62 * k
 
-                const g = ctx.createRadialGradient(x, y, 0, x, y, radius)
+                const grad = g.createRadialGradient(x, y, 0, x, y, radius)
                 const rgb = nebulaColors[n.tint].split(" ").join(",")
-                g.addColorStop(0, `rgba(${rgb},${nebulaStrength})`)
-                g.addColorStop(0.45, `rgba(${rgb},${nebulaStrength * 0.34})`)
-                g.addColorStop(1, `rgba(${rgb},0)`)
-                ctx.fillStyle = g
-                ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2)
+                grad.addColorStop(0, `rgba(${rgb},${nebulaStrength})`)
+                grad.addColorStop(0.45, `rgba(${rgb},${nebulaStrength * 0.34})`)
+                grad.addColorStop(1, `rgba(${rgb},0)`)
+                g.fillStyle = grad
+                g.fillRect(x - radius, y - radius, radius * 2, radius * 2)
+            }
+        }
+
+        /**
+         * The nebulae are background light too, so the hole bends them exactly
+         * as it bends the stars — and a soft extended source is where lensing
+         * is most legible, because you can watch the gradient itself curve.
+         *
+         * Per-pixel remapping would mean getImageData every frame, which is
+         * far too slow. But this lens is radially symmetric: a source ring at
+         * β maps to an image ring at θ(β), with no angular term at all. So the
+         * warp reduces to drawing the nebula layer as a stack of concentric
+         * annuli, each scaled about the hole by θ(β)/β and clipped to the
+         * image annulus it lands in. The radial mapping is then exact at every
+         * slice boundary, and only interpolated within a slice.
+         *
+         * The secondary image gets the same treatment with a negative scale,
+         * which reflects it through the centre — that is what puts the
+         * counter-image on the far side, inverted, as the equations require.
+         */
+        function drawNebulae(t: number) {
+            if (!nebCv) {
+                nebCv = document.createElement("canvas")
+                nebCtx = nebCv.getContext("2d")
+            }
+            const g = nebCtx
+            if (!g || !nebCv) return
+
+            const bw = Math.max(1, Math.round(width * NEB_SCALE))
+            const bh = Math.max(1, Math.round(height * NEB_SCALE))
+            if (nebCv.width !== bw || nebCv.height !== bh) {
+                nebCv.width = bw
+                nebCv.height = bh
+            }
+            g.setTransform(1, 0, 0, 1, 0, 0)
+            g.clearRect(0, 0, bw, bh)
+            paintNebulae(g, t, NEB_SCALE)
+
+            const prev = ctx.globalCompositeOperation
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            const bE = hole.r * LENS_E
+            const shadow = hole.r
+
+            // Slices tile the whole plane out to the far corner, spaced by a
+            // power law so they are fine near the hole and coarse away from it.
+            //
+            // The first attempt drew an unwarped region beyond a cutoff and
+            // warped only inside it. That leaves a seam: at the cutoff the
+            // scale factor is 1.027, not 1, so the two regions do not meet and
+            // a hard ring cuts across the frame. Tiling all the way out removes
+            // the boundary rather than hiding it — the outermost slice has
+            // k ~ 1 and looks unwarped because it is.
+            //
+            // Primaries tile [theta_E, inf) and secondaries tile (0, theta_E],
+            // so between them every pixel outside the shadow is covered once,
+            // with no gap at the Einstein radius.
+            const maxR = Math.hypot(width, height)
+            const SLICES = 22
+
+            for (let i = 0; i < SLICES; i++) {
+                const r0 = maxR * Math.pow(i / SLICES, 2.2)
+                const r1 = maxR * Math.pow((i + 1) / SLICES, 2.2)
+                const rm = (r0 + r1) * 0.5
+                if (rm < 0.35) continue
+
+                // Primary
+                const o0 = Math.max(imageR(r0, bE), shadow)
+                const o1 = Math.max(imageR(r1, bE), shadow)
+                if (o1 > o0 + 0.15) {
+                    const k = imageR(rm, bE) / rm
+                    ctx.save()
+                    ctx.beginPath()
+                    ctx.arc(hole.x, hole.y, o1, 0, Math.PI * 2)
+                    ctx.arc(hole.x, hole.y, o0, 0, Math.PI * 2)
+                    ctx.clip("evenodd")
+                    ctx.translate(hole.x, hole.y)
+                    ctx.scale(k, k)
+                    ctx.translate(-hole.x, -hole.y)
+                    ctx.drawImage(nebCv, 0, 0, width, height)
+                    ctx.restore()
+                }
+
+                // Secondary — inverted through the centre, alive only between
+                // the shadow and the Einstein radius
+                const n0 = Math.max(imageRNeg(r1, bE), shadow)
+                const n1 = imageRNeg(r0, bE)
+                if (n1 > shadow && n1 > n0 + 0.15) {
+                    const kn = -imageRNeg(rm, bE) / rm
+                    ctx.save()
+                    ctx.beginPath()
+                    ctx.arc(hole.x, hole.y, n1, 0, Math.PI * 2)
+                    ctx.arc(hole.x, hole.y, n0, 0, Math.PI * 2)
+                    ctx.clip("evenodd")
+                    ctx.globalAlpha = 0.7
+                    ctx.translate(hole.x, hole.y)
+                    ctx.scale(kn, kn)
+                    ctx.translate(-hole.x, -hole.y)
+                    ctx.drawImage(nebCv, 0, 0, width, height)
+                    ctx.restore()
+                }
             }
 
+            ctx.globalAlpha = 1
             ctx.globalCompositeOperation = prev
         }
 
