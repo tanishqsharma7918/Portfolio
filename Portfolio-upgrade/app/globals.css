@@ -53,60 +53,50 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  Accent palettes — orthogonal to light/dark.                      */
-  /*  Light needs a darker, denser accent to hold contrast on paper;   */
-  /*  dark needs a lighter one so it does not vanish into the ground.  */
+  /*  Theme tones — two dark grounds, two light.                       */
+  /*                                                                    */
+  /*  :root is Paper and .dark is Obsidian, so those two need no block  */
+  /*  of their own; only the alternates are declared here. Each moves   */
+  /*  the ground, the text and the galaxy together rather than swapping */
+  /*  an accent over an unchanged background.                          */
   /* ---------------------------------------------------------------- */
-  :root[data-accent="ember"] {
-    --accent: 180 83 21;
-    --gold: 150 106 46;
-    --nebula-a: 217 119 6;
-    --nebula-b: 190 60 40;
-  }
-  .dark[data-accent="ember"] {
-    --accent: 245 158 66;
-    --gold: 233 205 160;
-    --nebula-a: 249 115 22;
-    --nebula-b: 236 72 90;
+
+  /* Umber — warm near-black, amber accent */
+  .dark[data-accent="umber"] {
+    --bg: 18 15 12;
+    --surface: 32 27 22;
+    --fg: 241 235 226;
+    --muted: 166 154 138;
+    --line: 235 220 200;
+    --line-alpha: 0.11;
+    --accent: 240 168 104;
+    --gold: 236 214 176;
+
+    --star: 255 250 242;
+    --nebula-a: 217 119 40;
+    --nebula-b: 150 90 60;
+    --nebula-strength: 0.16;
+    --vignette-mid: 0.28;
+    --vignette-edge: 0.64;
   }
 
-  :root[data-accent="jade"] {
-    --accent: 15 118 96;
-    --gold: 140 120 60;
-    --nebula-a: 16 155 122;
-    --nebula-b: 14 140 165;
-  }
-  .dark[data-accent="jade"] {
-    --accent: 52 211 166;
-    --gold: 214 214 176;
-    --nebula-a: 16 185 150;
-    --nebula-b: 34 200 220;
-  }
+  /* Porcelain — cool blue-white, deep azure accent */
+  :root[data-accent="porcelain"] {
+    --bg: 238 241 245;
+    --surface: 252 253 255;
+    --fg: 20 26 34;
+    --muted: 100 112 128;
+    --line: 20 26 34;
+    --line-alpha: 0.11;
+    --accent: 29 110 168;
+    --gold: 120 132 148;
 
-  :root[data-accent="azure"] {
-    --accent: 29 78 190;
-    --gold: 132 118 84;
-    --nebula-a: 37 99 235;
-    --nebula-b: 14 165 233;
-  }
-  .dark[data-accent="azure"] {
-    --accent: 96 165 250;
-    --gold: 206 216 234;
-    --nebula-a: 59 130 246;
-    --nebula-b: 34 211 238;
-  }
-
-  :root[data-accent="rose"] {
-    --accent: 176 40 96;
-    --gold: 158 116 76;
-    --nebula-a: 219 39 119;
-    --nebula-b: 147 51 200;
-  }
-  .dark[data-accent="rose"] {
-    --accent: 244 132 168;
-    --gold: 235 205 190;
-    --nebula-a: 236 72 153;
-    --nebula-b: 168 85 247;
+    --star: 22 30 42;
+    --nebula-a: 56 130 200;
+    --nebula-b: 90 160 210;
+    --nebula-strength: 0.1;
+    --vignette-mid: 0.12;
+    --vignette-edge: 0.36;
   }
 
   * {

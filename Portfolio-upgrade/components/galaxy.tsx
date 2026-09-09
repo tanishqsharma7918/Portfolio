@@ -453,7 +453,7 @@ export function Galaxy() {
         let BAND_COUNT = 11
         let SS = 3
         const R_IN = 2.05
-        const R_OUT = 5.6
+        const R_OUT = 6.1
         const TILT = 0.13 // near edge-on, as Gargantua is filmed
 
         function mixRgb(a: number[], b: number[], t: number) {
@@ -512,7 +512,12 @@ export function Galaxy() {
                     const a0 = Math.random() * Math.PI * 2
                     // Inner strands wrap further; they have orbited more times
                     const len = (0.22 + Math.random() * 2.3) * (1.6 - u * 0.85)
-                    const alpha = (0.02 + Math.random() * 0.1) * (1.5 - u * 0.95)
+                    // Taper to nothing across the outermost quarter. Without
+                    // this the strands stop dead at rOut, and since the disk is
+                    // near edge-on that circular boundary reads as a straight
+                    // vertical cut at the left and right extremes.
+                    const taper = Math.min(1, (1 - u) / 0.26)
+                    const alpha = (0.02 + Math.random() * 0.1) * (1.5 - u * 0.95) * taper
 
                     g.strokeStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(3)})`
                     // A wide spread of widths — a few fat ropes, mostly hair
