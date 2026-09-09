@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         default: `${profile.name} — ${profile.role}`,
         template: `%s — ${profile.name}`,
     },
-    description: profile.tagline,
+    description: profile.metaDescription,
     keywords: [
         "Tanishq Sharma",
         "Business Analytics",
@@ -53,14 +53,14 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         title: `${profile.name} — ${profile.role}`,
-        description: profile.tagline,
+        description: profile.metaDescription,
         siteName: `${profile.name} Portfolio`,
         images: [{ url: profile.photo, width: 1200, height: 630, alt: profile.name }],
     },
     twitter: {
         card: "summary_large_image",
         title: `${profile.name} — ${profile.role}`,
-        description: profile.tagline,
+        description: profile.metaDescription,
     },
     robots: { index: true, follow: true },
 }

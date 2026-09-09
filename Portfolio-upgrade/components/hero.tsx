@@ -96,7 +96,7 @@ export function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1.1 }}
-                className="shell absolute inset-x-0 bottom-6 flex items-end justify-center md:justify-between"
+                className="shell absolute inset-x-0 bottom-6 grid grid-cols-1 items-end md:grid-cols-3"
             >
                 <div className="hidden flex-col gap-1.5 md:flex">
                     <span className="eyebrow">Based in</span>
@@ -106,7 +106,7 @@ export function Hero() {
                 <Link
                     href="#about"
                     aria-label="Scroll to about"
-                    className="group flex flex-col items-center gap-2"
+                    className="group flex flex-col items-center gap-2 justify-self-center"
                 >
                     <span className="eyebrow">Scroll</span>
                     <span className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-colors group-hover:bg-fg/5">
@@ -119,10 +119,6 @@ export function Hero() {
                     </span>
                 </Link>
 
-                <div className="hidden flex-col items-end gap-1.5 md:flex">
-                    <span className="eyebrow">Local time</span>
-                    <LocalClock />
-                </div>
             </motion.div>
         </section>
     )
@@ -160,21 +156,3 @@ function RoleRotator({ roles }: { roles: string[] }) {
     )
 }
 
-function LocalClock() {
-    const [time, setTime] = useState("")
-
-    useEffect(() => {
-        const format = () =>
-            new Intl.DateTimeFormat("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-                timeZone: profile.timezone,
-            }).format(new Date())
-        setTime(format())
-        const id = window.setInterval(() => setTime(format()), 20_000)
-        return () => window.clearInterval(id)
-    }, [])
-
-    // Empty until mounted — the server has no idea what time it is there
-    return <span className="font-mono text-sm tabular-nums">{time || "--:--"} IST</span>
-}

@@ -77,9 +77,6 @@ export function Footer() {
 
                 <div className="flex flex-col gap-2 border-t border-fg/10 pt-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
                     <span>© {new Date().getFullYear()} {profile.name}. All rights reserved.</span>
-                    <span className="font-mono uppercase tracking-[0.14em]">
-                        Designed &amp; built in {profile.shortLocation.split(",")[0]}
-                    </span>
                 </div>
             </div>
         </footer>

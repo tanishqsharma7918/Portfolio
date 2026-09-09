@@ -37,25 +37,16 @@ export function About() {
                                 alt={`${profile.name}, portrait`}
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 40vw"
-                                className="object-cover"
+                                className="portrait object-cover"
+                                style={{ objectPosition: "center 18%" }}
                                 priority={false}
                             />
                         </motion.div>
 
-                        {/* Tint keeps the photo inside the palette instead of fighting it */}
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
-
-                        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
-                            <div className="flex flex-col">
-                                <span className="eyebrow">Currently</span>
-                                <span className="text-sm font-medium">
-                                    Building AI systems that ship
-                                </span>
-                            </div>
-                            <span className="font-mono text-eyebrow text-muted">
-                                {profile.shortLocation.split(",")[0]}
-                            </span>
-                        </div>
+                        {/* Just enough edge shading to seat the photo against the
+                            page — no wash across the face, nothing written on it. */}
+                        <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[inset_0_0_90px_26px_rgb(var(--bg)/0.45)]" />
+                        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-fg/10" />
                     </div>
                 </Reveal>
 

@@ -166,15 +166,18 @@
   .wordmark {
     display: block;
     white-space: nowrap;
-    font-weight: 500;
-    font-size: clamp(2.5rem, 11.2vw, 8.75rem);
+    /* Large display type reads more refined a shade lighter and tighter
+       than it does at the weight you'd set body copy in. */
+    font-weight: 470;
+    font-size: clamp(2.05rem, 8.4vw, 6.25rem);
     line-height: 1;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.052em;
+    font-optical-sizing: auto;
     background-image: linear-gradient(
       100deg,
       rgb(var(--fg)) 0%,
-      rgb(var(--fg)) 34%,
-      rgb(var(--gold)) 46%,
+      rgb(var(--fg)) 36%,
+      rgb(var(--gold)) 47%,
       rgb(var(--fg)) 58%,
       rgb(var(--fg)) 100%
     );
@@ -195,6 +198,16 @@
     100% {
       background-position: -30% 0;
     }
+  }
+
+  /* A studio backdrop shot at full brightness glares against a near-black
+     page. Pulled down and very slightly desaturated, it sits in the palette
+     without touching the skin tones. */
+  .portrait {
+    transition: filter 0.4s ease;
+  }
+  .dark .portrait {
+    filter: brightness(0.9) contrast(1.05) saturate(0.94);
   }
 
   /* Serif italic accent used for the "luxury" beats in headings */

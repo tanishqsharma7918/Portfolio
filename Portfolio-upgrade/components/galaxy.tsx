@@ -21,7 +21,7 @@ type Star = {
     lum: number        // base luminance 0..1
     tw: number         // twinkle phase
     twSpeed: number
-    tint: 0 | 1 | 2    // 0 = star, 1 = accent A, 2 = accent B
+    tint: 0 | 1 | 2 | 3 // 0 = star, 1 = violet, 2 = cyan, 3 = gold
     // pointer displacement, springs back to zero
     dx: number
     dy: number
@@ -80,6 +80,7 @@ export function Galaxy() {
         /*  Colour palette, re-read whenever the theme flips          */
         /* -------------------------------------------------------- */
         let palette: string[][] = []
+        let glowSprites: HTMLCanvasElement[] = []
         let coreColor = "255 255 255"
         let nebulaColors = ["139 92 246", "34 211 238"]
         let nebulaStrength = 0.24
@@ -95,13 +96,36 @@ export function Galaxy() {
             coreColor = star
             nebulaColors = [na, nb]
 
-            const tints = [star, na, nb]
+            const gold = readToken(styles, "--gold", "228 207 168")
+            const tints = [star, na, nb, gold]
             palette = tints.map((rgb) => {
                 const row: string[] = []
                 for (let i = 0; i <= ALPHA_STEPS; i++) {
                     row.push(`rgba(${rgb.split(" ").join(",")},${(i / ALPHA_STEPS).toFixed(3)})`)
                 }
                 return row
+            })
+
+            // Pre-rendered bokeh discs. Blitting a cached sprite is far
+            // cheaper than building a radial gradient per star per frame,
+            // and it is what gives the near field a sense of focus.
+            const SPRITE = 64
+            glowSprites = tints.map((rgb) => {
+                const c = document.createElement("canvas")
+                c.width = SPRITE
+                c.height = SPRITE
+                const g2 = c.getContext("2d")
+                if (!g2) return c
+                const half = SPRITE / 2
+                const grad = g2.createRadialGradient(half, half, 0, half, half, half)
+                const csv = rgb.split(" ").join(",")
+                grad.addColorStop(0, `rgba(${csv},0.85)`)
+                grad.addColorStop(0.28, `rgba(${csv},0.34)`)
+                grad.addColorStop(0.62, `rgba(${csv},0.08)`)
+                grad.addColorStop(1, `rgba(${csv},0)`)
+                g2.fillStyle = grad
+                g2.fillRect(0, 0, SPRITE, SPRITE)
+                return c
             })
         }
 
@@ -120,7 +144,7 @@ export function Galaxy() {
         function populate() {
             const area = width * height
             // Scale the field with the viewport, but keep phones honest.
-            const target = Math.round(Math.min(2600, Math.max(520, area / 820)))
+            const target = Math.round(Math.min(3600, Math.max(650, area / 620)))
             stars = new Array(target)
 
             for (let i = 0; i < target; i++) {
@@ -135,14 +159,19 @@ export function Galaxy() {
                 const halo = Math.random() < 0.12
 
                 const tintRoll = Math.random()
-                const tint: 0 | 1 | 2 = tintRoll > 0.93 ? 1 : tintRoll > 0.86 ? 2 : 0
+                const tint: 0 | 1 | 2 | 3 =
+                    tintRoll > 0.955 ? 1 : tintRoll > 0.9 ? 2 : tintRoll > 0.86 ? 3 : 0
+
+                // Stars sitting on an arm's spine read brighter than the ones
+                // scattered off it, which is what makes the arms legible.
+                const spine = 1 - Math.min(1, Math.abs(scatter) / (ARM_SCATTER * 1.6))
 
                 stars[i] = {
                     r: halo ? 0.35 + Math.random() * 0.85 : r,
                     a: halo ? Math.random() * Math.PI * 2 : a,
                     z: gauss() * DISK_THICKNESS * (halo ? 2.4 : 1),
                     size: 0.5 + Math.pow(Math.random(), 2.2) * 2.3,
-                    lum: 0.46 + Math.random() * 0.54,
+                    lum: (0.4 + Math.random() * 0.5) * (halo ? 0.8 : 1 + spine * 0.45),
                     tw: Math.random() * Math.PI * 2,
                     twSpeed: 0.4 + Math.random() * 1.5,
                     tint,
@@ -171,7 +200,7 @@ export function Galaxy() {
             cv.style.height = `${height}px`
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
             // The disk should overflow the viewport so there is no visible rim
-            spread = Math.hypot(width, height) * 0.62
+            spread = Math.hypot(width, height) * 0.66
             maxScroll = Math.max(1, document.documentElement.scrollHeight - height)
             populate()
         }
@@ -206,6 +235,17 @@ export function Galaxy() {
         let last = performance.now()
         let elapsed = 0
 
+        // Fixed-size scratch buffer, written in place each frame so the
+        // animation loop never allocates.
+        const GLOW_LIMIT = 130
+        const glowBuf = Array.from({ length: GLOW_LIMIT }, () => ({
+            x: 0,
+            y: 0,
+            r: 0,
+            a: 0,
+            tint: 0 as 0 | 1 | 2 | 3,
+        }))
+
         function drawNebulae(t: number) {
             const cx = width / 2
             const cy = height / 2
@@ -235,10 +275,10 @@ export function Galaxy() {
             const cx = width / 2
             const cy = height / 2 - height * 0.04
             const pulse = 1 + Math.sin(t * 0.4) * 0.06
-            const radius = Math.min(width, height) * 0.3 * pulse
+            const radius = Math.min(width, height) * 0.34 * pulse
             const rgb = coreColor.split(" ").join(",")
             const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius)
-            const peak = isDark ? 0.13 : 0.05
+            const peak = isDark ? 0.19 : 0.06
             g.addColorStop(0, `rgba(${rgb},${peak})`)
             g.addColorStop(0.35, `rgba(${rgb},${peak * 0.32})`)
             g.addColorStop(1, `rgba(${rgb},0)`)
@@ -321,8 +361,8 @@ export function Galaxy() {
             const progress = Math.min(1, Math.max(0, eased.scroll / maxScroll))
             const cy = height / 2 - height * 0.04 + progress * height * 0.14
 
-            const yaw = eased.x * 0.34 + progress * 0.3
-            const tilt = 0.94 + eased.y * 0.2 - progress * 0.34
+            const yaw = eased.x * 0.44 + progress * 0.36
+            const tilt = 0.96 + eased.y * 0.27 - progress * 0.42
             const sinYaw = Math.sin(yaw)
             const cosYaw = Math.cos(yaw)
             const sinTilt = Math.sin(tilt)
@@ -330,14 +370,18 @@ export function Galaxy() {
 
             // Camera dolly: descends toward the disk as the page advances,
             // so the field opens up rather than draining away.
-            const camZ = 1.95 - progress * 0.6
+            const camZ = 2.02 - progress * 0.88
 
             const px = pointer.hasMoved ? (eased.x * 0.5 + 0.5) * width : -9999
             const py = pointer.hasMoved ? (eased.y * 0.5 + 0.5) * height : -9999
-            const repelRadius = 132
+            const repelRadius = 152
             const repelRadiusSq = repelRadius * repelRadius
 
             let lastStyle = ""
+            // Near, bright stars are collected and blitted as soft discs after
+            // the main pass, so the foreground falls out of focus the way a
+            // fast lens would render it.
+            let glowCount = 0
 
             for (let i = 0; i < stars.length; i++) {
                 const s = stars[i]
@@ -411,6 +455,30 @@ export function Galaxy() {
                     ctx.arc(sx, sy, size * 0.5, 0, Math.PI * 2)
                     ctx.fill()
                 }
+
+                if (glowCount < GLOW_LIMIT && size > 1.75 && depth < 1.85) {
+                    const g = glowBuf[glowCount++]
+                    g.x = sx
+                    g.y = sy
+                    // Closer stars bloom wider — that gradient of blur across
+                    // depth is the whole point.
+                    g.r = size * (2.6 + (1.85 - depth) * 3.4)
+                    g.a = alpha * (isDark ? 0.5 : 0.26) * Math.min(1, (1.85 - depth) / 0.9)
+                    g.tint = s.tint
+                }
+            }
+
+            if (glowCount) {
+                const prevOp = ctx.globalCompositeOperation
+                ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+                for (let i = 0; i < glowCount; i++) {
+                    const g = glowBuf[i]
+                    if (g.a <= 0.01) continue
+                    ctx.globalAlpha = g.a
+                    ctx.drawImage(glowSprites[g.tint], g.x - g.r, g.y - g.r, g.r * 2, g.r * 2)
+                }
+                ctx.globalAlpha = 1
+                ctx.globalCompositeOperation = prevOp
             }
 
             if (!reduced) {

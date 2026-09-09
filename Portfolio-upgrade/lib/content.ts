@@ -9,7 +9,9 @@ export const profile = {
         "RAG & Vector Retrieval",
         "Production AI Platforms",
     ],
-    tagline:
+    tagline: "AI systems that answer in one second, not thirty.",
+    // Longer form, used for search engines and link previews only
+    metaDescription:
         "Machine Learning Engineer building production LLM systems — agentic pipelines, text-to-SQL engines and retrieval that hold up under real traffic and real cost.",
     location: "Lucknow, Uttar Pradesh, India",
     shortLocation: "Lucknow, India",
