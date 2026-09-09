@@ -248,6 +248,9 @@ export function Galaxy() {
         /*  Pointer + scroll state (all spring-smoothed)              */
         /* -------------------------------------------------------- */
         const pointer = { x: 0, y: 0, hasMoved: false }
+        // Holding the button deepens the pointer's potential well
+        let pointerPress = 0
+        let pressTarget = 0
         const eased = { x: 0, y: 0, scroll: 0 }
         let targetScroll = 0
         let maxScroll = 1
@@ -260,6 +263,12 @@ export function Galaxy() {
         function onPointerLeave() {
             pointer.x = 0
             pointer.y = 0
+        }
+        function onPointerDown() {
+            pressTarget = 1
+        }
+        function onPointerUp() {
+            pressTarget = 0
         }
         function onScroll() {
             targetScroll = window.scrollY || 0
@@ -353,7 +362,11 @@ export function Galaxy() {
          */
         type Band = { canvas: HTMLCanvasElement; omega: number; half: number }
         let bands: Band[] = []
-        const BAND_COUNT = 7
+        // Scaled by viewport. At 3x with 11 bands the texture stack is ~19MB,
+        // which is fine on a desktop GPU and reckless on a mid-range phone;
+        // 2x with 8 bands lands near 6MB and is indistinguishable at that size.
+        let BAND_COUNT = 11
+        let SS = 3
         const R_IN = 2.05
         const R_OUT = 5.6
         const TILT = 0.13 // near edge-on, as Gargantua is filmed
@@ -376,7 +389,17 @@ export function Galaxy() {
             return mixRgb([146, 56, 20], [255, 174, 90], t / 0.4)
         }
 
+        /**
+         * Textures are baked above device resolution and drawn down, so
+         * strands land on sub-pixel boundaries rather than being quantised to
+         * the device grid. That supersampling is what separates "fine
+         * filaments" from "thin aliased lines", and it costs nothing per
+         * frame — only at build.
+         */
         function buildDisk() {
+            const small = width < 900
+            BAND_COUNT = small ? 8 : 11
+            SS = small ? 2 : 3
             const inner = hole.r * R_IN
             const outer = hole.r * R_OUT
             bands = []
@@ -385,32 +408,46 @@ export function Galaxy() {
                 const rIn = inner + ((outer - inner) * b) / BAND_COUNT
                 const rOut = inner + ((outer - inner) * (b + 1)) / BAND_COUNT
                 const half = Math.ceil(rOut) + 3
-                const c = document.createElement("canvas")
-                c.width = c.height = half * 2
-                const g = c.getContext("2d")
+                const big = document.createElement("canvas")
+                big.width = big.height = half * 2 * SS
+                const g = big.getContext("2d")
                 if (!g) continue
+                g.scale(SS, SS)
                 g.translate(half, half)
                 // Additive, so overlapping strands blow out toward white near
                 // the inner edge the way the reference image does
                 g.globalCompositeOperation = "lighter"
                 g.lineCap = "round"
 
-                const count = Math.round(40 + (1 - b / BAND_COUNT) * 34)
+                const count = Math.round((150 + (1 - b / BAND_COUNT) * 130) * (11 / BAND_COUNT))
                 for (let i = 0; i < count; i++) {
                     const r = rIn + (rOut - rIn) * Math.random()
                     const u = (r - inner) / (outer - inner)
                     const [cr, cg, cb] = tempColor(u)
                     const a0 = Math.random() * Math.PI * 2
                     // Inner strands wrap further; they have orbited more times
-                    const len = (0.3 + Math.random() * 2.0) * (1.6 - u * 0.85)
-                    const alpha = (0.05 + Math.random() * 0.16) * (1.45 - u * 0.95)
+                    const len = (0.22 + Math.random() * 2.3) * (1.6 - u * 0.85)
+                    const alpha = (0.02 + Math.random() * 0.1) * (1.5 - u * 0.95)
 
                     g.strokeStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(3)})`
-                    g.lineWidth = Math.max(0.55, (rOut - rIn) * (0.05 + Math.random() * 0.28))
+                    // A wide spread of widths — a few fat ropes, mostly hair
+                    g.lineWidth = Math.max(0.18, (rOut - rIn) * Math.pow(Math.random(), 2.4) * 0.34)
                     g.beginPath()
                     g.arc(0, 0, r, a0, a0 + len)
                     g.stroke()
                 }
+
+                // Resolve the supersample down once, here, rather than asking
+                // the compositor to rescale a 900px texture on every frame —
+                // that per-frame resampling is what dropped the loop to 14fps.
+                // The anti-aliasing is baked in; the draw is then 1:1.
+                const c = document.createElement("canvas")
+                c.width = c.height = half * 2
+                const g2 = c.getContext("2d")
+                if (!g2) continue
+                g2.imageSmoothingEnabled = true
+                g2.imageSmoothingQuality = "high"
+                g2.drawImage(big, 0, 0, half * 2, half * 2)
 
                 bands.push({
                     canvas: c,
@@ -515,7 +552,8 @@ export function Galaxy() {
                 const k = (rOut / (hole.r * R_OUT)) * 1.75
                 ctx.scale(k, k)
                 ctx.rotate(-hole.spin * 0.45)
-                for (const band of bands) ctx.drawImage(band.canvas, -band.half, -band.half)
+                for (const band of bands)
+                    ctx.drawImage(band.canvas, -band.half, -band.half)
                 ctx.globalAlpha = 1
                 ctx.restore()
             }
@@ -531,80 +569,10 @@ export function Galaxy() {
             ctx.restore()
         }
 
-        /**
-         * Relativistic jet. A spinning hole threading a magnetised disk drives
-         * a pair of collimated outflows along its spin axis — the
-         * Blandford-Znajek process. The axis is perpendicular to the disk, and
-         * the disk here is near edge-on, so on screen the jets run vertically.
-         *
-         * Synchrotron emission from the beam is blue against the disk's
-         * thermal orange, and its brightness tracks the accretion rate, so the
-         * jet flares on the same events that heat the disk.
-         */
-        function drawJet() {
-            const power = 0.1 + hole.heat * 0.5
-            if (power < 0.04) return
-
-            const len = hole.r * 11
-            const baseW = hole.r * 0.34
-            const tipW = hole.r * 2.4
-            const t = hole.spin
-
-            ctx.save()
-            ctx.translate(hole.x, hole.y)
-            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
-
-            for (const dir of [-1, 1]) {
-                // Collimated envelope, opening slowly with distance
-                const g = ctx.createLinearGradient(0, 0, 0, dir * len)
-                g.addColorStop(0, `rgba(196,226,255,${(0.3 * power).toFixed(3)})`)
-                g.addColorStop(0.18, `rgba(150,198,255,${(0.22 * power).toFixed(3)})`)
-                g.addColorStop(0.6, `rgba(120,172,255,${(0.09 * power).toFixed(3)})`)
-                g.addColorStop(1, "rgba(110,160,255,0)")
-                ctx.fillStyle = g
-                ctx.beginPath()
-                ctx.moveTo(-baseW, 0)
-                ctx.lineTo(baseW, 0)
-                ctx.lineTo(tipW, dir * len)
-                ctx.lineTo(-tipW, dir * len)
-                ctx.closePath()
-                ctx.fill()
-
-                // Helical strands — the beam is threaded by the field lines it
-                // rides out on, not a smooth cone
-                ctx.lineWidth = Math.max(0.6, hole.r * 0.05)
-                for (let k = 0; k < 3; k++) {
-                    ctx.strokeStyle = `rgba(210,234,255,${(0.16 * power).toFixed(3)})`
-                    ctx.beginPath()
-                    for (let i = 0; i <= 22; i++) {
-                        const f = i / 22
-                        const y = dir * len * f
-                        const spread = baseW + (tipW - baseW) * f
-                        const x = Math.sin(f * 5.2 + t * 1.4 + k * 2.1) * spread * 0.55
-                        if (i === 0) ctx.moveTo(x, y)
-                        else ctx.lineTo(x, y)
-                    }
-                    ctx.stroke()
-                }
-            }
-
-            // Base glow where the beams launch
-            const base = ctx.createRadialGradient(0, 0, 0, 0, 0, hole.r * 1.7)
-            base.addColorStop(0, `rgba(214,236,255,${(0.3 * power).toFixed(3)})`)
-            base.addColorStop(1, "rgba(214,236,255,0)")
-            ctx.fillStyle = base
-            ctx.beginPath()
-            ctx.arc(0, 0, hole.r * 1.7, 0, Math.PI * 2)
-            ctx.fill()
-
-            ctx.restore()
-        }
-
         function drawHole() {
             const shadow = hole.r
 
             drawHalo()
-            drawJet()
             drawDiskHalf("far")
 
             // The shadow. Hard-edged — the photon capture boundary is sharp,
@@ -640,6 +608,14 @@ export function Galaxy() {
             ctx.lineWidth = Math.max(0.9, shadow * 0.032)
             ctx.beginPath()
             ctx.arc(hole.x, hole.y, shadow * 1.006, 0, Math.PI * 2)
+            ctx.stroke()
+
+            // Higher-order image: light that orbited more than once before
+            // escaping, emerging as a thinner ring just inside the first.
+            ctx.strokeStyle = `rgba(255,248,236,${(ringA * 0.55).toFixed(3)})`
+            ctx.lineWidth = Math.max(0.5, shadow * 0.014)
+            ctx.beginPath()
+            ctx.arc(hole.x, hole.y, shadow * 0.972, 0, Math.PI * 2)
             ctx.stroke()
             ctx.restore()
 
@@ -834,6 +810,7 @@ export function Galaxy() {
             eased.x += (pointer.x - eased.x) * Math.min(1, dt * 2.4)
             eased.y += (pointer.y - eased.y) * Math.min(1, dt * 2.4)
             eased.scroll += (targetScroll - eased.scroll) * Math.min(1, dt * 3.2)
+            pointerPress += (pressTarget - pointerPress) * Math.min(1, dt * 6)
 
             ctx.clearRect(0, 0, width, height)
             drawNebulae(elapsed)
@@ -862,8 +839,12 @@ export function Galaxy() {
 
             const px = pointer.hasMoved ? (eased.x * 0.5 + 0.5) * width : -9999
             const py = pointer.hasMoved ? (eased.y * 0.5 + 0.5) * height : -9999
-            const repelRadius = 152
-            const repelRadiusSq = repelRadius * repelRadius
+            // The pointer is a lens, not a fan. Deflection follows the same
+            // 4GM/(c²b) form as the hole's, so starlight bends around the
+            // cursor and brightens near its Einstein radius instead of being
+            // shoved aside — which is what a mass actually does to an image.
+            const cursorEinstein = 46 * (1 + pointerPress * 0.55)
+            const cursorReach = cursorEinstein * 7
 
             let lastStyle = ""
             // Near, bright stars are collected and blitted as soft discs after
@@ -898,16 +879,18 @@ export function Galaxy() {
                 let sx = cx + x1 * persp * spread
                 let sy = cy + y2 * persp * spread
 
-                // Pointer repulsion with a spring back to rest
+                // Pointer lensing
+                let cursorGain = 1
                 if (pointer.hasMoved) {
                     const ddx = sx - px
                     const ddy = sy - py
-                    const distSq = ddx * ddx + ddy * ddy
-                    if (distSq < repelRadiusSq && distSq > 0.01) {
-                        const dist = Math.sqrt(distSq)
-                        const force = (1 - dist / repelRadius) ** 2 * 42
-                        s.dx += (ddx / dist) * force * dt * 6
-                        s.dy += (ddy / dist) * force * dt * 6
+                    const dist = Math.hypot(ddx, ddy)
+                    if (dist < cursorReach && dist > 0.5) {
+                        const shift = (cursorEinstein * cursorEinstein) / dist
+                        sx += (ddx / dist) * shift * 0.42
+                        sy += (ddy / dist) * shift * 0.42
+                        // Magnification peaks at the Einstein radius
+                        cursorGain = 1 + Math.pow(cursorEinstein / dist, 2) * 0.55
                     }
                 }
                 s.dx *= 1 - Math.min(1, dt * 3)
@@ -967,7 +950,10 @@ export function Galaxy() {
                 if (depthFade <= 0) continue
 
                 const twinkle = 0.72 + Math.sin(elapsed * s.twSpeed + s.tw) * 0.28
-                let alpha = Math.min(1, s.lum * twinkle * depthFade * lensGain * (1 + doomed * 1.6))
+                let alpha = Math.min(
+                    1,
+                    s.lum * twinkle * depthFade * lensGain * cursorGain * (1 + doomed * 1.6)
+                )
                 if (!isDark) alpha = Math.min(1, alpha * 1.45)
                 if (alpha <= 0.02) {
                     continue
@@ -1047,6 +1033,8 @@ export function Galaxy() {
         window.addEventListener("scroll", onScroll, { passive: true })
         window.addEventListener("pointermove", onPointerMove, { passive: true })
         window.addEventListener("pointerleave", onPointerLeave)
+        window.addEventListener("pointerdown", onPointerDown, { passive: true })
+        window.addEventListener("pointerup", onPointerUp, { passive: true })
         document.addEventListener("visibilitychange", onVisibility)
 
         raf = requestAnimationFrame(frame)
@@ -1058,6 +1046,8 @@ export function Galaxy() {
             window.removeEventListener("scroll", onScroll)
             window.removeEventListener("pointermove", onPointerMove)
             window.removeEventListener("pointerleave", onPointerLeave)
+            window.removeEventListener("pointerdown", onPointerDown)
+            window.removeEventListener("pointerup", onPointerUp)
             document.removeEventListener("visibilitychange", onVisibility)
         }
     }, [])
