@@ -531,10 +531,80 @@ export function Galaxy() {
             ctx.restore()
         }
 
+        /**
+         * Relativistic jet. A spinning hole threading a magnetised disk drives
+         * a pair of collimated outflows along its spin axis — the
+         * Blandford-Znajek process. The axis is perpendicular to the disk, and
+         * the disk here is near edge-on, so on screen the jets run vertically.
+         *
+         * Synchrotron emission from the beam is blue against the disk's
+         * thermal orange, and its brightness tracks the accretion rate, so the
+         * jet flares on the same events that heat the disk.
+         */
+        function drawJet() {
+            const power = 0.1 + hole.heat * 0.5
+            if (power < 0.04) return
+
+            const len = hole.r * 11
+            const baseW = hole.r * 0.34
+            const tipW = hole.r * 2.4
+            const t = hole.spin
+
+            ctx.save()
+            ctx.translate(hole.x, hole.y)
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            for (const dir of [-1, 1]) {
+                // Collimated envelope, opening slowly with distance
+                const g = ctx.createLinearGradient(0, 0, 0, dir * len)
+                g.addColorStop(0, `rgba(196,226,255,${(0.3 * power).toFixed(3)})`)
+                g.addColorStop(0.18, `rgba(150,198,255,${(0.22 * power).toFixed(3)})`)
+                g.addColorStop(0.6, `rgba(120,172,255,${(0.09 * power).toFixed(3)})`)
+                g.addColorStop(1, "rgba(110,160,255,0)")
+                ctx.fillStyle = g
+                ctx.beginPath()
+                ctx.moveTo(-baseW, 0)
+                ctx.lineTo(baseW, 0)
+                ctx.lineTo(tipW, dir * len)
+                ctx.lineTo(-tipW, dir * len)
+                ctx.closePath()
+                ctx.fill()
+
+                // Helical strands — the beam is threaded by the field lines it
+                // rides out on, not a smooth cone
+                ctx.lineWidth = Math.max(0.6, hole.r * 0.05)
+                for (let k = 0; k < 3; k++) {
+                    ctx.strokeStyle = `rgba(210,234,255,${(0.16 * power).toFixed(3)})`
+                    ctx.beginPath()
+                    for (let i = 0; i <= 22; i++) {
+                        const f = i / 22
+                        const y = dir * len * f
+                        const spread = baseW + (tipW - baseW) * f
+                        const x = Math.sin(f * 5.2 + t * 1.4 + k * 2.1) * spread * 0.55
+                        if (i === 0) ctx.moveTo(x, y)
+                        else ctx.lineTo(x, y)
+                    }
+                    ctx.stroke()
+                }
+            }
+
+            // Base glow where the beams launch
+            const base = ctx.createRadialGradient(0, 0, 0, 0, 0, hole.r * 1.7)
+            base.addColorStop(0, `rgba(214,236,255,${(0.3 * power).toFixed(3)})`)
+            base.addColorStop(1, "rgba(214,236,255,0)")
+            ctx.fillStyle = base
+            ctx.beginPath()
+            ctx.arc(0, 0, hole.r * 1.7, 0, Math.PI * 2)
+            ctx.fill()
+
+            ctx.restore()
+        }
+
         function drawHole() {
             const shadow = hole.r
 
             drawHalo()
+            drawJet()
             drawDiskHalf("far")
 
             // The shadow. Hard-edged — the photon capture boundary is sharp,

@@ -14,13 +14,21 @@ import { navLinks, profile } from "@/lib/content"
 export function Footer() {
     return (
         <footer className="relative border-t border-fg/10">
-            {/* Oversized wordmark — the sign-off, not a nav element */}
-            <div className="mask-fade-x overflow-hidden pt-16">
-                <div
-                    aria-hidden="true"
-                    className="select-none whitespace-nowrap text-center text-[clamp(3.5rem,15vw,13rem)] font-medium leading-none tracking-tighter text-fg/[0.06]"
-                >
-                    {profile.name}
+            {/* The sign-off, running as a banner. Same technique as the tools
+                marquee: two identical tracks as one 200%-wide row translated
+                -50%, so the seam falls exactly where the second copy starts
+                and the loop needs no measuring. Slower than the tools strip —
+                it is a watermark, not a read. */}
+            <div aria-hidden="true" className="mask-fade-x flex overflow-hidden pt-14">
+                <div className="flex w-max animate-marquee-slow items-center">
+                    {Array.from({ length: 8 }, (_, i) => (
+                        <span key={i} className="flex items-center">
+                            <span className="select-none whitespace-nowrap text-[clamp(2.25rem,7vw,5.5rem)] font-medium leading-none tracking-tight text-fg/[0.06]">
+                                {profile.name}
+                            </span>
+                            <span className="mx-8 h-1.5 w-1.5 shrink-0 rounded-full bg-fg/[0.06] md:mx-12" />
+                        </span>
+                    ))}
                 </div>
             </div>
 
