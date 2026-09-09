@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { navLinks, profile } from "@/lib/content"
 import { Magnetic } from "@/components/ui/magnetic"
-import { Monogram } from "@/components/ui/monogram"
+import { BrandMark } from "@/components/ui/brand-mark"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 
 const GLIDE = [0.16, 1, 0.3, 1] as const
@@ -72,10 +72,10 @@ export function Navbar() {
                 >
                     <Link
                         href="#home"
-                        className="group flex items-center pl-1.5 pr-4"
+                        className="group flex items-center pl-1 pr-4"
                         aria-label="Back to top"
                     >
-                        <Monogram className="h-9 w-9 transition-transform duration-700 ease-glide group-hover:rotate-[9deg] group-hover:scale-105" />
+                        <BrandMark />
                         <span className="sr-only">{profile.name}</span>
                     </Link>
 

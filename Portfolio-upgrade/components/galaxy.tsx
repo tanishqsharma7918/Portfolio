@@ -285,10 +285,10 @@ export function Galaxy() {
          *    rather than being hidden behind it, which is why a real image
          *    shows a band arcing above the hole.
          */
-        const hole = { x: 0, y: 0, r: 40, spin: 0, warm: 0 }
+        const hole = { x: 0, y: 0, r: 40, spin: 0, warm: 0, fed: 0, heat: 0 }
 
         function updateHole(t: number, progress: number, dt: number) {
-            hole.r = Math.max(22, Math.min(width, height) * 0.042)
+            hole.r = Math.max(15, Math.min(width, height) * 0.0294)
 
             // A slow ellipse, offset down-page as the visitor scrolls, so it
             // travels the whole site rather than orbiting one screen.
@@ -311,6 +311,12 @@ export function Galaxy() {
                 target = Math.max(0, 1 - d / (hole.r * 7))
             }
             hole.warm += (target - hole.warm) * Math.min(1, dt * 3)
+
+            // Accretion rate sets the disk temperature. Captures accumulate,
+            // and the reservoir bleeds off, so `heat` tracks how much it has
+            // swallowed *recently* rather than a lifetime total.
+            hole.fed *= Math.pow(0.34, dt)
+            hole.heat = Math.min(1, hole.fed / 9)
         }
 
         /** Radial deflection applied to a projected star, ∝ 1/b. */
@@ -331,10 +337,7 @@ export function Galaxy() {
             const inner = hole.r * 2.05
             const outer = hole.r * 4.2
             const tilt = 0.13 // near edge-on, as Gargantua is filmed
-            const hot = isDark ? "255,246,235" : "255,240,220"
-            const mid = nebulaColors[0].split(" ").join(",")
-            const cool = goldColor.split(" ").join(",")
-            const boost = 0.75 + hole.warm * 0.75
+            const { inner: hot, mid, outer: cool, boost } = diskColors()
 
             ctx.save()
             ctx.translate(hole.x, hole.y)
@@ -402,14 +405,47 @@ export function Galaxy() {
          * erased — that region is where the flat disk already is, and the
          * lensed image would be hidden behind it.
          */
+
+        /**
+         * Disk colour as a function of accretion rate. A starved disk is cool
+         * and red; feed it and the inner edge climbs through amber to white
+         * and then blue-white, which is the direction a real disk moves as
+         * its luminosity rises. Everything else about the hole scales off the
+         * same number, so a feeding event brightens the whole structure.
+         */
+        function diskColors() {
+            const h = hole.heat
+            const inner =
+                h < 0.5
+                    ? mixRgb([255, 168, 92], [255, 246, 235], h / 0.5)
+                    : mixRgb([255, 246, 235], [206, 226, 255], (h - 0.5) / 0.5)
+            const outer = mixRgb(
+                [196, 92, 40],
+                nebulaColors[0].split(" ").map(Number) as number[],
+                Math.min(1, 0.3 + h * 0.7)
+            )
+            return {
+                inner: inner.join(","),
+                mid: nebulaColors[0].split(" ").join(","),
+                outer: outer.join(","),
+                boost: 0.55 + h * 0.7 + hole.warm * 0.4,
+            }
+        }
+
+        function mixRgb(a: number[], b: number[], t: number) {
+            const k = Math.max(0, Math.min(1, t))
+            return [
+                Math.round(a[0] + (b[0] - a[0]) * k),
+                Math.round(a[1] + (b[1] - a[1]) * k),
+                Math.round(a[2] + (b[2] - a[2]) * k),
+            ]
+        }
+
         function drawHalo() {
             const shadow = hole.r
             const rIn = shadow * 1.16
             const rOut = shadow * 2.05
-            const hot = isDark ? "255,246,235" : "255,238,214"
-            const mid = nebulaColors[0].split(" ").join(",")
-            const cool = goldColor.split(" ").join(",")
-            const boost = 0.7 + hole.warm * 0.6
+            const { inner: hot, mid, outer: cool, boost } = diskColors()
 
             const layer = ctx.createRadialGradient(
                 hole.x, hole.y, rIn * 0.94,
@@ -468,7 +504,7 @@ export function Galaxy() {
             ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
 
             // Photon ring — light that orbited before escaping. Thin and sharp.
-            const ringAlpha = 0.5 + hole.warm * 0.3
+            const ringAlpha = 0.36 + hole.heat * 0.34 + hole.warm * 0.24
             const bloom = ctx.createRadialGradient(
                 hole.x, hole.y, shadow * 0.98,
                 hole.x, hole.y, shadow * 1.5
@@ -767,8 +803,9 @@ export function Galaxy() {
 
                 const bent = lens(sx, sy)
                 if (bent === "hidden") {
-                    // Consumed. Re-seed it somewhere else in the disk so the
+                    // Consumed. Feeds the disk, then re-seeds elsewhere so the
                     // field does not slowly drain away.
+                    hole.fed += 1
                     s.r = 0.35 + Math.random() * 0.8
                     s.a = Math.random() * Math.PI * 2
                     s.z = gauss() * DISK_THICKNESS * 1.6
