@@ -2,11 +2,11 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion"
 import Link from "next/link"
-import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import { Moon, Sun } from "lucide-react"
 import { navLinks, profile } from "@/lib/content"
 import { Magnetic } from "@/components/ui/magnetic"
+import { Monogram } from "@/components/ui/monogram"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 
 const GLIDE = [0.16, 1, 0.3, 1] as const
 const sectionIds = navLinks.map((l) => l.href.replace("#", ""))
@@ -72,17 +72,11 @@ export function Navbar() {
                 >
                     <Link
                         href="#home"
-                        className="group flex items-center gap-3 pl-2 pr-4"
+                        className="group flex items-center pl-1.5 pr-4"
                         aria-label="Back to top"
                     >
-                        <span className="relative flex h-2 w-2">
-                            <span className="absolute inset-0 rounded-full bg-accent" />
-                            <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent" />
-                        </span>
-                        <span className="font-display text-sm font-semibold tracking-tight">
-                            {profile.firstName}
-                            <span className="text-muted"> {profile.lastName}</span>
-                        </span>
+                        <Monogram className="h-9 w-9 transition-transform duration-700 ease-glide group-hover:rotate-[9deg] group-hover:scale-105" />
+                        <span className="sr-only">{profile.name}</span>
                     </Link>
 
                     {/* Desktop links with a shared sliding indicator */}
@@ -114,7 +108,7 @@ export function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <ThemeToggle />
+                        <ThemeSwitcher />
 
                         <Magnetic strength={0.2} className="hidden lg:block">
                             <Link
@@ -162,38 +156,6 @@ export function Navbar() {
 }
 
 /* ------------------------------------------------------------------ */
-
-function ThemeToggle() {
-    const { resolvedTheme, setTheme } = useTheme()
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => setMounted(true), [])
-
-    const isDark = resolvedTheme === "dark"
-
-    return (
-        <button
-            onClick={() => setTheme(isDark ? "light" : "dark")}
-            aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
-            className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full ring-1 ring-inset ring-fg/10 transition-colors hover:bg-fg/5"
-        >
-            {/* Rendered only after mount so server and client agree */}
-            {mounted && (
-                <AnimatePresence mode="wait" initial={false}>
-                    <motion.span
-                        key={isDark ? "moon" : "sun"}
-                        initial={{ y: 14, opacity: 0, rotate: -35 }}
-                        animate={{ y: 0, opacity: 1, rotate: 0 }}
-                        exit={{ y: -14, opacity: 0, rotate: 35 }}
-                        transition={{ duration: 0.35, ease: GLIDE }}
-                        className="flex"
-                    >
-                        {isDark ? <Sun className="h-[17px] w-[17px]" /> : <Moon className="h-[17px] w-[17px]" />}
-                    </motion.span>
-                </AnimatePresence>
-            )}
-        </button>
-    )
-}
 
 /* ------------------------------------------------------------------ */
 

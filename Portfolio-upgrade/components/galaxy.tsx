@@ -71,6 +71,13 @@ export function Galaxy() {
         let dpr = 1
         let spread = 1
         let stars: Star[] = []
+        // Projected screen position and alpha per star, filled during the main
+        // pass so the constellation lines can be drawn from the same numbers
+        // rather than projecting everything twice.
+        let projX = new Float32Array(0)
+        let projY = new Float32Array(0)
+        let projA = new Float32Array(0)
+        let links: number[][] = []
         let nebulae: Nebula[] = []
         let shooters: Shooter[] = []
         let raf = 0
@@ -82,6 +89,7 @@ export function Galaxy() {
         let palette: string[][] = []
         let glowSprites: HTMLCanvasElement[] = []
         let coreColor = "255 255 255"
+        let goldColor = "228 207 168"
         let nebulaColors = ["139 92 246", "34 211 238"]
         let nebulaStrength = 0.24
         let isDark = true
@@ -92,11 +100,12 @@ export function Galaxy() {
             const star = readToken(styles, "--star", "255 255 255")
             const na = readToken(styles, "--nebula-a", "139 92 246")
             const nb = readToken(styles, "--nebula-b", "34 211 238")
+            const gold = readToken(styles, "--gold", "228 207 168")
             nebulaStrength = parseFloat(readToken(styles, "--nebula-strength", "0.24"))
             coreColor = star
+            goldColor = gold
             nebulaColors = [na, nb]
 
-            const gold = readToken(styles, "--gold", "228 207 168")
             const tints = [star, na, nb, gold]
             palette = tints.map((rgb) => {
                 const row: string[] = []
@@ -144,7 +153,7 @@ export function Galaxy() {
         function populate() {
             const area = width * height
             // Scale the field with the viewport, but keep phones honest.
-            const target = Math.round(Math.min(3600, Math.max(650, area / 620)))
+            const target = Math.round(Math.min(5200, Math.max(900, area / 400)))
             stars = new Array(target)
 
             for (let i = 0; i < target; i++) {
@@ -180,11 +189,98 @@ export function Galaxy() {
                 }
             }
 
+            projX = new Float32Array(target)
+            projY = new Float32Array(target)
+            projA = new Float32Array(target)
+            buildLinks()
+
             nebulae = [
                 { x: -0.22, y: -0.12, r: 0.62, tint: 0, drift: 0.06, phase: 0 },
                 { x: 0.3, y: 0.18, r: 0.55, tint: 1, drift: 0.045, phase: 2.1 },
                 { x: 0.05, y: -0.32, r: 0.44, tint: 0, drift: 0.075, phase: 4.4 },
             ]
+        }
+
+
+        /**
+         * Constellations are chained in disk space (radius, angle, height) not
+         * on screen, so a figure stays a figure while the disk turns and the
+         * camera moves — chaining in screen space would have them reshuffling
+         * every frame.
+         */
+        function buildLinks() {
+            links = []
+            const bright: number[] = []
+            for (let i = 0; i < stars.length; i++) {
+                if (stars[i].lum > 0.92 && stars[i].size > 1.5) bright.push(i)
+            }
+            if (bright.length < 6) return
+
+            const want = Math.min(11, Math.floor(bright.length / 9))
+            const used = new Set<number>()
+
+            const pos = (i: number) => {
+                const s2 = stars[i]
+                return [Math.cos(s2.a) * s2.r, Math.sin(s2.a) * s2.r, s2.z] as const
+            }
+
+            for (let n = 0; n < want; n++) {
+                const seed = bright[Math.floor(Math.random() * bright.length)]
+                if (used.has(seed)) continue
+
+                const chain = [seed]
+                used.add(seed)
+                const hops = 2 + Math.floor(Math.random() * 3)
+
+                for (let h = 0; h < hops; h++) {
+                    const from = pos(chain[chain.length - 1])
+                    let best = -1
+                    let bestD = Infinity
+                    for (const cand of bright) {
+                        if (used.has(cand)) continue
+                        const c = pos(cand)
+                        const d =
+                            (c[0] - from[0]) ** 2 + (c[1] - from[1]) ** 2 + (c[2] - from[2]) ** 2
+                        // Close enough to read as a pair, far enough to be a line
+                        if (d < bestD && d > 0.0008) {
+                            bestD = d
+                            best = cand
+                        }
+                    }
+                    if (best < 0 || bestD > 0.06) break
+                    chain.push(best)
+                    used.add(best)
+                }
+
+                if (chain.length > 2) links.push(chain)
+            }
+        }
+
+        function drawLinks() {
+            if (!links.length) return
+            const rgb = coreColor.split(" ").join(",")
+            ctx.lineWidth = 1
+            for (const chain of links) {
+                for (let i = 1; i < chain.length; i++) {
+                    const a = chain[i - 1]
+                    const b = chain[i]
+                    const aa = projA[a]
+                    const ab = projA[b]
+                    if (aa <= 0.04 || ab <= 0.04) continue
+                    const dx = projX[b] - projX[a]
+                    const dy = projY[b] - projY[a]
+                    const len = Math.hypot(dx, dy)
+                    // Perspective can fling two neighbours far apart; a line
+                    // across half the viewport reads as a scratch, not a figure.
+                    if (len > 260 || len < 6) continue
+                    const fade = 1 - len / 260
+                    ctx.strokeStyle = `rgba(${rgb},${(Math.min(aa, ab) * 0.3 * fade).toFixed(3)})`
+                    ctx.beginPath()
+                    ctx.moveTo(projX[a], projY[a])
+                    ctx.lineTo(projX[b], projY[b])
+                    ctx.stroke()
+                }
+            }
         }
 
         /* -------------------------------------------------------- */
@@ -227,6 +323,177 @@ export function Galaxy() {
             // Cached here rather than per-frame: the read is cheap during a
             // scroll (layout is already clean) and free of thrash.
             maxScroll = Math.max(1, document.documentElement.scrollHeight - height)
+        }
+
+
+        /* -------------------------------------------------------- */
+        /*  Black hole                                                */
+        /* -------------------------------------------------------- */
+        /**
+         * Not a decorative disc. The pieces that matter:
+         *
+         *  - The shadow is the photon capture cross-section, ~2.6 GM/c²,
+         *    which is larger than the horizon itself.
+         *  - Light passing at impact parameter b is deflected by 4GM/(c²b),
+         *    so background stars are pushed radially outward by an amount
+         *    proportional to 1/b, strongest right at the rim. That single
+         *    term is what produces the smeared halo around the shadow.
+         *  - The accretion disk is Doppler beamed: the side rotating toward
+         *    the viewer is brighter and bluer, the receding side dimmer.
+         *  - The far side of the disk is lensed up and over the shadow
+         *    rather than being hidden behind it, which is why a real image
+         *    shows a band arcing above the hole.
+         */
+        const hole = { x: 0, y: 0, r: 40, spin: 0, warm: 0 }
+
+        function updateHole(t: number, progress: number, dt: number) {
+            hole.r = Math.max(22, Math.min(width, height) * 0.042)
+
+            // A slow ellipse, offset down-page as the visitor scrolls, so it
+            // travels the whole site rather than orbiting one screen.
+            const cx = width * 0.5
+            const cy = height * 0.5
+            hole.x = cx + Math.cos(t * 0.05) * width * 0.3
+            hole.y =
+                cy +
+                Math.sin(t * 0.05) * height * 0.18 +
+                (progress - 0.5) * height * 0.5
+
+            hole.spin += dt * (0.5 + hole.warm * 1.5)
+
+            // Cursor proximity spins the disk up and brightens it
+            let target = 0
+            if (pointer.hasMoved) {
+                const px2 = (eased.x * 0.5 + 0.5) * width
+                const py2 = (eased.y * 0.5 + 0.5) * height
+                const d = Math.hypot(px2 - hole.x, py2 - hole.y)
+                target = Math.max(0, 1 - d / (hole.r * 7))
+            }
+            hole.warm += (target - hole.warm) * Math.min(1, dt * 3)
+        }
+
+        /** Radial deflection applied to a projected star, ∝ 1/b. */
+        function lens(sx: number, sy: number) {
+            const dx = sx - hole.x
+            const dy = sy - hole.y
+            const b = Math.hypot(dx, dy)
+            const reach = hole.r * 9
+            if (b > reach || b < 0.001) return null
+            const shadow = hole.r * 1.06
+            if (b < shadow) return "hidden" as const
+            // 4GM/(c²b), normalised so the shift is a couple of radii at the rim
+            const shift = (hole.r * hole.r * 1.15) / b
+            return { x: sx + (dx / b) * shift, y: sy + (dy / b) * shift, b, shadow }
+        }
+
+        function drawDisk(half: "far" | "near") {
+            const inner = hole.r * 2.05
+            const outer = hole.r * 4.2
+            const tilt = 0.26 // disk inclination, near edge-on reads best
+            const hot = isDark ? "255,246,235" : "255,240,220"
+            const mid = nebulaColors[0].split(" ").join(",")
+            const cool = goldColor.split(" ").join(",")
+            const boost = 0.75 + hole.warm * 0.75
+
+            ctx.save()
+            ctx.translate(hole.x, hole.y)
+            ctx.scale(1, tilt)
+
+            const start = half === "far" ? Math.PI : 0
+            ctx.beginPath()
+            ctx.arc(0, 0, outer, start, start + Math.PI)
+            ctx.arc(0, 0, inner, start + Math.PI, start, true)
+            ctx.closePath()
+            ctx.clip()
+
+            const g = ctx.createRadialGradient(0, 0, inner * 0.85, 0, 0, outer)
+            g.addColorStop(0, `rgba(${hot},${0.95 * boost})`)
+            g.addColorStop(0.28, `rgba(${mid},${0.62 * boost})`)
+            g.addColorStop(0.68, `rgba(${cool},${0.34 * boost})`)
+            g.addColorStop(1, `rgba(${cool},0)`)
+            ctx.fillStyle = g
+            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
+
+            // Orbiting material. Without azimuthal structure the disk is a
+            // smooth gradient and its rotation is invisible; these faint
+            // sheared arcs are what make the spin legible.
+            ctx.globalCompositeOperation = "lighter"
+            for (let i = 0; i < 5; i++) {
+                const a0 = hole.spin * (1 + i * 0.16) + i * 1.27
+                const band = inner + ((outer - inner) * (i + 0.6)) / 5.6
+                ctx.strokeStyle = `rgba(${mid},${0.1 * boost})`
+                ctx.lineWidth = (outer - inner) * 0.17
+                ctx.beginPath()
+                ctx.arc(0, 0, band, a0, a0 + 1.5 + i * 0.2)
+                ctx.stroke()
+            }
+
+            // Doppler beaming. The receding limb is dimmed by removing alpha
+            // rather than painting grey over it, so the disk keeps its hue
+            // instead of turning to ash; the approaching limb is brightened.
+            ctx.globalCompositeOperation = "destination-out"
+            const dim = ctx.createLinearGradient(-outer, 0, outer, 0)
+            dim.addColorStop(0, "rgba(0,0,0,0)")
+            dim.addColorStop(0.46, "rgba(0,0,0,0)")
+            dim.addColorStop(1, `rgba(0,0,0,${0.52 - hole.warm * 0.12})`)
+            ctx.fillStyle = dim
+            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
+
+            ctx.globalCompositeOperation = "lighter"
+            const beam = ctx.createLinearGradient(-outer, 0, outer, 0)
+            beam.addColorStop(0, `rgba(255,255,255,${0.26 * boost})`)
+            beam.addColorStop(0.52, "rgba(255,255,255,0)")
+            beam.addColorStop(1, "rgba(255,255,255,0)")
+            ctx.fillStyle = beam
+            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
+
+            ctx.restore()
+        }
+
+        function drawHole() {
+            const prev = ctx.globalCompositeOperation
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            // Far side of the disk, lensed up and over the shadow
+            drawDisk("far")
+
+            ctx.globalCompositeOperation = "source-over"
+
+            // The shadow itself, with a soft rim so it sits in the scene
+            const shadow = hole.r
+            const sg = ctx.createRadialGradient(
+                hole.x, hole.y, shadow * 0.84,
+                hole.x, hole.y, shadow * 1.14
+            )
+            sg.addColorStop(0, "rgba(0,0,0,1)")
+            sg.addColorStop(0.7, "rgba(0,0,0,0.96)")
+            sg.addColorStop(1, "rgba(0,0,0,0)")
+            ctx.fillStyle = sg
+            ctx.beginPath()
+            ctx.arc(hole.x, hole.y, shadow * 1.14, 0, Math.PI * 2)
+            ctx.fill()
+
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            // Photon ring — light that orbited before escaping. Thin and sharp.
+            const ringAlpha = 0.5 + hole.warm * 0.3
+            const bloom = ctx.createRadialGradient(
+                hole.x, hole.y, shadow * 0.98,
+                hole.x, hole.y, shadow * 1.5
+            )
+            bloom.addColorStop(0, "rgba(255,248,236,0)")
+            bloom.addColorStop(0.16, `rgba(255,248,236,${ringAlpha})`)
+            bloom.addColorStop(0.34, `rgba(255,238,214,${ringAlpha * 0.3})`)
+            bloom.addColorStop(1, "rgba(255,238,214,0)")
+            ctx.fillStyle = bloom
+            ctx.beginPath()
+            ctx.arc(hole.x, hole.y, shadow * 1.5, 0, Math.PI * 2)
+            ctx.fill()
+
+            // Near side of the disk, in front of the shadow
+            drawDisk("near")
+
+            ctx.globalCompositeOperation = prev
         }
 
         /* -------------------------------------------------------- */
@@ -372,6 +639,8 @@ export function Galaxy() {
             // so the field opens up rather than draining away.
             const camZ = 2.02 - progress * 0.88
 
+            updateHole(elapsed, progress, dt)
+
             const px = pointer.hasMoved ? (eased.x * 0.5 + 0.5) * width : -9999
             const py = pointer.hasMoved ? (eased.y * 0.5 + 0.5) * height : -9999
             const repelRadius = 152
@@ -427,17 +696,41 @@ export function Galaxy() {
                 sx += s.dx
                 sy += s.dy
 
+                // Light bending. Stars inside the capture radius are gone;
+                // the rest are pushed outward and magnified near the rim.
+                let lensGain = 1
+                const bent = lens(sx, sy)
+                if (bent === "hidden") {
+                    projA[i] = 0
+                    continue
+                }
+                if (bent) {
+                    sx = bent.x
+                    sy = bent.y
+                    lensGain = 1 + Math.pow(bent.shadow / bent.b, 2.5) * 1.9
+                }
+
                 const size = s.size * persp * 0.86
-                if (sx < -40 || sx > width + 40 || sy < -40 || sy > height + 40 || size < 0.12) continue
+                if (sx < -40 || sx > width + 40 || sy < -40 || sy > height + 40 || size < 0.12) {
+                    projA[i] = 0
+                    continue
+                }
 
                 // Depth fade keeps far stars from flattening the image
                 const depthFade = Math.min(1, (3.1 - depth) / 1.7)
                 if (depthFade <= 0) continue
 
                 const twinkle = 0.72 + Math.sin(elapsed * s.twSpeed + s.tw) * 0.28
-                let alpha = s.lum * twinkle * depthFade
-                if (!isDark) alpha = Math.min(1, alpha * 1.22)
-                if (alpha <= 0.02) continue
+                let alpha = Math.min(1, s.lum * twinkle * depthFade * lensGain)
+                if (!isDark) alpha = Math.min(1, alpha * 1.45)
+                if (alpha <= 0.02) {
+                    projA[i] = 0
+                    continue
+                }
+
+                projX[i] = sx
+                projY[i] = sy
+                projA[i] = alpha
 
                 const step = Math.min(ALPHA_STEPS, Math.max(0, Math.round(alpha * ALPHA_STEPS)))
                 const style = palette[s.tint][step]
@@ -467,6 +760,9 @@ export function Galaxy() {
                     g.tint = s.tint
                 }
             }
+
+            drawLinks()
+            drawHole()
 
             if (glowCount) {
                 const prevOp = ctx.globalCompositeOperation
@@ -498,7 +794,7 @@ export function Galaxy() {
         const themeObserver = new MutationObserver(buildPalette)
         themeObserver.observe(document.documentElement, {
             attributes: true,
-            attributeFilter: ["class", "style"],
+            attributeFilter: ["class", "style", "data-accent"],
         })
 
         buildPalette()

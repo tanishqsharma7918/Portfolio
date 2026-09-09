@@ -20,7 +20,6 @@ export function Praise() {
             <SectionHeading
                 eyebrow="What people say"
                 lines={["Words from people", "I worked alongside"]}
-                lead="Unedited recommendations from a supervisor and a project collaborator."
             />
 
             <div className="mt-14 grid gap-6 md:mt-20 md:grid-cols-2 md:gap-8">

@@ -93,6 +93,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en" suppressHydrationWarning>
+            <head>
+                {/* Applied before first paint, so a stored accent never flashes
+                    violet on the way in. */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `try{var a=localStorage.getItem("accent-theme");if(a)document.documentElement.dataset.accent=a}catch(e){}`,
+                    }}
+                />
+            </head>
             <body
                 className={`${sans.variable} ${display.variable} ${serif.variable} ${mono.variable} font-sans antialiased`}
             >
