@@ -28,7 +28,7 @@ export function Footer() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="link-underline text-sm text-muted transition-colors hover:text-fg"
+                                className="link-underline inline-flex min-h-[44px] items-center text-sm text-muted transition-colors hover:text-fg"
                             >
                                 {link.name}
                             </Link>
@@ -41,7 +41,7 @@ export function Footer() {
                                 href={profile.linkedin}
                                 target="_blank"
                                 rel="noreferrer noopener"
-                                className="link-underline text-sm text-muted transition-colors hover:text-fg"
+                                className="link-underline inline-flex min-h-[44px] items-center text-sm text-muted transition-colors hover:text-fg"
                             >
                                 LinkedIn
                             </a>
@@ -49,14 +49,14 @@ export function Footer() {
                                 href={profile.github}
                                 target="_blank"
                                 rel="noreferrer noopener"
-                                className="link-underline text-sm text-muted transition-colors hover:text-fg"
+                                className="link-underline inline-flex min-h-[44px] items-center text-sm text-muted transition-colors hover:text-fg"
                             >
                                 GitHub
                             </a>
                         </div>
                         <Link
                             href="#home"
-                            className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
+                            className="group inline-flex min-h-[44px] items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
                         >
                             Back to top
                             <span className="flex h-8 w-8 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-transform duration-500 ease-glide group-hover:-translate-y-1">

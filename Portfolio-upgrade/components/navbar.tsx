@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { navLinks, profile } from "@/lib/content"
 import { Magnetic } from "@/components/ui/magnetic"
 import { BrandMark } from "@/components/ui/brand-mark"
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 
 const GLIDE = [0.16, 1, 0.3, 1] as const
@@ -46,9 +47,10 @@ export function Navbar() {
 
     /* Lock the page while the overlay menu is open. */
     useEffect(() => {
-        document.body.style.overflow = open ? "hidden" : ""
+        if (open) lockScroll()
+        else unlockScroll()
         return () => {
-            document.body.style.overflow = ""
+            unlockScroll()
         }
     }, [open])
 

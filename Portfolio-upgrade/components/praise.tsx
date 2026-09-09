@@ -89,7 +89,7 @@ function Card({ testimonial }: { testimonial: (typeof testimonials)[number] }) {
                 <button
                     onClick={() => setExpanded((v) => !v)}
                     aria-expanded={expanded}
-                    className="link-underline mt-6 w-fit text-sm text-muted transition-colors hover:text-fg"
+                    className="link-underline mt-4 inline-flex min-h-[44px] w-fit items-center text-sm text-muted transition-colors hover:text-fg"
                 >
                     {expanded ? "Show less" : "Read the full recommendation"}
                 </button>

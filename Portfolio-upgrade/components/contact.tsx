@@ -69,7 +69,7 @@ export function Contact() {
                     <Reveal delay={0.06}>
                         <div className="flex flex-col gap-1.5 border-t border-fg/10 pt-5">
                             <span className="eyebrow">Phone</span>
-                            <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="link-underline w-fit text-base">
+                            <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="link-underline inline-flex min-h-[44px] w-fit items-center text-base">
                                 {profile.phone}
                             </a>
                         </div>
@@ -78,10 +78,10 @@ export function Contact() {
                         <div className="flex flex-col gap-3 border-t border-fg/10 pt-5">
                             <span className="eyebrow">Elsewhere</span>
                             <div className="flex flex-col gap-2">
-                                <a href={profile.linkedin} target="_blank" rel="noreferrer noopener" className="link-underline w-fit text-base">
+                                <a href={profile.linkedin} target="_blank" rel="noreferrer noopener" className="link-underline inline-flex min-h-[44px] w-fit items-center text-base">
                                     LinkedIn
                                 </a>
-                                <a href={profile.github} target="_blank" rel="noreferrer noopener" className="link-underline w-fit text-base">
+                                <a href={profile.github} target="_blank" rel="noreferrer noopener" className="link-underline inline-flex min-h-[44px] w-fit items-center text-base">
                                     GitHub
                                 </a>
                             </div>
@@ -116,7 +116,7 @@ function CopyEmail() {
     return (
         <button
             onClick={copy}
-            className="mt-6 inline-flex items-center gap-2 font-mono text-eyebrow uppercase text-muted transition-colors hover:text-fg"
+            className="mt-4 inline-flex min-h-[44px] items-center gap-2 font-mono text-eyebrow uppercase text-muted transition-colors hover:text-fg"
         >
             {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
             {copied ? "Copied" : "Copy address"}

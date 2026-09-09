@@ -78,8 +78,8 @@ function StackCard({
         <div
             className={
                 stacked
-                    ? "sticky top-0 flex h-[100svh] items-center justify-center px-4 md:px-8"
-                    : "flex justify-center px-4 pb-6"
+                    ? "sticky top-0 flex h-[100svh] items-center justify-center px-6 md:px-8"
+                    : "flex justify-center px-6 pb-6"
             }
         >
             <motion.article
@@ -156,7 +156,7 @@ function StackCard({
                                     href={project.live}
                                     target="_blank"
                                     rel="noreferrer noopener"
-                                    className="link-underline text-sm text-muted transition-colors hover:text-fg"
+                                    className="link-underline inline-flex min-h-[44px] items-center text-sm text-muted transition-colors hover:text-fg"
                                     data-cursor-label="Live"
                                 >
                                     Live demo

@@ -25,7 +25,7 @@ export function Hero() {
         <section
             id="home"
             ref={ref}
-            className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pt-28"
+            className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-32 pt-28"
         >
             <motion.div style={{ y, opacity, scale }} className="shell">
                 <div className="flex flex-col items-center text-center">
@@ -106,7 +106,7 @@ export function Hero() {
                 <Link
                     href="#about"
                     aria-label="Scroll to about"
-                    className="group flex flex-col items-center gap-2 justify-self-center"
+                    className="hidden flex-col items-center gap-2 justify-self-center [@media(min-height:680px)]:flex group"
                 >
                     <span className="eyebrow">Scroll</span>
                     <span className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-colors group-hover:bg-fg/5">
