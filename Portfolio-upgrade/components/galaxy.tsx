@@ -248,9 +248,6 @@ export function Galaxy() {
         /*  Pointer + scroll state (all spring-smoothed)              */
         /* -------------------------------------------------------- */
         const pointer = { x: 0, y: 0, hasMoved: false }
-        // Holding the button deepens the pointer's potential well
-        let pointerPress = 0
-        let pressTarget = 0
         const eased = { x: 0, y: 0, scroll: 0 }
         let targetScroll = 0
         let maxScroll = 1
@@ -263,12 +260,6 @@ export function Galaxy() {
         function onPointerLeave() {
             pointer.x = 0
             pointer.y = 0
-        }
-        function onPointerDown() {
-            pressTarget = 1
-        }
-        function onPointerUp() {
-            pressTarget = 0
         }
         function onScroll() {
             targetScroll = window.scrollY || 0
@@ -965,7 +956,6 @@ export function Galaxy() {
             eased.x += (pointer.x - eased.x) * Math.min(1, dt * 2.4)
             eased.y += (pointer.y - eased.y) * Math.min(1, dt * 2.4)
             eased.scroll += (targetScroll - eased.scroll) * Math.min(1, dt * 3.2)
-            pointerPress += (pressTarget - pointerPress) * Math.min(1, dt * 6)
 
             ctx.clearRect(0, 0, width, height)
             drawNebulae(elapsed)
@@ -992,14 +982,6 @@ export function Galaxy() {
 
             updateHole(elapsed, progress, dt)
 
-            const px = pointer.hasMoved ? (eased.x * 0.5 + 0.5) * width : -9999
-            const py = pointer.hasMoved ? (eased.y * 0.5 + 0.5) * height : -9999
-            // The pointer is a lens, not a fan. Deflection follows the same
-            // 4GM/(c²b) form as the hole's, so starlight bends around the
-            // cursor and brightens near its Einstein radius instead of being
-            // shoved aside — which is what a mass actually does to an image.
-            const cursorEinstein = 46 * (1 + pointerPress * 0.55)
-            const cursorReach = cursorEinstein * 7
 
             lastStyle = ""
             // Near, bright stars are collected and blitted as soft discs after
@@ -1034,20 +1016,6 @@ export function Galaxy() {
                 let sx = cx + x1 * persp * spread
                 let sy = cy + y2 * persp * spread
 
-                // Pointer lensing
-                let cursorGain = 1
-                if (pointer.hasMoved) {
-                    const ddx = sx - px
-                    const ddy = sy - py
-                    const dist = Math.hypot(ddx, ddy)
-                    if (dist < cursorReach && dist > 0.5) {
-                        const shift = (cursorEinstein * cursorEinstein) / dist
-                        sx += (ddx / dist) * shift * 0.42
-                        sy += (ddy / dist) * shift * 0.42
-                        // Magnification peaks at the Einstein radius
-                        cursorGain = 1 + Math.pow(cursorEinstein / dist, 2) * 0.55
-                    }
-                }
                 s.dx *= 1 - Math.min(1, dt * 3)
                 s.dy *= 1 - Math.min(1, dt * 3)
 
@@ -1102,7 +1070,7 @@ export function Galaxy() {
                 const twinkle = 0.72 + Math.sin(elapsed * s.twSpeed + s.tw) * 0.28
                 let alpha = Math.min(
                     1,
-                    s.lum * twinkle * depthFade * cursorGain * (1 + doomed * 1.6)
+                    s.lum * twinkle * depthFade * (1 + doomed * 1.6)
                 )
                 if (!isDark) alpha = Math.min(1, alpha * 1.45)
                 if (alpha <= 0.02) {
@@ -1177,8 +1145,6 @@ export function Galaxy() {
         window.addEventListener("scroll", onScroll, { passive: true })
         window.addEventListener("pointermove", onPointerMove, { passive: true })
         window.addEventListener("pointerleave", onPointerLeave)
-        window.addEventListener("pointerdown", onPointerDown, { passive: true })
-        window.addEventListener("pointerup", onPointerUp, { passive: true })
         document.addEventListener("visibilitychange", onVisibility)
 
         raf = requestAnimationFrame(frame)
@@ -1190,8 +1156,6 @@ export function Galaxy() {
             window.removeEventListener("scroll", onScroll)
             window.removeEventListener("pointermove", onPointerMove)
             window.removeEventListener("pointerleave", onPointerLeave)
-            window.removeEventListener("pointerdown", onPointerDown)
-            window.removeEventListener("pointerup", onPointerUp)
             document.removeEventListener("visibilitychange", onVisibility)
         }
     }, [])
