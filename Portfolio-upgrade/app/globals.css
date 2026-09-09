@@ -7,12 +7,13 @@
 /* ------------------------------------------------------------------ */
 @layer base {
   :root {
-    /* Light — warm paper */
-    --bg: 244 242 238;
-    --surface: 255 255 255;
-    --fg: 12 12 16;
-    --muted: 106 106 118;
-    --line: 12 12 16;
+    /* Light — warm paper, a touch softer than before so the white panels
+       still separate from the ground without glare. */
+    --bg: 243 241 236;
+    --surface: 253 252 250;
+    --fg: 24 24 30;
+    --muted: 108 108 122;
+    --line: 24 24 30;
     --line-alpha: 0.1;
     --accent: 109 40 217;
     --gold: 168 129 60;
@@ -30,22 +31,25 @@
   }
 
   .dark {
-    /* Dark — deep space */
-    --bg: 6 6 9;
-    --surface: 14 14 20;
-    --fg: 237 237 242;
-    --muted: 142 142 160;
-    --line: 255 255 255;
-    --line-alpha: 0.09;
+    /* Dark — night sky, not a void. A pure #060609 ground makes white text
+       glare and the whole page feel hard; shifting the black toward indigo
+       and pulling the text a few points off pure white lowers the contrast
+       ratio into a range that stays readable but stops fighting the eye. */
+    --bg: 9 11 18;
+    --surface: 18 21 32;
+    --fg: 231 233 241;
+    --muted: 148 152 170;
+    --line: 190 200 235;
+    --line-alpha: 0.11;
     --accent: 167 139 250;
     --gold: 228 207 168;
 
     --star: 255 255 255;
     --nebula-a: 139 92 246;
     --nebula-b: 34 211 238;
-    --nebula-strength: 0.155;
+    --nebula-strength: 0.17;
     --vignette-mid: 0.3;
-    --vignette-edge: 0.72;
+    --vignette-edge: 0.66;
   }
 
   * {

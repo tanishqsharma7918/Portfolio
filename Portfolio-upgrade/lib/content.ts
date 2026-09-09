@@ -59,6 +59,8 @@ export type Project = {
     metrics: { value: string; label: string }[]
     repo?: string
     live?: string
+    /** Shown in place of a repo button when the source is not public. */
+    linkNote?: string
     accent: string
 }
 
@@ -78,6 +80,7 @@ export const projects: Project[] = [
             "Used Redis as a shared working memory across steps, keeping intermediate state out of the prompt window.",
         ],
         stack: ["Python", "LangGraph", "FAISS", "Redis", "AWS", "SQL"],
+        linkNote: "Built under NDA — source not public",
         metrics: [
             { value: "40%", label: "Less reconciliation time" },
             { value: "Multi", label: "Step orchestration" },
@@ -170,6 +173,7 @@ export const projects: Project[] = [
             "Consistent visual grammar, filters and tooltips throughout; published to Tableau Public.",
         ],
         stack: ["Tableau", "Power BI", "Advanced Excel"],
+        linkNote: "Dashboards published to Tableau Public",
         metrics: [
             { value: "2", label: "Audiences" },
             { value: "25%", label: "Accuracy gain" },
@@ -270,6 +274,7 @@ export const certifications = [
 export const skillGroups = [
     {
         title: "LLM & agent systems",
+        blurb: "Model routing, tool orchestration and the caching that keeps inference affordable.",
         items: [
             "OpenAI GPT-4o", "Claude Sonnet", "Gemini 2.5 Flash", "LangChain", "LangGraph",
             "Model Context Protocol", "RAG", "Semantic caching", "Whisper",
@@ -277,6 +282,7 @@ export const skillGroups = [
     },
     {
         title: "Backend & data",
+        blurb: "The services and stores the models sit behind, and the pipelines that feed them.",
         items: [
             "Python", "FastAPI", "AsyncIO", "Pydantic", "PySpark", "Pandas",
             "PostgreSQL", "MySQL", "MongoDB", "Redis", "sqlglot",
@@ -284,6 +290,7 @@ export const skillGroups = [
     },
     {
         title: "Retrieval & infrastructure",
+        blurb: "Vector search, containers and the telemetry that shows what production is doing.",
         items: [
             "Weaviate", "pgvector", "FAISS", "Docker", "AWS", "Supabase",
             "Sentry", "Prometheus", "OpenTelemetry",
@@ -291,21 +298,84 @@ export const skillGroups = [
     },
     {
         title: "Analytics & reporting",
+        blurb: "Where the numbers go once they are trustworthy — dashboards people actually open.",
         items: ["Tableau", "Power BI", "Plotly", "Advanced Excel"],
     },
 ]
 
 export const proficiency = [
-    { name: "Python & FastAPI services", value: 95 },
-    { name: "LLM orchestration & agent design", value: 92 },
-    { name: "SQL & data modelling", value: 92 },
-    { name: "RAG & vector retrieval", value: 90 },
-    { name: "Cloud, Docker & observability", value: 82 },
+    {
+        name: "Python & FastAPI services",
+        value: 95,
+        level: "Daily",
+        note: "Async services, Pydantic contracts, retries and circuit breakers in production.",
+    },
+    {
+        name: "LLM orchestration & agent design",
+        value: 92,
+        level: "Daily",
+        note: "Provider-agnostic routing across OpenAI and Anthropic; five-agent pipelines.",
+    },
+    {
+        name: "SQL & data modelling",
+        value: 92,
+        level: "Daily",
+        note: "Text-to-SQL generation and validation across 11+ engines, dialects transpiled with sqlglot.",
+    },
+    {
+        name: "RAG & vector retrieval",
+        value: 90,
+        level: "Daily",
+        note: "Weaviate, pgvector and FAISS; semantic table selection to keep prompts small.",
+    },
+    {
+        name: "Cloud, Docker & observability",
+        value: 82,
+        level: "Regular",
+        note: "AWS, containerised deploys, Sentry and OpenTelemetry on the request path.",
+    },
 ]
 
 export const marqueeItems = [
     "Python", "FastAPI", "GPT-4o", "Claude", "LangGraph", "Weaviate", "pgvector",
     "FAISS", "Redis", "PostgreSQL", "PySpark", "Docker", "AWS", "Tableau", "sqlglot",
+]
+
+export type Testimonial = {
+    name: string
+    role: string
+    initials: string
+    /** The line that earns the reader's attention on its own. */
+    pull: string
+    body: string[]
+    accent: string
+}
+
+export const testimonials: Testimonial[] = [
+    {
+        name: "Juan Yanes",
+        role: "Founder & CEO, Blackmont Consulting",
+        initials: "JY",
+        pull: "He not only took full ownership of his responsibilities but also actively supported and guided his peers throughout the project.",
+        body: [
+            "I had the pleasure of supervising Tanishq during his time at Blackmont Consulting, where he consistently stood out as a highly proactive and dependable team member. From day one, Tanishq demonstrated strong leadership qualities — he not only took full ownership of his responsibilities but also actively supported and guided his peers throughout the project.",
+            "His ability to stay organised, focused and solution-oriented made a significant impact on our team's performance. Tanishq consistently met and exceeded his objectives, delivering high-quality work under tight deadlines. His strategic thinking, initiative and collaborative spirit contributed to a positive and productive working environment.",
+            "Tanishq's work ethic and professionalism are exemplary, and I'm confident he will bring tremendous value to any team or organisation he joins.",
+        ],
+        accent: "167 139 250",
+    },
+    {
+        name: "Shahrukh Hasnine",
+        role: "Business Analyst & Market Operations Director, Nagad",
+        initials: "SH",
+        pull: "His strong analytical skills and attention to detail were evident as he quickly tackled complex problems, providing insights that drove our project forward.",
+        body: [
+            "I am thrilled to highly recommend Tanishq, with whom I had the pleasure of collaborating during our MSc Business Analytics programme. Tanishq consistently demonstrated exceptional proactiveness and a remarkable team-player attitude throughout our capstone project.",
+            "From the outset, Tanishq took the initiative to ensure the project was well organised and that every team member was aligned with our objectives. He contributed ideas and encouraged open communication, fostering an environment where everyone felt comfortable sharing their thoughts.",
+            "His strong analytical skills and attention to detail were evident as he quickly tackled complex problems, providing insights that drove our project forward. I have no doubt that Tanishq will excel in any endeavour he pursues.",
+        ],
+        accent: "228 207 168",
+    },
 ]
 
 export const navLinks = [
@@ -314,5 +384,6 @@ export const navLinks = [
     { name: "Work", href: "#work" },
     { name: "Experience", href: "#experience" },
     { name: "Skills", href: "#skills" },
+    { name: "Praise", href: "#praise" },
     { name: "Contact", href: "#contact" },
 ]

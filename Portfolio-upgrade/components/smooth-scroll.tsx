@@ -20,6 +20,10 @@ export function SmoothScroll() {
             touchMultiplier: 1.6,
         })
 
+        // Modals need to pause the page scroll; they reach the instance here
+        // rather than each importing Lenis and creating a second one.
+        window.__lenis = lenis
+
         let raf = 0
         function loop(time: number) {
             lenis.raf(time)
@@ -52,6 +56,7 @@ export function SmoothScroll() {
             cancelAnimationFrame(raf)
             document.removeEventListener("click", onClick)
             window.removeEventListener("glide-to", onScrollTo)
+            delete window.__lenis
             lenis.destroy()
         }
     }, [])

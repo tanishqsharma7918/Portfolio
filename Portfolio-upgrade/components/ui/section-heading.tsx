@@ -4,14 +4,12 @@ import type { ReactNode } from "react"
 import { MaskLines, Reveal } from "./reveal"
 
 export function SectionHeading({
-    index,
     eyebrow,
     lines,
     lead,
     align = "left",
     action,
 }: {
-    index: string
     eyebrow: string
     lines: string[]
     lead?: string
@@ -33,8 +31,7 @@ export function SectionHeading({
                     <div
                         className={`mb-6 flex items-center gap-3 ${centered ? "justify-center" : ""}`}
                     >
-                        <span className="font-mono text-eyebrow uppercase text-accent">{index}</span>
-                        <span className="h-px w-8 bg-fg/25" />
+                        <span className="h-px w-8 bg-accent/50" />
                         <span className="eyebrow">{eyebrow}</span>
                     </div>
                 </Reveal>

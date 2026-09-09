@@ -1,54 +1,21 @@
 "use client"
 
-import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
 import { certifications, education, intro, profile } from "@/lib/content"
 import { SectionHeading } from "@/components/ui/section-heading"
+import { Portrait } from "@/components/ui/portrait"
 import { Reveal, WordReveal } from "@/components/ui/reveal"
 
 export function About() {
-    const imageWrap = useRef<HTMLDivElement | null>(null)
-    const { scrollYProgress } = useScroll({
-        target: imageWrap,
-        offset: ["start end", "end start"],
-    })
-    // The portrait drifts slower than the page — a quiet depth cue
-    const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
-
     return (
         <section id="about" className="shell scroll-mt-24 py-24 md:py-36">
             <SectionHeading
-                index="01"
                 eyebrow="About"
                 lines={["Analytics with", "an engineer's hands"]}
             />
 
             <div className="mt-16 grid gap-14 lg:mt-24 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
                 {/* Portrait */}
-                <Reveal y={40}>
-                    <div
-                        ref={imageWrap}
-                        className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-fg/10"
-                    >
-                        <motion.div style={{ y: imageY }} className="absolute -inset-y-[9%] inset-x-0">
-                            <Image
-                                src={profile.photo}
-                                alt={`${profile.name}, portrait`}
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 40vw"
-                                className="portrait object-cover"
-                                style={{ objectPosition: "center 18%" }}
-                                priority={false}
-                            />
-                        </motion.div>
-
-                        {/* Just enough edge shading to seat the photo against the
-                            page — no wash across the face, nothing written on it. */}
-                        <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[inset_0_0_90px_26px_rgb(var(--bg)/0.45)]" />
-                        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-fg/10" />
-                    </div>
-                </Reveal>
+                <Portrait src={profile.photo} alt={`${profile.name}, portrait`} />
 
                 {/* Copy */}
                 <div className="flex flex-col gap-10">

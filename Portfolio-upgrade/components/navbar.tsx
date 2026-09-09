@@ -243,9 +243,6 @@ function MobileMenu({
                                             >
                                                 {link.name}
                                             </span>
-                                            <span className="font-mono text-eyebrow text-muted">
-                                                0{i + 1}
-                                            </span>
                                         </Link>
                                     </motion.div>
                                 </div>

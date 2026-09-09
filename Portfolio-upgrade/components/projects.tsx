@@ -7,6 +7,7 @@ import { projects, type Project } from "@/lib/content"
 import { useMediaQuery } from "@/lib/use-media-query"
 import { SectionHeading } from "@/components/ui/section-heading"
 import { Reveal } from "@/components/ui/reveal"
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock"
 
 const GLIDE = [0.16, 1, 0.3, 1] as const
 
@@ -23,7 +24,6 @@ export function Projects() {
         <section id="work" className="scroll-mt-24 py-24 md:py-32">
             <div className="shell">
                 <SectionHeading
-                    index="02"
                     eyebrow="Selected work"
                     lines={["Systems that", "earn their keep"]}
                     lead="Five builds where the measurable outcome mattered more than the demo. Open any card for the full case study."
@@ -99,12 +99,9 @@ function StackCard({
                     <div className="flex flex-col">
                         <div className="mb-7 flex items-center gap-4">
                             <span
-                                className="font-mono text-eyebrow"
-                                style={{ color: `rgb(${project.accent})` }}
-                            >
-                                {project.index}
-                            </span>
-                            <span className="h-px w-10 bg-fg/20" />
+                                className="h-px w-10"
+                                style={{ backgroundColor: `rgb(${project.accent} / 0.55)` }}
+                            />
                             <span className="eyebrow">{project.year}</span>
                         </div>
 
@@ -165,6 +162,14 @@ function StackCard({
                                     Live demo
                                 </a>
                             ) : null}
+
+                            {/* A missing repo button reads as a broken link. Say why
+                                there isn't one instead of leaving a gap. */}
+                            {!project.repo && project.linkNote ? (
+                                <span className="text-xs leading-snug text-muted/80">
+                                    {project.linkNote}
+                                </span>
+                            ) : null}
                         </div>
                     </div>
 
@@ -198,11 +203,11 @@ function StackCard({
 function CaseStudy({ project, onClose }: { project: Project | null; onClose: () => void }) {
     useEffect(() => {
         if (!project) return
-        document.body.style.overflow = "hidden"
+        lockScroll()
         const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose()
         window.addEventListener("keydown", onKey)
         return () => {
-            document.body.style.overflow = ""
+            unlockScroll()
             window.removeEventListener("keydown", onKey)
         }
     }, [project, onClose])
@@ -224,7 +229,8 @@ function CaseStudy({ project, onClose }: { project: Project | null; onClose: () 
                         role="dialog"
                         aria-modal="true"
                         aria-label={`${project.title} case study`}
-                        className="fixed inset-x-0 bottom-0 z-[160] max-h-[92svh] overflow-y-auto rounded-t-[2rem] border-t border-fg/10 bg-bg"
+                        data-lenis-prevent
+                        className="fixed inset-x-0 bottom-0 z-[160] max-h-[92svh] overscroll-contain rounded-t-[2rem] border-t border-fg/10 bg-bg [overflow-y:auto] [-webkit-overflow-scrolling:touch]"
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
@@ -234,11 +240,9 @@ function CaseStudy({ project, onClose }: { project: Project | null; onClose: () 
                         <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-fg/10 bg-bg/90 px-6 py-4 backdrop-blur-xl md:px-12">
                             <div className="flex items-center gap-4">
                                 <span
-                                    className="font-mono text-eyebrow"
-                                    style={{ color: `rgb(${project.accent})` }}
-                                >
-                                    {project.index}
-                                </span>
+                                    className="h-1.5 w-1.5 rounded-full"
+                                    style={{ backgroundColor: `rgb(${project.accent})` }}
+                                />
                                 <span className="text-sm font-medium">{project.title}</span>
                             </div>
                             <button
@@ -282,9 +286,10 @@ function CaseStudy({ project, onClose }: { project: Project | null; onClose: () 
                                 <ul className="mt-6 flex flex-col gap-5">
                                     {project.highlights.map((point, i) => (
                                         <li key={i} className="flex gap-4 border-t border-fg/10 pt-5">
-                                            <span className="mt-1 font-mono text-eyebrow text-muted">
-                                                {String(i + 1).padStart(2, "0")}
-                                            </span>
+                                            <span
+                                                className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full"
+                                                style={{ backgroundColor: `rgb(${project.accent} / 0.7)` }}
+                                            />
                                             <span className="text-pretty text-base leading-relaxed text-fg/85">
                                                 {point}
                                             </span>
@@ -306,6 +311,12 @@ function CaseStudy({ project, onClose }: { project: Project | null; onClose: () 
                                     ))}
                                 </div>
                             </div>
+
+                            {!project.repo && project.linkNote ? (
+                                <p className="mt-12 rounded-2xl border border-fg/10 bg-fg/[0.02] px-5 py-4 text-sm text-muted">
+                                    {project.linkNote}
+                                </p>
+                            ) : null}
 
                             {(project.repo || project.live) && (
                                 <div className="mt-12 flex flex-wrap gap-3">

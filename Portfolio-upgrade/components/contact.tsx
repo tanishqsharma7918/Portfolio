@@ -15,8 +15,7 @@ export function Contact() {
             <div className="flex flex-col items-center text-center">
                 <Reveal>
                     <div className="mb-8 flex items-center gap-3">
-                        <span className="font-mono text-eyebrow uppercase text-accent">05</span>
-                        <span className="h-px w-8 bg-fg/25" />
+                        <span className="h-px w-8 bg-accent/50" />
                         <span className="eyebrow">Contact</span>
                     </div>
                 </Reveal>

@@ -20,18 +20,9 @@ export function Footer() {
             <div className="shell flex flex-col gap-10 py-12">
                 <div className="hairline" />
 
-                <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-                    <div className="flex flex-col gap-2">
-                        <span className="text-sm font-medium">{profile.name}</span>
-                        <span className="text-sm text-muted">{profile.role}</span>
-                        <a
-                            href={`mailto:${profile.email}`}
-                            className="link-underline mt-2 w-fit text-sm text-muted"
-                        >
-                            {profile.email}
-                        </a>
-                    </div>
-
+                {/* Identity block removed — the oversized wordmark above already
+                    signs the page, and the email lives in the contact section. */}
+                <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                     <nav className="flex flex-wrap gap-x-8 gap-y-3">
                         {navLinks.map((link) => (
                             <Link
@@ -65,7 +56,7 @@ export function Footer() {
                         </div>
                         <Link
                             href="#home"
-                            className="group mt-2 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
+                            className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
                         >
                             Back to top
                             <span className="flex h-8 w-8 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-transform duration-500 ease-glide group-hover:-translate-y-1">
