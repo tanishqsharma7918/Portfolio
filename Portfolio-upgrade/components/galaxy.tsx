@@ -330,18 +330,112 @@ export function Galaxy() {
             hole.heat = Math.min(1, hole.fed / 9)
         }
 
-        /** Radial deflection applied to a projected star, ∝ 1/b. */
-        function lens(sx: number, sy: number) {
-            const dx = sx - hole.x
-            const dy = sy - hole.y
-            const b = Math.hypot(dx, dy)
-            const reach = hole.r * 9
-            if (b > reach || b < 0.001) return null
-            const shadow = hole.r * 1.06
-            if (b < shadow) return "hidden" as const
-            // 4GM/(c²b), normalised so the shift is a couple of radii at the rim
-            const shift = (hole.r * hole.r * 1.15) / b
-            return { x: sx + (dx / b) * shift, y: sy + (dy / b) * shift, b, shadow }
+        /**
+         * Exact point-lens solution.
+         *
+         * A source at angular offset β behind a mass with Einstein radius θ_E
+         * is not displaced — it is *split*. Two images form, at
+         *
+         *     θ± = ( β ± √(β² + 4θ_E²) ) / 2
+         *
+         * the primary outside θ_E on the source's own side, the secondary
+         * inside θ_E on the opposite side and inverted. Their magnifications
+         * are μ± = (μ_total ± 1) / 2 with μ_total = (u²+2) / (u√(u²+4)),
+         * u = β/θ_E. As u → 0 the two images merge into a ring at θ_E and the
+         * magnification diverges — that is the Einstein ring, and it falls out
+         * of the equations rather than being drawn as a decoration.
+         *
+         * Each image is also sheared: stretched tangentially by θ/β while the
+         * radial direction is compressed. That shear is why lensed sources in
+         * the Hubble frames are arcs rather than dots.
+         *
+         * Written into a reusable struct — this runs per star per frame and
+         * must not allocate.
+         */
+        /**
+         * Einstein radius, in shadow radii. This is not pinned to the photon
+         * sphere — θ_E = √(4GM/c² · D_LS/(D_L·D_S)) depends on how far behind
+         * the source sits, and for distant background stars it is many shadow
+         * radii out. Placed at 3.4 it clears the halo (which ends at 2.2) so
+         * the ring forms against dark sky rather than inside the brightest
+         * part of the image, where it was invisible.
+         */
+        const LENS_E = 3.4
+        const img = {
+            n: 0,
+            x0: 0, y0: 0, mu0: 1, st0: 1,
+            x1: 0, y1: 0, mu1: 1, st1: 1,
+            rot: 0,
+        }
+
+        function solveLens(sx: number, sy: number) {
+            img.n = 0
+            const bx = sx - hole.x
+            const by = sy - hole.y
+            const b = Math.hypot(bx, by)
+            if (b < 0.01) return
+
+            const bE = hole.r * LENS_E
+            const shadow = hole.r
+
+            // Far field. Beyond ~6 θ_E the shear is under 1.02 and μ is
+            // within a percent of unity, so the full solution buys nothing
+            // visible. The old cutoff of 14 θ_E was wider than a phone screen,
+            // which meant no star on mobile ever took this path.
+            if (b > bE * 6) {
+                img.n = 1
+                img.x0 = sx
+                img.y0 = sy
+                img.mu0 = 1
+                img.st0 = 1
+                img.rot = 0
+                return
+            }
+
+            const ux = bx / b
+            const uy = by / b
+            const root = Math.sqrt(b * b + 4 * bE * bE)
+            const tPos = (b + root) * 0.5
+            const tNeg = (root - b) * 0.5
+            const u = b / bE
+            const muT = (u * u + 2) / (u * Math.sqrt(u * u + 4))
+            const muPos = (muT + 1) * 0.5
+            const muNeg = (muT - 1) * 0.5
+            // atan2 is only needed if something will actually be sheared
+            img.rot = 0
+
+            let needsRot = false
+            if (tPos > shadow) {
+                img.x0 = hole.x + ux * tPos
+                img.y0 = hole.y + uy * tPos
+                img.mu0 = muPos
+                img.st0 = tPos / b
+                if (img.st0 > 1.3) needsRot = true
+                img.n = 1
+            }
+            // The secondary lands on the far side; it survives only in the
+            // sliver between the shadow and the Einstein radius, which is
+            // precisely where the ring appears.
+            // A secondary this faint contributes nothing but a draw call
+            if (tNeg > shadow && muNeg > 0.035) {
+                const X = hole.x - ux * tNeg
+                const Y = hole.y - uy * tNeg
+                if (img.n === 0) {
+                    img.x0 = X
+                    img.y0 = Y
+                    img.mu0 = muNeg
+                    img.st0 = tNeg / b
+                } else {
+                    img.x1 = X
+                    img.y1 = Y
+                    img.mu1 = muNeg
+                    img.st1 = tNeg / b
+                }
+                if (tNeg / b > 1.3) needsRot = true
+                img.n += 1
+            }
+
+            if (needsRot) img.rot = Math.atan2(by, bx) + Math.PI / 2
         }
 
         /* -------------------------------------------------------- */
@@ -646,6 +740,10 @@ export function Galaxy() {
 
         // Fixed-size scratch buffer, written in place each frame so the
         // animation loop never allocates.
+        // Shared by the paint helper so consecutive stars of the same
+        // alpha/tint avoid redundant fillStyle writes.
+        let lastStyle = ""
+
         const GLOW_LIMIT = 130
         const glowBuf = Array.from({ length: GLOW_LIMIT }, () => ({
             x: 0,
@@ -704,6 +802,47 @@ export function Galaxy() {
          * a terminator falling away on the other. That single cue is the
          * difference between reading as a sphere and reading as a dot.
          */
+        /** One image of a star. `stretch` shears it tangentially, which is
+         *  what turns a lensed point into an arc. */
+        function paintStar(
+            x: number,
+            y: number,
+            size: number,
+            alpha: number,
+            tint: 0 | 1 | 2 | 3,
+            stretch: number,
+            rot: number
+        ) {
+            if (alpha <= 0.02 || size < 0.12) return
+            if (x < -60 || x > width + 60 || y < -60 || y > height + 60) return
+
+            const step = Math.min(ALPHA_STEPS, Math.max(0, Math.round(alpha * ALPHA_STEPS)))
+            const style = palette[tint][step]
+            if (style !== lastStyle) {
+                ctx.fillStyle = style
+                lastStyle = style
+            }
+
+            if (stretch > 1.3) {
+                const long = size * 0.5 * Math.min(stretch, 11)
+                ctx.save()
+                ctx.translate(x, y)
+                ctx.rotate(rot)
+                ctx.beginPath()
+                ctx.ellipse(0, 0, long, size * 0.5, 0, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.restore()
+            } else if (size < 1.4) {
+                // fillRect is markedly cheaper than arc() and at this size the
+                // difference is invisible
+                ctx.fillRect(x, y, size, size)
+            } else {
+                ctx.beginPath()
+                ctx.arc(x, y, size * 0.5, 0, Math.PI * 2)
+                ctx.fill()
+            }
+        }
+
         function drawPlanets(t: number, dt: number) {
             for (const pl of planets) {
                 pl.x += pl.vx * dt
@@ -713,19 +852,35 @@ export function Galaxy() {
                 if (pl.y < -0.05) pl.y = 1.05
                 if (pl.y > 1.05) pl.y = -0.05
 
-                const x = pl.x * width
-                const y = pl.y * height
                 const r = pl.r * (1 + Math.sin(t * 0.3 + pl.phase) * 0.05)
                 const rgb = pl.hue.split(" ").join(",")
                 const lightFrom = pl.spin
 
+                // Planets are background sources too, so they are lensed by
+                // the same solver — displaced onto their primary image and
+                // sheared tangentially. A planet drifting past the hole
+                // stretches into an arc instead of sliding by untouched.
+                solveLens(pl.x * width, pl.y * height)
+                if (img.n === 0) continue
+                const x = img.x0
+                const y = img.y0
+                const stretch = Math.min(img.st0, 5)
+
+                ctx.save()
+                ctx.translate(x, y)
+                if (stretch > 1.05) {
+                    ctx.rotate(img.rot)
+                    ctx.scale(stretch, 1)
+                    ctx.rotate(-img.rot)
+                }
+
                 // Body, lit from one side
                 const g = ctx.createRadialGradient(
-                    x - Math.cos(lightFrom) * r * 0.45,
-                    y - Math.sin(lightFrom) * r * 0.45,
+                    -Math.cos(lightFrom) * r * 0.45,
+                    -Math.sin(lightFrom) * r * 0.45,
                     r * 0.1,
-                    x,
-                    y,
+                    0,
+                    0,
                     r
                 )
                 g.addColorStop(0, `rgba(${rgb},${isDark ? 0.95 : 0.8})`)
@@ -733,14 +888,13 @@ export function Galaxy() {
                 g.addColorStop(1, `rgba(${rgb},${isDark ? 0.06 : 0.1})`)
                 ctx.fillStyle = g
                 ctx.beginPath()
-                ctx.arc(x, y, r, 0, Math.PI * 2)
+                ctx.arc(0, 0, r, 0, Math.PI * 2)
                 ctx.fill()
 
                 if (pl.ring) {
                     ctx.strokeStyle = `rgba(${rgb},${isDark ? 0.34 : 0.28})`
                     ctx.lineWidth = Math.max(0.7, r * 0.13)
                     ctx.save()
-                    ctx.translate(x, y)
                     ctx.rotate(pl.spin * 0.6)
                     ctx.scale(1, 0.3)
                     ctx.beginPath()
@@ -748,6 +902,7 @@ export function Galaxy() {
                     ctx.stroke()
                     ctx.restore()
                 }
+                ctx.restore()
             }
         }
 
@@ -846,7 +1001,7 @@ export function Galaxy() {
             const cursorEinstein = 46 * (1 + pointerPress * 0.55)
             const cursorReach = cursorEinstein * 7
 
-            let lastStyle = ""
+            lastStyle = ""
             // Near, bright stars are collected and blitted as soft discs after
             // the main pass, so the foreground falls out of focus the way a
             // fast lens would render it.
@@ -900,7 +1055,6 @@ export function Galaxy() {
                 // star is drawn inward on a spiral — radial infall plus a
                 // tangential component, so it winds rather than falling
                 // straight in — and is recycled once it crosses the horizon.
-                let lensGain = 1
                 let doomed = 0
                 {
                     const hdx = sx - hole.x
@@ -922,10 +1076,11 @@ export function Galaxy() {
                 sx += s.dx
                 sy += s.dy
 
-                const bent = lens(sx, sy)
-                if (bent === "hidden") {
-                    // Consumed. Feeds the disk, then re-seeds elsewhere so the
-                    // field does not slowly drain away.
+                // Capture is now separate from occlusion. A star merely
+                // *behind* the hole is lensed into the ring, not eaten; only
+                // one the infall has actually dragged to the centre is
+                // consumed.
+                if (Math.hypot(sx - hole.x, sy - hole.y) < hole.r * 0.42) {
                     hole.fed += 1
                     s.r = 0.35 + Math.random() * 0.8
                     s.a = Math.random() * Math.PI * 2
@@ -933,11 +1088,6 @@ export function Galaxy() {
                     s.dx = 0
                     s.dy = 0
                     continue
-                }
-                if (bent) {
-                    sx = bent.x
-                    sy = bent.y
-                    lensGain = 1 + Math.pow(bent.shadow / bent.b, 2.5) * 1.9
                 }
 
                 const size = s.size * persp * 0.86
@@ -952,34 +1102,28 @@ export function Galaxy() {
                 const twinkle = 0.72 + Math.sin(elapsed * s.twSpeed + s.tw) * 0.28
                 let alpha = Math.min(
                     1,
-                    s.lum * twinkle * depthFade * lensGain * cursorGain * (1 + doomed * 1.6)
+                    s.lum * twinkle * depthFade * cursorGain * (1 + doomed * 1.6)
                 )
                 if (!isDark) alpha = Math.min(1, alpha * 1.45)
                 if (alpha <= 0.02) {
                     continue
                 }
 
-                const step = Math.min(ALPHA_STEPS, Math.max(0, Math.round(alpha * ALPHA_STEPS)))
-                const style = palette[s.tint][step]
-                if (style !== lastStyle) {
-                    ctx.fillStyle = style
-                    lastStyle = style
-                }
+                // Split into its lensed images and paint each. Magnification
+                // is capped — near perfect alignment μ genuinely diverges, and
+                // an unbounded value would bloom into a white disc.
+                solveLens(sx, sy)
+                if (img.n === 0) continue
 
-                if (size < 1.4) {
-                    // fillRect is markedly cheaper than arc() and at this
-                    // size the difference is invisible
-                    ctx.fillRect(sx, sy, size, size)
-                } else {
-                    ctx.beginPath()
-                    ctx.arc(sx, sy, size * 0.5, 0, Math.PI * 2)
-                    ctx.fill()
+                paintStar(img.x0, img.y0, size, Math.min(1, alpha * Math.min(img.mu0, 7)), s.tint, img.st0, img.rot)
+                if (img.n > 1) {
+                    paintStar(img.x1, img.y1, size, Math.min(1, alpha * Math.min(img.mu1, 7)), s.tint, img.st1, img.rot)
                 }
 
                 if (glowCount < GLOW_LIMIT && size > 1.75 && depth < 1.85) {
                     const g = glowBuf[glowCount++]
-                    g.x = sx
-                    g.y = sy
+                    g.x = img.x0
+                    g.y = img.y0
                     // Closer stars bloom wider — that gradient of blur across
                     // depth is the whole point.
                     g.r = size * (2.6 + (1.85 - depth) * 3.4)
