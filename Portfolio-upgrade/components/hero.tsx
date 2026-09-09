@@ -91,22 +91,19 @@ export function Hero() {
                 </div>
             </motion.div>
 
-            {/* Bottom rail: quiet metadata, the way a studio site signs its work */}
+            {/* Bottom rail. The location block that used to sit on the left is
+                gone, so the cue is simply centred rather than held in place by
+                a three-column grid it no longer shares. */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1.1 }}
-                className="shell absolute inset-x-0 bottom-6 grid grid-cols-1 items-end md:grid-cols-3"
+                className="shell absolute inset-x-0 bottom-6 flex justify-center"
             >
-                <div className="hidden flex-col gap-1.5 md:flex">
-                    <span className="eyebrow">Based in</span>
-                    <span className="text-sm">{profile.shortLocation}</span>
-                </div>
-
                 <Link
                     href="#about"
                     aria-label="Scroll to about"
-                    className="hidden flex-col items-center gap-2 justify-self-center [@media(min-height:680px)]:flex group"
+                    className="group hidden flex-col items-center gap-2 [@media(min-height:680px)]:flex"
                 >
                     <span className="eyebrow">Scroll</span>
                     <span className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-colors group-hover:bg-fg/5">
