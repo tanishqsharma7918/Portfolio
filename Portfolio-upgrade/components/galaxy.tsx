@@ -239,6 +239,8 @@ export function Galaxy() {
             // The disk should overflow the viewport so there is no visible rim
             spread = Math.hypot(width, height) * 0.66
             maxScroll = Math.max(1, document.documentElement.scrollHeight - height)
+            hole.r = Math.max(15, Math.min(width, height) * 0.0294)
+            buildDisk()
             populate()
         }
 
@@ -333,104 +335,28 @@ export function Galaxy() {
             return { x: sx + (dx / b) * shift, y: sy + (dy / b) * shift, b, shadow }
         }
 
-        function drawDisk(half: "far" | "near") {
-            const inner = hole.r * 2.05
-            const outer = hole.r * 4.2
-            const tilt = 0.13 // near edge-on, as Gargantua is filmed
-            const { inner: hot, mid, outer: cool, boost } = diskColors()
-
-            ctx.save()
-            ctx.translate(hole.x, hole.y)
-            ctx.scale(1, tilt)
-
-            const start = half === "far" ? Math.PI : 0
-            ctx.beginPath()
-            ctx.arc(0, 0, outer, start, start + Math.PI)
-            ctx.arc(0, 0, inner, start + Math.PI, start, true)
-            ctx.closePath()
-            ctx.clip()
-
-            const g = ctx.createRadialGradient(0, 0, inner * 0.85, 0, 0, outer)
-            g.addColorStop(0, `rgba(${hot},${0.95 * boost})`)
-            g.addColorStop(0.28, `rgba(${mid},${0.62 * boost})`)
-            g.addColorStop(0.68, `rgba(${cool},${0.34 * boost})`)
-            g.addColorStop(1, `rgba(${cool},0)`)
-            ctx.fillStyle = g
-            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
-
-            // Orbiting material. Without azimuthal structure the disk is a
-            // smooth gradient and its rotation is invisible; these faint
-            // sheared arcs are what make the spin legible.
-            ctx.globalCompositeOperation = "lighter"
-            for (let i = 0; i < 5; i++) {
-                const a0 = hole.spin * (1 + i * 0.16) + i * 1.27
-                const band = inner + ((outer - inner) * (i + 0.6)) / 5.6
-                ctx.strokeStyle = `rgba(${mid},${0.1 * boost})`
-                ctx.lineWidth = (outer - inner) * 0.17
-                ctx.beginPath()
-                ctx.arc(0, 0, band, a0, a0 + 1.5 + i * 0.2)
-                ctx.stroke()
-            }
-
-            // Doppler beaming. The receding limb is dimmed by removing alpha
-            // rather than painting grey over it, so the disk keeps its hue
-            // instead of turning to ash; the approaching limb is brightened.
-            ctx.globalCompositeOperation = "destination-out"
-            const dim = ctx.createLinearGradient(-outer, 0, outer, 0)
-            dim.addColorStop(0, "rgba(0,0,0,0)")
-            dim.addColorStop(0.46, "rgba(0,0,0,0)")
-            dim.addColorStop(1, `rgba(0,0,0,${0.52 - hole.warm * 0.12})`)
-            ctx.fillStyle = dim
-            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
-
-            ctx.globalCompositeOperation = "lighter"
-            const beam = ctx.createLinearGradient(-outer, 0, outer, 0)
-            beam.addColorStop(0, `rgba(255,255,255,${0.26 * boost})`)
-            beam.addColorStop(0.52, "rgba(255,255,255,0)")
-            beam.addColorStop(1, "rgba(255,255,255,0)")
-            ctx.fillStyle = beam
-            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
-
-            ctx.restore()
-        }
-
-
+        /* -------------------------------------------------------- */
+        /*  Accretion disk                                            */
+        /* -------------------------------------------------------- */
         /**
-         * The halo is the signature of the Interstellar image and it is not
-         * decoration: it is the disk's own far side, its light bent up over
-         * the top of the hole and down under the bottom, so a flat disk
-         * appears to have a vertical ring threaded through it.
+         * The disk is not a gradient. In the Interstellar renders — and in a
+         * real disk — it is thousands of filaments of gas sheared into
+         * streaks, because material at the inner edge orbits far faster than
+         * material at the rim. That texture is the entire look, and no
+         * radial gradient can stand in for it.
          *
-         * Drawn as a full annulus, then the band through the middle is
-         * erased — that region is where the flat disk already is, and the
-         * lensed image would be hidden behind it.
+         * Filaments are baked once into a stack of ring textures, one per
+         * radial band, then each band is rotated at its own Keplerian rate
+         * (ω ∝ r^-3/2) so the strands shear apart over time the way the gas
+         * actually does. Seven drawImage calls a frame instead of several
+         * hundred stroked arcs.
          */
-
-        /**
-         * Disk colour as a function of accretion rate. A starved disk is cool
-         * and red; feed it and the inner edge climbs through amber to white
-         * and then blue-white, which is the direction a real disk moves as
-         * its luminosity rises. Everything else about the hole scales off the
-         * same number, so a feeding event brightens the whole structure.
-         */
-        function diskColors() {
-            const h = hole.heat
-            const inner =
-                h < 0.5
-                    ? mixRgb([255, 168, 92], [255, 246, 235], h / 0.5)
-                    : mixRgb([255, 246, 235], [206, 226, 255], (h - 0.5) / 0.5)
-            const outer = mixRgb(
-                [196, 92, 40],
-                nebulaColors[0].split(" ").map(Number) as number[],
-                Math.min(1, 0.3 + h * 0.7)
-            )
-            return {
-                inner: inner.join(","),
-                mid: nebulaColors[0].split(" ").join(","),
-                outer: outer.join(","),
-                boost: 0.55 + h * 0.7 + hole.warm * 0.4,
-            }
-        }
+        type Band = { canvas: HTMLCanvasElement; omega: number; half: number }
+        let bands: Band[] = []
+        const BAND_COUNT = 7
+        const R_IN = 2.05
+        const R_OUT = 5.6
+        const TILT = 0.13 // near edge-on, as Gargantua is filmed
 
         function mixRgb(a: number[], b: number[], t: number) {
             const k = Math.max(0, Math.min(1, t))
@@ -441,92 +367,234 @@ export function Galaxy() {
             ]
         }
 
-        function drawHalo() {
-            const shadow = hole.r
-            const rIn = shadow * 1.16
-            const rOut = shadow * 2.05
-            const { inner: hot, mid, outer: cool, boost } = diskColors()
+        /** Thin-disk temperature falls as r^-3/4 — white at the ISCO, amber
+         *  through the middle, deep orange at the rim. u: 0 inner, 1 outer. */
+        function tempColor(u: number) {
+            const t = Math.pow(1 - Math.min(1, Math.max(0, u)), 0.75)
+            if (t > 0.72) return mixRgb([255, 236, 200], [228, 241, 255], (t - 0.72) / 0.28)
+            if (t > 0.4) return mixRgb([255, 174, 90], [255, 236, 200], (t - 0.4) / 0.32)
+            return mixRgb([146, 56, 20], [255, 174, 90], t / 0.4)
+        }
 
-            const layer = ctx.createRadialGradient(
-                hole.x, hole.y, rIn * 0.94,
-                hole.x, hole.y, rOut
-            )
-            layer.addColorStop(0, `rgba(${hot},0)`)
-            layer.addColorStop(0.12, `rgba(${hot},${0.62 * boost})`)
-            layer.addColorStop(0.4, `rgba(${mid},${0.4 * boost})`)
-            layer.addColorStop(0.78, `rgba(${cool},${0.2 * boost})`)
-            layer.addColorStop(1, `rgba(${cool},0)`)
+        function buildDisk() {
+            const inner = hole.r * R_IN
+            const outer = hole.r * R_OUT
+            bands = []
+
+            for (let b = 0; b < BAND_COUNT; b++) {
+                const rIn = inner + ((outer - inner) * b) / BAND_COUNT
+                const rOut = inner + ((outer - inner) * (b + 1)) / BAND_COUNT
+                const half = Math.ceil(rOut) + 3
+                const c = document.createElement("canvas")
+                c.width = c.height = half * 2
+                const g = c.getContext("2d")
+                if (!g) continue
+                g.translate(half, half)
+                // Additive, so overlapping strands blow out toward white near
+                // the inner edge the way the reference image does
+                g.globalCompositeOperation = "lighter"
+                g.lineCap = "round"
+
+                const count = Math.round(40 + (1 - b / BAND_COUNT) * 34)
+                for (let i = 0; i < count; i++) {
+                    const r = rIn + (rOut - rIn) * Math.random()
+                    const u = (r - inner) / (outer - inner)
+                    const [cr, cg, cb] = tempColor(u)
+                    const a0 = Math.random() * Math.PI * 2
+                    // Inner strands wrap further; they have orbited more times
+                    const len = (0.3 + Math.random() * 2.0) * (1.6 - u * 0.85)
+                    const alpha = (0.05 + Math.random() * 0.16) * (1.45 - u * 0.95)
+
+                    g.strokeStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(3)})`
+                    g.lineWidth = Math.max(0.55, (rOut - rIn) * (0.05 + Math.random() * 0.28))
+                    g.beginPath()
+                    g.arc(0, 0, r, a0, a0 + len)
+                    g.stroke()
+                }
+
+                bands.push({
+                    canvas: c,
+                    half,
+                    omega: Math.pow((rIn + rOut) / 2 / inner, -1.5),
+                })
+            }
+        }
+
+        /** One half of the disk, clipped so the far side lands behind the
+         *  shadow and the near side in front of it. */
+        function drawDiskHalf(which: "far" | "near") {
+            if (!bands.length) return
+            const inner = hole.r * R_IN
+            const outer = hole.r * R_OUT
 
             ctx.save()
+            ctx.translate(hole.x, hole.y)
+            ctx.scale(1, TILT)
+
+            const from = which === "far" ? Math.PI : 0
+            ctx.beginPath()
+            ctx.arc(0, 0, outer * 1.03, from, from + Math.PI)
+            ctx.arc(0, 0, inner * 0.97, from + Math.PI, from, true)
+            ctx.closePath()
+            ctx.clip()
+
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+            ctx.globalAlpha = (isDark ? 0.95 : 0.75) * (0.6 + hole.heat * 0.5 + hole.warm * 0.3)
+            for (const band of bands) {
+                ctx.save()
+                ctx.rotate(hole.spin * band.omega)
+                ctx.drawImage(band.canvas, -band.half, -band.half)
+                ctx.restore()
+            }
+            ctx.globalAlpha = 1
+
+            // Doppler beaming. The receding limb loses intensity rather than
+            // being painted over, so it stays coloured instead of going grey.
+            ctx.globalCompositeOperation = "destination-out"
+            const dim = ctx.createLinearGradient(-outer, 0, outer, 0)
+            dim.addColorStop(0, "rgba(0,0,0,0)")
+            dim.addColorStop(0.44, "rgba(0,0,0,0)")
+            dim.addColorStop(1, `rgba(0,0,0,${0.5 - hole.warm * 0.12})`)
+            ctx.fillStyle = dim
+            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
+
+            // ...and the approaching limb is beamed brighter.
+            ctx.globalCompositeOperation = "lighter"
+            const beam = ctx.createLinearGradient(-outer, 0, outer, 0)
+            beam.addColorStop(0, `rgba(255,244,228,${0.18 + hole.heat * 0.16})`)
+            beam.addColorStop(0.5, "rgba(255,255,255,0)")
+            beam.addColorStop(1, "rgba(255,255,255,0)")
+            ctx.fillStyle = beam
+            ctx.fillRect(-outer, -outer, outer * 2, outer * 2)
+
+            ctx.restore()
+        }
+
+        /**
+         * The lensed image of the far side: light from behind the hole bent
+         * up over the top and down under the bottom, which is why a flat disk
+         * appears to carry a vertical ring. A full annulus with the
+         * equatorial band erased, since the flat disk already occupies it.
+         */
+        function drawHalo() {
+            const shadow = hole.r
+            const rIn = shadow * 1.13
+            const rOut = shadow * 2.2
+            const boost = 0.5 + hole.heat * 0.5 + hole.warm * 0.3
+
+            ctx.save()
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            const [ir, ig, ib] = tempColor(0.02)
+            const [mr, mg, mb] = tempColor(0.35)
+            const [orr, og, ob] = tempColor(0.85)
+            const layer = ctx.createRadialGradient(
+                hole.x, hole.y, rIn * 0.95,
+                hole.x, hole.y, rOut
+            )
+            layer.addColorStop(0, `rgba(${ir},${ig},${ib},0)`)
+            layer.addColorStop(0.09, `rgba(${ir},${ig},${ib},${(0.9 * boost).toFixed(3)})`)
+            layer.addColorStop(0.32, `rgba(${mr},${mg},${mb},${(0.46 * boost).toFixed(3)})`)
+            layer.addColorStop(0.7, `rgba(${orr},${og},${ob},${(0.2 * boost).toFixed(3)})`)
+            layer.addColorStop(1, `rgba(${orr},${og},${ob},0)`)
             ctx.fillStyle = layer
             ctx.beginPath()
             ctx.arc(hole.x, hole.y, rOut, 0, Math.PI * 2)
             ctx.fill()
 
-            // Erase the equatorial band; the flat disk occupies it
+            // Filament texture on the halo too, counter-rotating, so the ring
+            // is not a clean airbrushed band
+            if (bands.length) {
+                ctx.save()
+                ctx.translate(hole.x, hole.y)
+                ctx.beginPath()
+                ctx.arc(0, 0, rOut, 0, Math.PI * 2)
+                ctx.arc(0, 0, rIn, 0, Math.PI * 2, true)
+                ctx.clip("evenodd")
+                ctx.globalAlpha = 0.4 * boost
+                const k = (rOut / (hole.r * R_OUT)) * 1.75
+                ctx.scale(k, k)
+                ctx.rotate(-hole.spin * 0.45)
+                for (const band of bands) ctx.drawImage(band.canvas, -band.half, -band.half)
+                ctx.globalAlpha = 1
+                ctx.restore()
+            }
+
             ctx.globalCompositeOperation = "destination-out"
-            const band = ctx.createLinearGradient(0, hole.y - rOut * 0.5, 0, hole.y + rOut * 0.5)
-            band.addColorStop(0, "rgba(0,0,0,0)")
-            band.addColorStop(0.34, "rgba(0,0,0,1)")
-            band.addColorStop(0.66, "rgba(0,0,0,1)")
-            band.addColorStop(1, "rgba(0,0,0,0)")
-            ctx.fillStyle = band
-            ctx.fillRect(hole.x - rOut, hole.y - rOut * 0.5, rOut * 2, rOut)
+            const strip = ctx.createLinearGradient(0, hole.y - rOut * 0.44, 0, hole.y + rOut * 0.44)
+            strip.addColorStop(0, "rgba(0,0,0,0)")
+            strip.addColorStop(0.36, "rgba(0,0,0,1)")
+            strip.addColorStop(0.64, "rgba(0,0,0,1)")
+            strip.addColorStop(1, "rgba(0,0,0,0)")
+            ctx.fillStyle = strip
+            ctx.fillRect(hole.x - rOut, hole.y - rOut * 0.44, rOut * 2, rOut * 0.88)
             ctx.restore()
         }
 
         function drawHole() {
-            const prev = ctx.globalCompositeOperation
-            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
-
-            // Lensed image of the far side, arcing over and under
-            drawHalo()
-
-            // Far side of the flat disk
-            drawDisk("far")
-
-            ctx.globalCompositeOperation = "source-over"
-
-            // The shadow itself, with a soft rim so it sits in the scene
             const shadow = hole.r
-            const sg = ctx.createRadialGradient(
-                hole.x, hole.y, shadow * 0.84,
-                hole.x, hole.y, shadow * 1.14
-            )
-            sg.addColorStop(0, "rgba(0,0,0,1)")
-            sg.addColorStop(0.7, "rgba(0,0,0,0.96)")
-            sg.addColorStop(1, "rgba(0,0,0,0)")
-            ctx.fillStyle = sg
-            ctx.beginPath()
-            ctx.arc(hole.x, hole.y, shadow * 1.14, 0, Math.PI * 2)
-            ctx.fill()
 
+            drawHalo()
+            drawDiskHalf("far")
+
+            // The shadow. Hard-edged — the photon capture boundary is sharp,
+            // and softening it is what makes these read as fog.
+            ctx.save()
+            ctx.globalCompositeOperation = "source-over"
+            ctx.fillStyle = "#000"
+            ctx.beginPath()
+            ctx.arc(hole.x, hole.y, shadow, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.restore()
+
+            ctx.save()
             ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
 
-            // Photon ring — light that orbited before escaping. Thin and sharp.
-            const ringAlpha = 0.36 + hole.heat * 0.34 + hole.warm * 0.24
+            // Photon ring: a thin, very bright line at the rim with a tight
+            // bloom just outside it
+            const ringA = 0.5 + hole.heat * 0.38 + hole.warm * 0.2
             const bloom = ctx.createRadialGradient(
-                hole.x, hole.y, shadow * 0.98,
+                hole.x, hole.y, shadow * 0.99,
                 hole.x, hole.y, shadow * 1.5
             )
-            bloom.addColorStop(0, "rgba(255,248,236,0)")
-            bloom.addColorStop(0.16, `rgba(255,248,236,${ringAlpha})`)
-            bloom.addColorStop(0.34, `rgba(255,238,214,${ringAlpha * 0.3})`)
-            bloom.addColorStop(1, "rgba(255,238,214,0)")
+            bloom.addColorStop(0, "rgba(255,250,240,0)")
+            bloom.addColorStop(0.07, `rgba(255,250,240,${ringA.toFixed(3)})`)
+            bloom.addColorStop(0.32, `rgba(255,224,178,${(ringA * 0.22).toFixed(3)})`)
+            bloom.addColorStop(1, "rgba(255,224,178,0)")
             ctx.fillStyle = bloom
             ctx.beginPath()
             ctx.arc(hole.x, hole.y, shadow * 1.5, 0, Math.PI * 2)
             ctx.fill()
 
-            // Near side of the disk, in front of the shadow
-            drawDisk("near")
+            ctx.strokeStyle = `rgba(255,252,246,${Math.min(1, ringA * 1.45).toFixed(3)})`
+            ctx.lineWidth = Math.max(0.9, shadow * 0.032)
+            ctx.beginPath()
+            ctx.arc(hole.x, hole.y, shadow * 1.006, 0, Math.PI * 2)
+            ctx.stroke()
+            ctx.restore()
 
-            ctx.globalCompositeOperation = prev
+            drawDiskHalf("near")
+
+            // Blown-out core: the flare the reference image carries across the
+            // inner edge, flattened to the disk plane
+            ctx.save()
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+            ctx.translate(hole.x, hole.y)
+            ctx.scale(1, 0.34)
+            const [hr, hg, hb] = tempColor(0.05)
+            const core = ctx.createRadialGradient(0, 0, 0, 0, 0, shadow * 4.2)
+            const ca = (0.17 + hole.heat * 0.22).toFixed(3)
+            core.addColorStop(0, `rgba(${hr},${hg},${hb},0)`)
+            core.addColorStop(0.34, `rgba(${hr},${hg},${hb},0)`)
+            core.addColorStop(0.46, `rgba(${hr},${hg},${hb},${ca})`)
+            core.addColorStop(1, `rgba(${hr},${hg},${hb},0)`)
+            ctx.fillStyle = core
+            ctx.beginPath()
+            ctx.arc(0, 0, shadow * 4.2, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.restore()
         }
 
-        /* -------------------------------------------------------- */
-        /*  Frame                                                     */
-        /* -------------------------------------------------------- */
         let last = performance.now()
         let elapsed = 0
 
