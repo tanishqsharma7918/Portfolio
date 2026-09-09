@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens                                                      */
+/* ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    /* Light — warm paper */
+    --bg: 244 242 238;
+    --surface: 255 255 255;
+    --fg: 12 12 16;
+    --muted: 106 106 118;
+    --line: 12 12 16;
+    --line-alpha: 0.1;
+    --accent: 109 40 217;
+    --gold: 168 129 60;
+
+    /* Galaxy */
+    --star: 20 20 32;
+    --nebula-a: 124 58 237;
+    --nebula-b: 14 165 233;
+    --nebula-strength: 0.105;
+    --vignette-mid: 0.12;
+    --vignette-edge: 0.38;
+
+    --radius: 1rem;
+    --nav-h: 4.5rem;
+  }
+
+  .dark {
+    /* Dark — deep space */
+    --bg: 6 6 9;
+    --surface: 14 14 20;
+    --fg: 237 237 242;
+    --muted: 142 142 160;
+    --line: 255 255 255;
+    --line-alpha: 0.09;
+    --accent: 167 139 250;
+    --gold: 228 207 168;
+
+    --star: 255 255 255;
+    --nebula-a: 139 92 246;
+    --nebula-b: 34 211 238;
+    --nebula-strength: 0.155;
+    --vignette-mid: 0.3;
+    --vignette-edge: 0.72;
+  }
+
+  * {
+    border-color: rgb(var(--line) / var(--line-alpha));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis owns the scrolling; native smooth-scroll fights it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+    font-feature-settings: "ss01", "cv01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.28);
+    color: rgb(var(--fg));
+  }
+
+  /* Slim, theme-aware scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--fg) / 0.16);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--accent) / 0.55);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Hide the native pointer only where the custom cursor is active */
+  html[data-cursor="on"],
+  html[data-cursor="on"] * {
+    cursor: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Components                                                         */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1240px] px-6 md:px-10;
+  }
+
+  .glass {
+    background: rgb(var(--surface) / 0.55);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgb(var(--line) / calc(var(--line-alpha) * 1.4));
+  }
+
+  .glass-strong {
+    background: rgb(var(--surface) / 0.78);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgb(var(--line) / calc(var(--line-alpha) * 1.8));
+  }
+
+  /* Card with a soft top sheen — reads as polished glass, not a flat box */
+  .panel {
+    @apply glass relative overflow-hidden rounded-3xl;
+  }
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      rgb(var(--fg) / 0.07) 0%,
+      transparent 42%
+    );
+  }
+
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase text-muted;
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--line) / calc(var(--line-alpha) * 3)) 18%,
+      rgb(var(--line) / calc(var(--line-alpha) * 3)) 82%,
+      transparent
+    );
+  }
+
+  .wordmark {
+    display: block;
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 11.2vw, 8.75rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--fg)) 0%,
+      rgb(var(--fg)) 34%,
+      rgb(var(--gold)) 46%,
+      rgb(var(--fg)) 58%,
+      rgb(var(--fg)) 100%
+    );
+    background-size: 260% 100%;
+    background-position: 130% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: sheen 9s cubic-bezier(0.4, 0, 0.2, 1) 1.4s infinite;
+  }
+
+  @keyframes sheen {
+    0%,
+    12% {
+      background-position: 130% 0;
+    }
+    46%,
+    100% {
+      background-position: -30% 0;
+    }
+  }
+
+  /* Serif italic accent used for the "luxury" beats in headings */
+  .accent-serif {
+    @apply font-serif italic;
+    color: rgb(var(--gold));
+    letter-spacing: -0.01em;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Clips a line of text so its child can slide up from below */
+  .line-clip {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      100deg,
+      rgb(var(--fg)) 0%,
+      rgb(var(--fg)) 40%,
+      rgb(var(--accent)) 70%,
+      rgb(var(--gold)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion                                                     */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

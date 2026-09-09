@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
   "devCommand": "cd Portfolio-upgrade && npm run dev",
-  "outputDirectory": "Portfolio-upgrade/dist",
+  "outputDirectory": "Portfolio-upgrade/out",
   "installCommand": "npm install --prefix Portfolio-upgrade"
 }
