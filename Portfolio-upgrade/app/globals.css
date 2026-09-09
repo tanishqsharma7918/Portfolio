@@ -166,13 +166,14 @@
   .wordmark {
     display: block;
     white-space: nowrap;
-    /* Large display type reads more refined a shade lighter and tighter
-       than it does at the weight you'd set body copy in. */
-    font-weight: 470;
-    font-size: clamp(2.05rem, 8.4vw, 6.25rem);
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+    /* opsz is what earns this face its place — the display cut tightens
+       the joins and flares the terminals instead of just scaling up. */
+    font-variation-settings: "opsz" 96;
+    font-weight: 600;
+    font-size: clamp(2.05rem, 8.2vw, 6.1rem);
     line-height: 1;
-    letter-spacing: -0.052em;
-    font-optical-sizing: auto;
+    letter-spacing: -0.038em;
     background-image: linear-gradient(
       100deg,
       rgb(var(--fg)) 0%,

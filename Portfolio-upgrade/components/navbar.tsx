@@ -79,7 +79,7 @@ export function Navbar() {
                             <span className="absolute inset-0 rounded-full bg-accent" />
                             <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent" />
                         </span>
-                        <span className="text-sm font-medium tracking-tight">
+                        <span className="font-display text-sm font-semibold tracking-tight">
                             {profile.firstName}
                             <span className="text-muted"> {profile.lastName}</span>
                         </span>

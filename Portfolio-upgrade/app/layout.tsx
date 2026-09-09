@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google"
+import {
+    Bricolage_Grotesque,
+    Inter,
+    Instrument_Serif,
+    JetBrains_Mono,
+} from "next/font/google"
 import "./globals.css"
 
 import { MotionProvider } from "@/components/motion-provider"
@@ -14,6 +19,15 @@ import { profile } from "@/lib/content"
 const sans = Inter({
     subsets: ["latin"],
     variable: "--font-sans",
+    display: "swap",
+})
+
+// Display face for the wordmark. Bricolage carries a real optical-size
+// axis, so at 100+ it tightens and sharpens rather than just scaling up.
+const display = Bricolage_Grotesque({
+    subsets: ["latin"],
+    axes: ["opsz"],
+    variable: "--font-display",
     display: "swap",
 })
 
@@ -80,7 +94,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${sans.variable} ${serif.variable} ${mono.variable} font-sans antialiased`}
+                className={`${sans.variable} ${display.variable} ${serif.variable} ${mono.variable} font-sans antialiased`}
             >
                 <ThemeProvider
                     attribute="class"
