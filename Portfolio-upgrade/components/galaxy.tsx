@@ -90,6 +90,38 @@ export function Galaxy() {
         let raf = 0
         let running = true
 
+        /**
+         * Adaptive quality.
+         *
+         * On an M2 this scene holds 60fps with headroom, but a portfolio gets
+         * opened on whatever the reader happens to have. Rather than pick a
+         * fixed budget for a machine I cannot test, the loop measures its own
+         * frame rate and trades detail for smoothness when it has to: star
+         * count first, then the bokeh pass, then nebula warp resolution.
+         *
+         * Hysteresis is wide on purpose — drop below 50, climb back above 58 —
+         * so it settles instead of oscillating around the boundary, and it
+         * only reconsiders every 900ms so a single slow frame cannot move it.
+         */
+        let quality = 1
+        let qAccum = 0
+        let qFrames = 0
+        let qLast = 0
+
+        function governQuality(now: number, dt: number) {
+            qAccum += dt
+            qFrames++
+            if (qLast === 0) qLast = now
+            // Ignore the first second; the page is still settling
+            if (now - qLast < 900 || qAccum < 0.4) return
+            const fps = qFrames / qAccum
+            qAccum = 0
+            qFrames = 0
+            qLast = now
+            if (fps < 50 && quality > 0.34) quality = Math.max(0.34, quality - 0.16)
+            else if (fps > 58 && quality < 1) quality = Math.min(1, quality + 0.1)
+        }
+
         /* -------------------------------------------------------- */
         /*  Colour palette, re-read whenever the theme flips          */
         /* -------------------------------------------------------- */
@@ -843,7 +875,7 @@ export function Galaxy() {
             // so between them every pixel outside the shadow is covered once,
             // with no gap at the Einstein radius.
             const maxR = Math.hypot(width, height)
-            const SLICES = 22
+            const SLICES = Math.max(9, Math.round(22 * quality))
 
             for (let i = 0; i < SLICES; i++) {
                 const r0 = maxR * Math.pow(i / SLICES, 2.2)
@@ -1073,6 +1105,7 @@ export function Galaxy() {
 
             const dt = Math.min((now - last) / 1000, 0.05)
             last = now
+            governQuality(now, dt)
             elapsed += reduced ? 0 : dt
 
             // Springs — nothing in this scene ever snaps
@@ -1111,8 +1144,14 @@ export function Galaxy() {
             // the main pass, so the foreground falls out of focus the way a
             // fast lens would render it.
             let glowCount = 0
+            const glowBudget = Math.round(GLOW_LIMIT * quality)
 
-            for (let i = 0; i < stars.length; i++) {
+            // Stars are generated in random order, so taking a prefix thins
+            // the field evenly and stably — no flicker as the count moves.
+            const starBudget =
+                quality >= 1 ? stars.length : Math.max(420, Math.round(stars.length * quality))
+
+            for (let i = 0; i < starBudget; i++) {
                 const s = stars[i]
 
                 // Differential rotation — inner stars orbit faster, exactly
@@ -1211,7 +1250,7 @@ export function Galaxy() {
                     paintStar(img.x1, img.y1, size, Math.min(1, alpha * Math.min(img.mu1, 7)), s.tint, img.st1, img.rot)
                 }
 
-                if (glowCount < GLOW_LIMIT && size > 1.75 && depth < 1.85) {
+                if (glowCount < glowBudget && size > 1.75 && depth < 1.85) {
                     const g = glowBuf[glowCount++]
                     g.x = img.x0
                     g.y = img.y0
@@ -1269,6 +1308,9 @@ export function Galaxy() {
         window.addEventListener("pointermove", onPointerMove, { passive: true })
         window.addEventListener("pointerleave", onPointerLeave)
         document.addEventListener("visibilitychange", onVisibility)
+
+        // Read by the perf harness; harmless in production.
+        ;(window as unknown as { __galaxyQuality?: () => number }).__galaxyQuality = () => quality
 
         raf = requestAnimationFrame(frame)
 
