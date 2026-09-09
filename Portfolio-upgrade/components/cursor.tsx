@@ -64,7 +64,7 @@ export function Cursor() {
             const text = el.dataset.cursorLabel ?? ""
             labelEl!.textContent = text
             targetScale = text ? 3.1 : 2
-            ring!.style.backgroundColor = "rgba(127,127,127,0.22)"
+            ring!.style.backgroundColor = "rgb(var(--fg) / 0.14)"
         }
 
         function onOut(e: PointerEvent) {
@@ -128,23 +128,42 @@ export function Cursor() {
             aria-hidden="true"
             style={{ opacity: 0, transition: "opacity 200ms ease" }}
         >
-            {/* Blend is scoped to the two small elements. On a full-viewport
-                layer it forces the compositor to re-blend the whole page every
-                frame, which is what made this lag. */}
+            {/* Drawn in the foreground colour with a background-coloured
+                outline, rather than blended.
+
+                mix-blend-difference cannot work here: the parent is fixed
+                with a z-index, which makes it a stacking context, and a blend
+                only reaches the backdrop inside its own group. That group is
+                empty and transparent, so the elements rendered as flat white
+                — fine on a dark ground, invisible on a light one.
+
+                The paired outline is what keeps it legible over content as
+                well as over the page: fg on bg, ringed by bg, so one of the
+                two always contrasts with whatever is underneath — a white
+                button, the portrait, the black hole. */}
             <div
                 ref={ringRef}
-                className="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/70 mix-blend-difference will-change-transform"
-                style={{ transform: "translate3d(-100px,-100px,0)" }}
+                className="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full border will-change-transform"
+                style={{
+                    transform: "translate3d(-100px,-100px,0)",
+                    borderColor: "rgb(var(--fg) / 0.75)",
+                    boxShadow:
+                        "0 0 0 1px rgb(var(--bg) / 0.55), inset 0 0 0 1px rgb(var(--bg) / 0.55)",
+                }}
             >
                 <span
                     ref={labelRef}
-                    className="whitespace-nowrap font-mono text-[7px] uppercase tracking-[0.18em] text-white"
+                    className="whitespace-nowrap font-mono text-[7px] uppercase tracking-[0.18em] text-fg"
                 />
             </div>
             <div
                 ref={dotRef}
-                className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full bg-white mix-blend-difference will-change-transform"
-                style={{ transform: "translate3d(-100px,-100px,0)" }}
+                className="absolute left-0 top-0 h-2 w-2 rounded-full will-change-transform"
+                style={{
+                    transform: "translate3d(-100px,-100px,0)",
+                    backgroundColor: "rgb(var(--fg))",
+                    boxShadow: "0 0 0 1.5px rgb(var(--bg) / 0.8)",
+                }}
             />
         </div>
     )
