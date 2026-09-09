@@ -24,6 +24,18 @@ export const profile = {
     status: "Open to new roles",
 }
 
+export const loader = {
+    /** Echoes the hero tagline, so the intro sets up the line the hero pays off. */
+    lines: ["Systems that", "answer"],
+    /** Cycled beneath the counter while the page loads. */
+    disciplines: [
+        "LLM orchestration",
+        "Retrieval & vector search",
+        "Text-to-SQL engines",
+        "Production services",
+    ],
+}
+
 export const intro = {
     lines: [
         "I build machine learning systems that have to answer correctly, quickly, and at a cost someone is willing to pay.",
