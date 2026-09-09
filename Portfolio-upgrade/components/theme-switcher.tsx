@@ -2,125 +2,107 @@
 
 import { AnimatePresence, motion } from "framer-motion"
 import { useTheme } from "next-themes"
-import { useEffect, useRef, useState } from "react"
-import { Check, Moon, Palette, Sun } from "lucide-react"
-import { ACCENT_KEY, DEFAULT_ACCENT, accents, type AccentId } from "@/lib/themes"
+import { useEffect, useState } from "react"
+import { ACCENT_KEY, RING_KEY, themeRing } from "@/lib/themes"
 
 const GLIDE = [0.16, 1, 0.3, 1] as const
 
 /**
- * One control for both axes: mode (light/dark) and accent. The accent lives
- * on a `data-accent` attribute rather than in React state that components
- * subscribe to — every consumer already reads CSS custom properties, so
- * flipping the attribute re-tints the page and the canvas at once.
+ * One button, one ring. Each click advances to the next stop — accent and
+ * mode together — so there is no dialog to open and no second decision to
+ * make. The swatch shows where you are; the label flashes briefly so the
+ * change is named rather than just felt.
  */
 export function ThemeSwitcher() {
-    const { resolvedTheme, setTheme } = useTheme()
+    const { setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
-    const [open, setOpen] = useState(false)
-    const [accent, setAccent] = useState<AccentId>(DEFAULT_ACCENT)
-    const wrap = useRef<HTMLDivElement | null>(null)
+    const [index, setIndex] = useState(0)
+    const [flash, setFlash] = useState(false)
 
     useEffect(() => setMounted(true), [])
 
+    // Recover the stop from storage rather than trusting the two keys to agree
     useEffect(() => {
-        const stored = localStorage.getItem(ACCENT_KEY) as AccentId | null
-        if (stored && accents.some((a) => a.id === stored)) {
-            setAccent(stored)
-            document.documentElement.dataset.accent = stored
+        const stored = Number(localStorage.getItem(RING_KEY))
+        if (Number.isInteger(stored) && stored >= 0 && stored < themeRing.length) {
+            setIndex(stored)
         }
     }, [])
 
     useEffect(() => {
-        if (!open) return
-        const onDown = (e: MouseEvent) => {
-            if (!wrap.current?.contains(e.target as Node)) setOpen(false)
-        }
-        const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false)
-        document.addEventListener("pointerdown", onDown)
-        window.addEventListener("keydown", onKey)
-        return () => {
-            document.removeEventListener("pointerdown", onDown)
-            window.removeEventListener("keydown", onKey)
-        }
-    }, [open])
+        if (!flash) return
+        const id = window.setTimeout(() => setFlash(false), 1500)
+        return () => window.clearTimeout(id)
+    }, [flash])
 
-    function pick(id: AccentId) {
-        setAccent(id)
-        document.documentElement.dataset.accent = id
-        localStorage.setItem(ACCENT_KEY, id)
+    function advance() {
+        const next = (index + 1) % themeRing.length
+        const stop = themeRing[next]
+        setIndex(next)
+        setFlash(true)
+        document.documentElement.dataset.accent = stop.accent
+        setTheme(stop.mode)
+        localStorage.setItem(RING_KEY, String(next))
+        localStorage.setItem(ACCENT_KEY, stop.accent)
     }
 
     if (!mounted) return <span className="h-10 w-10" aria-hidden="true" />
 
-    const isDark = resolvedTheme === "dark"
+    const stop = themeRing[index]
 
     return (
-        <div ref={wrap} className="relative">
+        <div className="relative">
             <button
-                onClick={() => setOpen((v) => !v)}
-                aria-label="Theme options"
-                aria-expanded={open}
-                className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-colors hover:bg-fg/5"
+                onClick={advance}
+                aria-label={`Theme: ${stop.label}. Click for the next theme.`}
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-inset ring-fg/15 transition-colors hover:bg-fg/5"
             >
-                <Palette className="h-[18px] w-[18px]" />
+                {/* Swatch ring — the arc fills round as you travel the ring */}
+                <svg viewBox="0 0 40 40" className="absolute inset-0 h-full w-full -rotate-90">
+                    <circle
+                        cx="20"
+                        cy="20"
+                        r="16"
+                        fill="none"
+                        stroke="rgb(var(--accent))"
+                        strokeOpacity="0.75"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeDasharray={`${((index + 1) / themeRing.length) * 100.5} 100.5`}
+                        className="transition-all duration-700 ease-glide"
+                    />
+                </svg>
+
+                <AnimatePresence mode="wait">
+                    <motion.span
+                        key={stop.accent + stop.mode}
+                        initial={{ scale: 0.3, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.3, opacity: 0 }}
+                        transition={{ duration: 0.32, ease: GLIDE }}
+                        className="h-3.5 w-3.5 rounded-full"
+                        style={{
+                            backgroundColor: "rgb(var(--accent))",
+                            boxShadow:
+                                stop.mode === "light"
+                                    ? "0 0 0 2px rgb(var(--bg)), 0 0 0 3px rgb(var(--accent) / 0.35)"
+                                    : "0 0 10px 1px rgb(var(--accent) / 0.6)",
+                        }}
+                    />
+                </AnimatePresence>
             </button>
 
             <AnimatePresence>
-                {open && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                        transition={{ duration: 0.32, ease: GLIDE }}
-                        className="glass-strong absolute right-0 top-12 z-50 w-[15rem] origin-top-right rounded-2xl p-4 shadow-[0_24px_70px_-30px_rgb(0_0_0/0.7)]"
+                {flash && (
+                    <motion.span
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.3, ease: GLIDE }}
+                        className="glass-strong pointer-events-none absolute right-0 top-12 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em]"
                     >
-                        <span className="eyebrow">Mode</span>
-                        <div className="mt-3 grid grid-cols-2 gap-2">
-                            {[
-                                { id: "light", label: "Light", Icon: Sun },
-                                { id: "dark", label: "Dark", Icon: Moon },
-                            ].map(({ id, label, Icon }) => {
-                                const active = isDark === (id === "dark")
-                                return (
-                                    <button
-                                        key={id}
-                                        onClick={() => setTheme(id)}
-                                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-medium transition-colors ${
-                                            active
-                                                ? "bg-accent/15 text-accent ring-1 ring-inset ring-accent/35"
-                                                : "text-muted ring-1 ring-inset ring-fg/10 hover:bg-fg/5"
-                                        }`}
-                                    >
-                                        <Icon className="h-3.5 w-3.5" />
-                                        {label}
-                                    </button>
-                                )
-                            })}
-                        </div>
-
-                        <span className="eyebrow mt-6 block">Accent</span>
-                        <div className="mt-3 flex flex-col gap-1">
-                            {accents.map((a) => (
-                                <button
-                                    key={a.id}
-                                    onClick={() => pick(a.id)}
-                                    className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-left text-xs transition-colors hover:bg-fg/5"
-                                >
-                                    <span
-                                        className="h-4 w-4 shrink-0 rounded-full ring-1 ring-inset ring-black/15"
-                                        style={{ backgroundColor: a.swatch }}
-                                    />
-                                    <span className={accent === a.id ? "font-medium" : "text-muted"}>
-                                        {a.label}
-                                    </span>
-                                    {accent === a.id ? (
-                                        <Check className="ml-auto h-3.5 w-3.5 text-accent" />
-                                    ) : null}
-                                </button>
-                            ))}
-                        </div>
-                    </motion.div>
+                        {stop.label}
+                    </motion.span>
                 )}
             </AnimatePresence>
         </div>
