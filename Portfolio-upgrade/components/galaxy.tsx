@@ -293,6 +293,10 @@ export function Galaxy() {
             pointer.x = 0
             pointer.y = 0
         }
+        function onClick(e: MouseEvent) {
+            const d = Math.hypot(e.clientX - hole.x, e.clientY - hole.y)
+            if (d < hole.r * 3.6) startTde()
+        }
         function onScroll() {
             targetScroll = window.scrollY || 0
             // Cached here rather than per-frame: the read is cheap during a
@@ -689,6 +693,292 @@ export function Galaxy() {
             ctx.fillStyle = strip
             ctx.fillRect(hole.x - rOut, hole.y - rOut * 0.44, rOut * 2, rOut * 0.88)
             ctx.restore()
+        }
+
+
+        /* -------------------------------------------------------- */
+        /*  Tidal disruption event                                    */
+        /* -------------------------------------------------------- */
+        /**
+         * Click the hole and it eats a star.
+         *
+         * The deformation is not animated. Every fragment is an independent
+         * body under Newtonian gravity, and that is enough: fragments nearer
+         * the hole sit deeper in the potential, so they orbit faster and fall
+         * sooner, and the sphere draws itself out into a stream. Roughly half
+         * the debris ends up bound and half unbound, the bound half returns on
+         * a spread of eccentric orbits, and the stream wraps rather than
+         * dropping straight in — all of which falls out of the integration
+         * instead of being keyframed.
+         *
+         * The star arrives on an exact parabolic orbit. For a chosen
+         * pericentre r_p the angular momentum is L = sqrt(2·GM·r_p), which
+         * fixes the tangential speed at spawn, and the radial component
+         * follows from v² = 2GM/r. So the trajectory is a real orbit, not a
+         * path.
+         *
+         * Absorbed fragments feed hole.fed, which already drives the disk's
+         * temperature — so the disk brightens and shifts bluer as it eats,
+         * without that being wired up specially.
+         */
+        type Frag = {
+            x: number
+            y: number
+            vx: number
+            vy: number
+            px: number // previous position, for the motion streak
+            py: number
+            alive: boolean
+            heat: number
+            size: number
+        }
+
+        const tde = {
+            active: false,
+            released: false,
+            age: 0,
+            fade: 0,
+            // Star bulk state, used until the fragments are released
+            cx: 0,
+            cy: 0,
+            vx: 0,
+            vy: 0,
+            radius: 0,
+            frags: [] as Frag[],
+            flashes: [] as { x: number; y: number; life: number }[],
+        }
+
+        /** Gravitational parameter, scaled to the hole so orbits look right at
+         *  any viewport. Tuned for a pass that reads over a few seconds. */
+        function mu() {
+            return hole.r * hole.r * 4200
+        }
+
+        function startTde() {
+            if (tde.active || reduced) return
+            const GM = mu()
+            const starR = Math.max(9, hole.r * 1.15)
+            // Spawn far enough out to read as an approach, close enough to
+            // arrive without the visitor waiting.
+            const r0 = Math.min(width, height) * 0.44
+            const rp = hole.r * 2.7 // pericentre, inside the tidal radius
+
+            // Exact parabolic orbit through that pericentre
+            // 0.9 of escape speed: bound, so everything comes back.
+            const vTot = Math.sqrt((2 * GM) / r0) * 0.9
+            const L = Math.sqrt(2 * GM * rp)
+            const vTan = Math.min(L / r0, vTot * 0.85)
+            const vRad = -Math.sqrt(Math.max(0, vTot * vTot - vTan * vTan))
+
+            const ang = Math.random() * Math.PI * 2
+            const ux = Math.cos(ang)
+            const uy = Math.sin(ang)
+            tde.cx = hole.x + ux * r0
+            tde.cy = hole.y + uy * r0
+            // radial inward + tangential
+            tde.vx = ux * vRad + -uy * vTan
+            tde.vy = uy * vRad + ux * vTan
+
+            const budget = Math.round((width < 900 ? 420 : 760) * quality)
+            tde.frags = new Array(budget)
+            for (let i = 0; i < budget; i++) {
+                // Uniform through the volume, so the limb is not over-dense
+                const u = Math.random()
+                const rr = starR * Math.cbrt(u)
+                const th = Math.random() * Math.PI * 2
+                const z = Math.random() * 2 - 1
+                const rho = Math.sqrt(Math.max(0, 1 - z * z))
+                const fx = tde.cx + rr * rho * Math.cos(th)
+                const fy = tde.cy + rr * rho * Math.sin(th)
+                tde.frags[i] = {
+                    x: fx,
+                    y: fy,
+                    px: fx,
+                    py: fy,
+                    vx: tde.vx,
+                    vy: tde.vy,
+                    alive: true,
+                    heat: 0.25 + Math.random() * 0.3,
+                    size: 0.7 + Math.pow(Math.random(), 2) * 2.2,
+                }
+            }
+
+            tde.radius = starR
+            tde.active = true
+            tde.released = false
+            tde.age = 0
+            tde.fade = 0
+            tde.flashes.length = 0
+        }
+
+        function stepTde(dt: number) {
+            if (!tde.active) return
+            const GM = mu()
+            const soft = hole.r * 0.75
+            const horizon = hole.r * 1.04
+            tde.age += dt
+            tde.fade = Math.min(1, tde.fade + dt * 1.4)
+
+            // Tidal radius: where the differential pull across the star beats
+            // the star holding itself together.
+            const tidalR = hole.r * 5.6
+
+            if (!tde.released) {
+                // Move the star as one body until it crosses the tidal radius
+                const dx = hole.x - tde.cx
+                const dy = hole.y - tde.cy
+                const r = Math.max(soft, Math.hypot(dx, dy))
+                const a = GM / (r * r)
+                tde.vx += (dx / r) * a * dt
+                tde.vy += (dy / r) * a * dt
+                tde.cx += tde.vx * dt
+                tde.cy += tde.vy * dt
+
+                for (const f of tde.frags) {
+                    f.px = f.x
+                    f.py = f.y
+                    f.x += tde.vx * dt
+                    f.y += tde.vy * dt
+                    f.vx = tde.vx
+                    f.vy = tde.vy
+                }
+                if (r < tidalR) {
+                    const ax = dx / r
+                    const ay = dy / r
+                    for (const f of tde.frags) {
+                        const ox = f.x - tde.cx
+                        const oy = f.y - tde.cy
+                        const along = ox * ax + oy * ay
+                        // Keep the component along the hole direction, squeeze
+                        // the perpendicular one — the stream stays a stream.
+                        const perpX = ox - along * ax
+                        const perpY = oy - along * ay
+                        f.x = tde.cx + along * ax + perpX * 0.28
+                        f.y = tde.cy + along * ay + perpY * 0.28
+                        f.px = f.x
+                        f.py = f.y
+                    }
+                    tde.released = true
+                }
+                return
+            }
+
+            let alive = 0
+            for (const f of tde.frags) {
+                if (!f.alive) continue
+                const dx = hole.x - f.x
+                const dy = hole.y - f.y
+                const d = Math.hypot(dx, dy)
+                if (d < horizon) {
+                    f.alive = false
+                    hole.fed += 0.055
+                    if (tde.flashes.length < 40) {
+                        tde.flashes.push({ x: f.x, y: f.y, life: 0 })
+                    }
+                    continue
+                }
+                const rs = Math.max(soft, d)
+                const a = GM / (rs * rs)
+                f.vx += (dx / rs) * a * dt
+                f.vy += (dy / rs) * a * dt
+                // Drag from shocking against the accretion flow
+                const zone = hole.r * 8
+                if (d < zone) {
+                    const k = 0.95 * Math.pow(1 - d / zone, 1.4)
+                    const damp = Math.max(0, 1 - k * dt)
+                    f.vx *= damp
+                    f.vy *= damp
+                }
+
+                f.px = f.x
+                f.py = f.y
+                f.x += f.vx * dt
+                f.y += f.vy * dt
+
+                // Compression near pericentre heats the gas
+                const speed = Math.hypot(f.vx, f.vy)
+                const want = Math.min(1, speed / (Math.sqrt(GM / (hole.r * 3)) * 1.3))
+                f.heat += (want - f.heat) * Math.min(1, dt * 2.5)
+                alive++
+
+                // Anything flung clear of the frame is gone for good
+                if (
+                    f.x < -width || f.x > width * 2 ||
+                    f.y < -height || f.y > height * 2
+                ) {
+                    f.alive = false
+                }
+            }
+
+            for (let i = tde.flashes.length - 1; i >= 0; i--) {
+                tde.flashes[i].life += dt
+                if (tde.flashes[i].life > 0.7) tde.flashes.splice(i, 1)
+            }
+
+            if (alive === 0 && tde.flashes.length === 0) {
+                tde.active = false
+                tde.frags.length = 0
+            }
+        }
+
+        function drawTde() {
+            if (!tde.active) return
+            const prev = ctx.globalCompositeOperation
+            ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
+
+            if (!tde.released) {
+                // Intact: a limb-darkened sphere, fading in so it arrives
+                // rather than appearing
+                const R = tde.radius
+                const g = ctx.createRadialGradient(
+                    tde.cx - R * 0.25, tde.cy - R * 0.25, R * 0.05,
+                    tde.cx, tde.cy, R
+                )
+                const a = tde.fade
+                g.addColorStop(0, `rgba(255,252,244,${0.98 * a})`)
+                g.addColorStop(0.45, `rgba(255,224,164,${0.8 * a})`)
+                g.addColorStop(0.82, `rgba(240,150,70,${0.42 * a})`)
+                g.addColorStop(1, "rgba(210,90,40,0)")
+                ctx.fillStyle = g
+                ctx.beginPath()
+                ctx.arc(tde.cx, tde.cy, R * 1.5, 0, Math.PI * 2)
+                ctx.fill()
+            } else {
+                // Disrupted: each fragment as a short streak along its own
+                // velocity. The streaks are what make it read as fluid rather
+                // than as a swarm of dots.
+                ctx.lineCap = "round"
+                for (const f of tde.frags) {
+                    if (!f.alive) continue
+                    const h = f.heat
+                    const r0 = 255
+                    const g0 = Math.round(150 + h * 100)
+                    const b0 = Math.round(60 + h * 170)
+                    const a = (0.16 + h * 0.3) * tde.fade
+                    ctx.strokeStyle = `rgba(${r0},${g0},${b0},${a.toFixed(3)})`
+                    ctx.lineWidth = f.size * (0.85 + h * 0.95)
+                    ctx.beginPath()
+                    ctx.moveTo(f.px, f.py)
+                    ctx.lineTo(f.x, f.y)
+                    ctx.stroke()
+                }
+            }
+
+            // Shock flashes where debris meets the horizon
+            for (const fl of tde.flashes) {
+                const p = fl.life / 0.7
+                const rad = hole.r * (0.3 + p * 1.5)
+                const a = (1 - p) * 0.5
+                const g = ctx.createRadialGradient(fl.x, fl.y, 0, fl.x, fl.y, rad)
+                g.addColorStop(0, `rgba(255,240,214,${a.toFixed(3)})`)
+                g.addColorStop(1, "rgba(255,220,170,0)")
+                ctx.fillStyle = g
+                ctx.beginPath()
+                ctx.arc(fl.x, fl.y, rad, 0, Math.PI * 2)
+                ctx.fill()
+            }
+
+            ctx.globalCompositeOperation = prev
         }
 
         function drawHole() {
@@ -1137,6 +1427,7 @@ export function Galaxy() {
             const camZ = 2.02 - progress * 0.88
 
             updateHole(elapsed, progress, dt)
+            stepTde(dt)
 
 
             lastStyle = ""
@@ -1263,6 +1554,7 @@ export function Galaxy() {
             }
 
             drawHole()
+            drawTde()
 
             if (glowCount) {
                 const prevOp = ctx.globalCompositeOperation
@@ -1307,10 +1599,28 @@ export function Galaxy() {
         window.addEventListener("scroll", onScroll, { passive: true })
         window.addEventListener("pointermove", onPointerMove, { passive: true })
         window.addEventListener("pointerleave", onPointerLeave)
+        window.addEventListener("click", onClick, { passive: true })
         document.addEventListener("visibilitychange", onVisibility)
 
         // Read by the perf harness; harmless in production.
-        ;(window as unknown as { __galaxyQuality?: () => number }).__galaxyQuality = () => quality
+        ;(
+            window as unknown as {
+                __galaxyQuality?: () => number
+                __galaxyHole?: () => { x: number; y: number; r: number }
+                __galaxyTde?: () => { active: boolean; released: boolean; alive: number; fed: number }
+            }
+        ).__galaxyQuality = () => quality
+        ;(window as unknown as { __galaxyHole?: () => unknown }).__galaxyHole = () => ({
+            x: hole.x,
+            y: hole.y,
+            r: hole.r,
+        })
+        ;(window as unknown as { __galaxyTde?: () => unknown }).__galaxyTde = () => ({
+            active: tde.active,
+            released: tde.released,
+            alive: tde.frags.filter((f) => f.alive).length,
+            fed: +hole.fed.toFixed(2),
+        })
 
         raf = requestAnimationFrame(frame)
 
@@ -1321,6 +1631,7 @@ export function Galaxy() {
             window.removeEventListener("scroll", onScroll)
             window.removeEventListener("pointermove", onPointerMove)
             window.removeEventListener("pointerleave", onPointerLeave)
+            window.removeEventListener("click", onClick)
             document.removeEventListener("visibilitychange", onVisibility)
         }
     }, [])
