@@ -729,15 +729,21 @@ export function Galaxy() {
             px: number // previous position, for the motion streak
             py: number
             alive: boolean
+            /** Still held by the star's own gravity. */
+            bound: boolean
             heat: number
             size: number
         }
+
+        const FLASH_LIFE = 1.6
 
         const tde = {
             active: false,
             released: false,
             age: 0,
             fade: 0,
+            boundFrac: 1,
+            lastR: Infinity,
             // Star bulk state, used until the fragments are released
             cx: 0,
             cy: 0,
@@ -751,7 +757,7 @@ export function Galaxy() {
         /** Gravitational parameter, scaled to the hole so orbits look right at
          *  any viewport. Tuned for a pass that reads over a few seconds. */
         function mu() {
-            return hole.r * hole.r * 4200
+            return hole.r * hole.r * 1050
         }
 
         function startTde() {
@@ -798,6 +804,7 @@ export function Galaxy() {
                     vx: tde.vx,
                     vy: tde.vy,
                     alive: true,
+                    bound: true,
                     heat: 0.25 + Math.random() * 0.3,
                     size: 0.7 + Math.pow(Math.random(), 2) * 2.2,
                 }
@@ -808,6 +815,8 @@ export function Galaxy() {
             tde.released = false
             tde.age = 0
             tde.fade = 0
+            tde.boundFrac = 1
+            tde.lastR = Infinity
             tde.flashes.length = 0
         }
 
@@ -817,14 +826,16 @@ export function Galaxy() {
             const soft = hole.r * 0.75
             const horizon = hole.r * 1.04
             tde.age += dt
-            tde.fade = Math.min(1, tde.fade + dt * 1.4)
+            tde.fade = Math.min(1, tde.fade + dt * 0.45)
 
             // Tidal radius: where the differential pull across the star beats
             // the star holding itself together.
             const tidalR = hole.r * 5.6
 
-            if (!tde.released) {
-                // Move the star as one body until it crosses the tidal radius
+            // The star keeps moving as one body for as long as anything is
+            // still held together.
+            let bound = 0
+            if (!tde.released || tde.frags.some((f) => f.bound)) {
                 const dx = hole.x - tde.cx
                 const dy = hole.y - tde.cy
                 const r = Math.max(soft, Math.hypot(dx, dy))
@@ -835,43 +846,70 @@ export function Galaxy() {
                 tde.cy += tde.vy * dt
 
                 for (const f of tde.frags) {
+                    if (!f.bound) continue
                     f.px = f.x
                     f.py = f.y
                     f.x += tde.vx * dt
                     f.y += tde.vy * dt
                     f.vx = tde.vx
                     f.vy = tde.vy
-                }
-                if (r < tidalR) {
-                    const ax = dx / r
-                    const ay = dy / r
-                    for (const f of tde.frags) {
+
+                    // Each fragment lets go when it personally crosses the
+                    // tidal radius. Because the near side is closer, it goes
+                    // first and the star sheds from its leading edge inward
+                    // rather than snapping apart all at once — no special
+                    // case needed, the geometry does it.
+                    const fd = Math.hypot(hole.x - f.x, hole.y - f.y)
+                    if (fd < tidalR) {
+                        f.bound = false
+                        tde.released = true
+                        // Squeeze across the orbit as it lets go: disruption
+                        // stretches a star lengthwise and compresses it
+                        // sideways, and that is what keeps the debris a
+                        // filament instead of a cloud.
+                        const ax = (hole.x - tde.cx) / r
+                        const ay = (hole.y - tde.cy) / r
                         const ox = f.x - tde.cx
                         const oy = f.y - tde.cy
                         const along = ox * ax + oy * ay
-                        // Keep the component along the hole direction, squeeze
-                        // the perpendicular one — the stream stays a stream.
-                        const perpX = ox - along * ax
-                        const perpY = oy - along * ay
-                        f.x = tde.cx + along * ax + perpX * 0.28
-                        f.y = tde.cy + along * ay + perpY * 0.28
+                        f.x = tde.cx + along * ax + (ox - along * ax) * 0.34
+                        f.y = tde.cy + along * ay + (oy - along * ay) * 0.34
                         f.px = f.x
                         f.py = f.y
+                    } else {
+                        bound++
                     }
-                    tde.released = true
                 }
-                return
+
+                // A mass-fraction gate is the wrong test: it depends on how
+                // much happens to be left, and a remnant of 285 out of 760
+                // trips no sensible threshold while still riding the star's
+                // phantom centre out of range forever.
+                //
+                // Pericentre is the physical rule. Tidal stress peaks there
+                // and falls away after, so once the centre starts receding
+                // nothing will strip the remnant later — it lets go now.
+                if (tde.released && bound > 0 && r > tde.lastR) {
+                    for (const f of tde.frags) f.bound = false
+                    bound = 0
+                }
+                tde.lastR = r
             }
+            tde.boundFrac = tde.frags.length ? bound / tde.frags.length : 0
 
             let alive = 0
             for (const f of tde.frags) {
                 if (!f.alive) continue
+                if (f.bound) {
+                    alive++
+                    continue
+                }
                 const dx = hole.x - f.x
                 const dy = hole.y - f.y
                 const d = Math.hypot(dx, dy)
                 if (d < horizon) {
                     f.alive = false
-                    hole.fed += 0.055
+                    hole.fed += 0.13
                     if (tde.flashes.length < 40) {
                         tde.flashes.push({ x: f.x, y: f.y, life: 0 })
                     }
@@ -882,9 +920,28 @@ export function Galaxy() {
                 f.vx += (dx / rs) * a * dt
                 f.vy += (dy / rs) * a * dt
                 // Drag from shocking against the accretion flow
-                const zone = hole.r * 8
-                if (d < zone) {
-                    const k = 0.95 * Math.pow(1 - d / zone, 1.4)
+                // Widened rather than strengthened. A narrow, hard zone makes
+                // the inner debris plunge in a couple of seconds while
+                // material on wider orbits never feels anything and lingers
+                // for minutes; a broad, gentle one keeps the inner fall calm
+                // and still guarantees the tail comes home.
+                // Shock drag against the accretion flow, strongest close in.
+                let k = 0
+                const zone = hole.r * 20
+                if (d < zone) k = 0.2 * Math.pow(1 - d / zone, 1.6)
+
+                // Plus an unconditional wind-down. Drag tuning alone cannot
+                // bound this: at 0.34 everything plunges in ten seconds, at
+                // 0.12 a tail settles onto orbits it never leaves and lingers
+                // past ninety. Gating the ramp inside the zone did not help
+                // either — the stragglers are precisely the ones on orbits
+                // wider than it. So the coefficient sets the character of the
+                // fall and this closes it out, which is fair physically since
+                // debris with this much time behind it has circularised into
+                // the disk regardless.
+                k += Math.max(0, tde.age - 15) * 0.07
+
+                if (k > 0) {
                     const damp = Math.max(0, 1 - k * dt)
                     f.vx *= damp
                     f.vy *= damp
@@ -912,7 +969,7 @@ export function Galaxy() {
 
             for (let i = tde.flashes.length - 1; i >= 0; i--) {
                 tde.flashes[i].life += dt
-                if (tde.flashes[i].life > 0.7) tde.flashes.splice(i, 1)
+                if (tde.flashes[i].life > FLASH_LIFE) tde.flashes.splice(i, 1)
             }
 
             if (alive === 0 && tde.flashes.length === 0) {
@@ -926,52 +983,56 @@ export function Galaxy() {
             const prev = ctx.globalCompositeOperation
             ctx.globalCompositeOperation = isDark ? "lighter" : "source-over"
 
-            if (!tde.released) {
-                // Intact: a limb-darkened sphere, fading in so it arrives
-                // rather than appearing
-                const R = tde.radius
-                const g = ctx.createRadialGradient(
-                    tde.cx - R * 0.25, tde.cy - R * 0.25, R * 0.05,
-                    tde.cx, tde.cy, R
-                )
-                const a = tde.fade
-                g.addColorStop(0, `rgba(255,252,244,${0.98 * a})`)
-                g.addColorStop(0.45, `rgba(255,224,164,${0.8 * a})`)
-                g.addColorStop(0.82, `rgba(240,150,70,${0.42 * a})`)
-                g.addColorStop(1, "rgba(210,90,40,0)")
-                ctx.fillStyle = g
+            // Released debris. Dim and thin individually so density does the
+            // work — sparse regions stay wispy and only the compressed core
+            // saturates, which is what keeps it looking like gas rather than
+            // like a swarm of dots.
+            ctx.lineCap = "round"
+            for (const f of tde.frags) {
+                if (!f.alive || f.bound) continue
+                const h = f.heat
+                // Warm through amber to pale gold, never to clinical white
+                const rr = 255
+                const gg = Math.round(168 + h * 74)
+                const bb = Math.round(96 + h * 122)
+                const a = (0.13 + h * 0.26) * tde.fade
+                ctx.strokeStyle = `rgba(${rr},${gg},${bb},${a.toFixed(3)})`
+                ctx.lineWidth = f.size * (0.8 + h * 0.9)
                 ctx.beginPath()
-                ctx.arc(tde.cx, tde.cy, R * 1.5, 0, Math.PI * 2)
-                ctx.fill()
-            } else {
-                // Disrupted: each fragment as a short streak along its own
-                // velocity. The streaks are what make it read as fluid rather
-                // than as a swarm of dots.
-                ctx.lineCap = "round"
-                for (const f of tde.frags) {
-                    if (!f.alive) continue
-                    const h = f.heat
-                    const r0 = 255
-                    const g0 = Math.round(150 + h * 100)
-                    const b0 = Math.round(60 + h * 170)
-                    const a = (0.16 + h * 0.3) * tde.fade
-                    ctx.strokeStyle = `rgba(${r0},${g0},${b0},${a.toFixed(3)})`
-                    ctx.lineWidth = f.size * (0.85 + h * 0.95)
-                    ctx.beginPath()
-                    ctx.moveTo(f.px, f.py)
-                    ctx.lineTo(f.x, f.y)
-                    ctx.stroke()
-                }
+                ctx.moveTo(f.px, f.py)
+                ctx.lineTo(f.x, f.y)
+                ctx.stroke()
             }
 
-            // Shock flashes where debris meets the horizon
+            // What is left of the star. It fades and shrinks as it sheds, so
+            // the sphere dissolves into the stream instead of switching over.
+            const bf = tde.boundFrac
+            if (bf > 0.01) {
+                const R = tde.radius * (0.55 + 0.45 * Math.cbrt(bf))
+                const a = tde.fade * Math.min(1, bf * 1.5)
+                const g = ctx.createRadialGradient(
+                    tde.cx - R * 0.28, tde.cy - R * 0.28, R * 0.04,
+                    tde.cx, tde.cy, R
+                )
+                g.addColorStop(0, `rgba(255,248,232,${(0.95 * a).toFixed(3)})`)
+                g.addColorStop(0.4, `rgba(255,214,150,${(0.72 * a).toFixed(3)})`)
+                g.addColorStop(0.78, `rgba(236,146,72,${(0.34 * a).toFixed(3)})`)
+                g.addColorStop(1, "rgba(200,88,38,0)")
+                ctx.fillStyle = g
+                ctx.beginPath()
+                ctx.arc(tde.cx, tde.cy, R * 1.6, 0, Math.PI * 2)
+                ctx.fill()
+            }
+
+            // Shock flashes where debris meets the horizon. Long and soft —
+            // a hard pop would break the calm of the rest of it.
             for (const fl of tde.flashes) {
-                const p = fl.life / 0.7
-                const rad = hole.r * (0.3 + p * 1.5)
-                const a = (1 - p) * 0.5
+                const p = fl.life / FLASH_LIFE
+                const rad = hole.r * (0.25 + p * 2.1)
+                const a = Math.sin((1 - p) * Math.PI * 0.5) * 0.22
                 const g = ctx.createRadialGradient(fl.x, fl.y, 0, fl.x, fl.y, rad)
-                g.addColorStop(0, `rgba(255,240,214,${a.toFixed(3)})`)
-                g.addColorStop(1, "rgba(255,220,170,0)")
+                g.addColorStop(0, `rgba(255,236,204,${a.toFixed(3)})`)
+                g.addColorStop(1, "rgba(255,214,160,0)")
                 ctx.fillStyle = g
                 ctx.beginPath()
                 ctx.arc(fl.x, fl.y, rad, 0, Math.PI * 2)
@@ -1619,6 +1680,7 @@ export function Galaxy() {
             active: tde.active,
             released: tde.released,
             alive: tde.frags.filter((f) => f.alive).length,
+            bound: tde.frags.filter((f) => f.alive && f.bound).length,
             fed: +hole.fed.toFixed(2),
         })
 
